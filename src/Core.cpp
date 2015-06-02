@@ -1,4 +1,4 @@
-#include "Core/Shader_Loader.h" //! Correction 1/12/2015
+/*#include "Core/Shader_Loader.h" //! Correction 1/12/2015
 #include<iostream>
 #include<fstream>
 #include<vector>
@@ -81,4 +81,4 @@ GLuint Shader_Loader::CreateProgram(char* vertexShaderFilename,
 		return 0;
 	}
 	return program;
-}
+}*/

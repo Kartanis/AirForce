@@ -1,7 +1,10 @@
 #pragma once
 
-#include "../Dependencies/glew/glew.h"
-#include "../Dependencies/freeglut/freeglut.h"
+#include <vector>
+#include "../../Dependencies/glew/glew.h"
+#include "../../Dependencies/freeglut/freeglut.h"
+#include "../../MouseEvent.h"
+#include "../../View.h"
 
 namespace gui{
 
@@ -18,10 +21,15 @@ namespace gui{
 		~Screen();
 		void init(void);
 		void renderScene(void);
+		static bool mouseAction(MouseEvent*, MouseEvent::Type, MouseEvent::Input);
+		
 	private:
+		
 		static int width;
 		static int height;
 		static Scene scene;
+		static std::vector<View*> views;
+		static void addView(View *view);
 	};
 
 }

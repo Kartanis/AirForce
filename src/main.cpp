@@ -4,8 +4,9 @@
 #include <fstream>
 #include <vector>
 
-#include "Shader_Loader.h"
+#include "Core/Shader_Loader.h"
 #include "GUI/Screen.h"
+#include "../View.h"
 
 using namespace Core;
 using namespace gui;

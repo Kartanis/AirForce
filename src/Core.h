@@ -1,4 +1,4 @@
-#pragma once
+/*#pragma once
 
 #include "../Dependencies/glew/glew.h"
 #include "../Dependencies/freeglut/freeglut.h"
@@ -22,4 +22,4 @@ namespace Core{
 			char* FragmentShaderFilename);
 
 	};
-}
+}*/

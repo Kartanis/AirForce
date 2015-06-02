@@ -9,9 +9,9 @@
 
 using namespace gui;
 
-Scene::Scene(int w, int h)
+Scene::Scene(int x, int y, int w, int h) : View(x, y, w, h)
 {
-	this->frame = new Frame(w, h);
+	this->frame = new Frame(w-x, h-y);
 }
 
 
@@ -21,6 +21,7 @@ Scene::~Scene()
 }
 
 void Scene::draw() {
+	View::draw();
 	frame->draw();
 
 	mark.display();
@@ -48,10 +49,9 @@ void Scene::draw() {
 }
 
 void Scene::reshape(int w, int h) {
-	frame->reshape(w, h);
+	frame->reshape(w-x, h-y);
 }
 	
 void Scene::point(int x, int y){
 	mark.setPositionDirection(x, y, 0);
 }
-

@@ -1,20 +1,25 @@
 #pragma once
 #include "../Frame.h"
 #include "features\BlinkedMark.h"
+#include <vector>
+#include "../../View.h"
+#include "../../Drawable.h"
 
 namespace gui{
 
-	class Scene
+	class Scene : public View 
 	{
 	public:
-		Scene(int, int);
+		Scene(int x, int y, int w, int h);
 		~Scene();
 		void draw();
 		void reshape(int, int);
 		void point(int, int);
+		
 	private:
 		Frame* frame;
 		BlinkedMark mark;
+		
 	};
 
 }
