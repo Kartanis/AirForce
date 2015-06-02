@@ -67,7 +67,7 @@ void Screen::init(void){
 		"Shaders\\Fragment_Shader.glsl");
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	*/
-	// glOrtho(0.0, this->width, this->height, 0.0, -1, 1);
+	 glOrtho(0.0, this->width, this->height, 0.0, -1, 1);
 
 	
 }
@@ -89,9 +89,7 @@ void  gui::renderer(void) {
 
 
 	for (std::vector<View*>::iterator v = Screen::views.begin(); v != Screen::views.end(); ++v) {
-		glPushMatrix();
 		(*v)->draw();
-		glPopMatrix();
 	}
 	
 	glRectf(0.0f, 0.0f, 1.0f, 1.0f);
@@ -103,7 +101,7 @@ void  gui::renderer(void) {
 
 void gui::reshape(int width, int height)
 {
-	std::cout << "x:" << width << "h:" << height << "\n";
+	/*std::cout << "x:" << width << "h:" << height << "\n";
 	float aspectRatio;
 	if (height == 0)
 		height == 1;
@@ -127,16 +125,16 @@ void gui::reshape(int width, int height)
 	}
 	
 	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
+	glLoadIdentity();*/
 	
 	// glOrtho(0.0, width, height, 0.0, -1, 1);
-	/*
+	
 	glViewport(0, 0, width, height);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	
 	Screen::width = width;
-	Screen::height = height;*/
+	Screen::height = height;
 }
 
 void gui::mouseClick(int button, int state, int x, int y)
