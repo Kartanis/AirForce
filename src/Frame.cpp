@@ -34,8 +34,8 @@ void Frame::draw() {
 		// 120 = 2 / 5 = 0.4
 		// 600 = +1.0
 
-		glVertex3f(0.0f, start + (this->height / steps) * i, 0.0);
-		glVertex3f(this->width, start + (this->height / steps) * i, 0.0);
+		glVertex3f(0.0f, 0.0f, start + (this->height / steps) * i);
+		glVertex3f(this->width, 0.0f, start + (this->height / steps) * i);
 		glEnd();
 	}
 	
@@ -54,8 +54,8 @@ void Frame::draw() {
 		// 120 = 2 / 5 = 0.4
 		// 600 = +1.0
 
-		glVertex3f(start + (this->width / steps) * i, 0.0f, 0.0);
-		glVertex3f(start + (this->width / steps) * i, this->height, 0.0);
+		glVertex3f(start + (this->width / steps) * i, 0.0f, 0.0f);
+		glVertex3f(start + (this->width / steps) * i, 0.0f, this->height);
 		glEnd();
 	}
 	
