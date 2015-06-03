@@ -19,9 +19,9 @@ Screen::Screen(int argc, char **argv)
 	glutInitWindowPosition(0, 0);
 	glutInitWindowSize(this->width, this->height);
 	
-	Screen::addView(new View(0, 0, this->width, 70));
-	Screen::addView(new View(0, 71, 120, this->height));
-	Screen::addView(new View(121, 71, this->width, this->height));
+	// Screen::addView(new View(0, 0, this->width, 70));
+	// Screen::addView(new View(0, 71, 120, this->height));
+	Screen::addView(new Scene(0, 0, this->width, this->height));
 
 	glutCreateWindow("Drawing my first triangle");
 	glewInit();
@@ -67,6 +67,7 @@ void Screen::init(void){
 		"Shaders\\Fragment_Shader.glsl");
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	*/
+	glEnable(GL_DEPTH_TEST);
 	 glOrtho(0.0, this->width, this->height, 0.0, -1, 1);
 
 	
@@ -83,18 +84,50 @@ void  gui::renderer(void) {
 	//draw 3 vertices as triangles
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 	*/
-	glViewport(0, 0, Screen::width, Screen::height);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
+	//glViewport(0, 0, Screen::width, Screen::height);
+	//glMatrixMode(GL_PROJECTION);
+	//glLoadIdentity();
 
 
 	for (std::vector<View*>::iterator v = Screen::views.begin(); v != Screen::views.end(); ++v) {
-		(*v)->draw();
+		// (*v)->draw();
 	}
 	
-	glRectf(0.0f, 0.0f, 1.0f, 1.0f);
+	//glRectf(0.0f, 0.0f, 1.0f, 1.0f);
 	//Screen::scene.draw();
 
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LESS);
+
+	//Set up projection matrix
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	//Using gluPerspective. It's pretty easy and looks nice.
+	gluPerspective(-1, 2 , -1, 1);
+
+	//Set up modelview matrix
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	//3D rendering
+
+	glDepthMask(GL_FALSE);
+	glDisable(GL_DEPTH_TEST);
+
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	gluOrtho2D(0, Screen::width, Screen::height, 0); //left,right,bottom,top
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	glColor3f(0.0, 0.0, 1.0);
+	for (std::vector<View*>::iterator v = Screen::views.begin(); v != Screen::views.end(); ++v) {
+		 (*v)->draw();
+	}
+	glDepthMask(GL_TRUE);
 	glutSwapBuffers();
 	glutPostRedisplay();
 }
@@ -135,6 +168,10 @@ void gui::reshape(int width, int height)
 	
 	Screen::width = width;
 	Screen::height = height;
+
+	for (std::vector<View*>::iterator v = Screen::views.begin(); v != Screen::views.end(); ++v) {
+		(*v)->onScreenSizeChanged(width, height);
+	}
 }
 
 void gui::mouseClick(int button, int state, int x, int y)

@@ -22,7 +22,6 @@ namespace gui{
 		void init(void);
 		void renderScene(void);
 		static bool mouseAction(MouseEvent*, MouseEvent::Type, MouseEvent::Input);
-		
 	private:
 		
 		static int width;

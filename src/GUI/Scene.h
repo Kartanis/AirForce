@@ -15,7 +15,8 @@ namespace gui{
 		void draw();
 		void reshape(int, int);
 		void point(int, int);
-		
+
+		void onScreenSizeChanged(int w, int h);
 	private:
 		Frame* frame;
 		BlinkedMark mark;

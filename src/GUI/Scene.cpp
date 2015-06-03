@@ -21,6 +21,7 @@ Scene::~Scene()
 }
 
 void Scene::draw() {
+
 	View::draw();
 	frame->draw();
 
@@ -46,12 +47,19 @@ void Scene::draw() {
 	glMatrixMode(GL_PROJECTION);
 	glLoadMatrixd(matrix);
 	glMatrixMode(GL_MODELVIEW);*/
+	
 }
 
 void Scene::reshape(int w, int h) {
-	frame->reshape(w-x, h-y);
+	throw;
 }
 	
 void Scene::point(int x, int y){
 	mark.setPositionDirection(x, y, 0);
+}
+
+void Scene::onScreenSizeChanged(int w, int h) {
+	frame->reshape(w - x, h - y);
+	this->w = w;
+	this->h = h;
 }

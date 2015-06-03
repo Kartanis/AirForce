@@ -61,3 +61,8 @@ bool View::onMouseAction(MouseEvent* event, MouseEvent::Type type, MouseEvent::I
 
 	return false;
 }
+
+
+void View::onScreenSizeChanged(int w, int h) {
+	return;
+}

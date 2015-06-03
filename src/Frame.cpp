@@ -18,7 +18,7 @@ void Frame::draw() {
 
 	const float start = -1.0;
 
-	int steps = height / mult;
+	int steps = this->height / mult;
 
 	// std::cout << steps << ":steps" << "\n";
 	for (int i = 0; i < steps; i++) {
@@ -34,13 +34,13 @@ void Frame::draw() {
 		// 120 = 2 / 5 = 0.4
 		// 600 = +1.0
 
-		glVertex3f(0.0f, start + (height / steps) * i, 0.0);
-		glVertex3f(width, start + (height / steps) * i, 0.0);
+		glVertex3f(0.0f, start + (this->height / steps) * i, 0.0);
+		glVertex3f(this->width, start + (this->height / steps) * i, 0.0);
 		glEnd();
 	}
 	
 
-	steps = width / mult;
+	steps = this->width / mult;
 	for (int i = 0; i < steps; i++) {
 		glBegin(GL_LINES);
 		int lstart = 0;
@@ -54,14 +54,14 @@ void Frame::draw() {
 		// 120 = 2 / 5 = 0.4
 		// 600 = +1.0
 
-		glVertex3f(start + (width / steps) * i, 0.0f, 0.0);
-		glVertex3f(start + (width / steps) * i, height, 0.0);
+		glVertex3f(start + (this->width / steps) * i, 0.0f, 0.0);
+		glVertex3f(start + (this->width / steps) * i, this->height, 0.0);
 		glEnd();
 	}
 	
 }
 
 void Frame::reshape(int w, int h) {
-	this->width = width;
-	this->height = height;
+	this->width = w;
+	this->height = h;
 }
