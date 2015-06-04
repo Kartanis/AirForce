@@ -6,6 +6,7 @@
 
 #include "Core/Shader_Loader.h"
 #include "../ModelViewScene.h"
+#include "../Window.h"
 
 using namespace Core;
 using namespace gui;
@@ -25,7 +26,12 @@ x refactoring
 
 
 int main(int argc, char **argv) {
-	ModelViewScene screen(argc, argv);
+	Window &window = Window::getInstance();
+	window.setScreen(new ModelViewScene(argc, argv));
+	window.getScreen()->init();
+
+	glutMainLoop();
+	
 	return 0;
 
 }

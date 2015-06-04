@@ -22,15 +22,25 @@ namespace gui{
 		~Screen();
 		virtual void init(void);
 		virtual void renderScene(void);
-		static bool mouseAction(MouseEvent*, MouseEvent::Type, MouseEvent::Input);
+		virtual void reshapeScene(int width, int height);
+
+		virtual bool mouseAction(MouseEvent*, MouseEvent::Type, MouseEvent::Input);
+		virtual void mouseClick(int button, int state, int x, int y);
+		// static bool mouseAction(MouseEvent*, MouseEvent::Type, MouseEvent::Input);
 	private:
 		
-		static int width;
-		static int height;
 		static Scene scene;
-		static std::vector<View*> views;
-		static void addView(View *view);
+
+	protected:
+		float fieldOfViewAngle = 45;
+		float zNear = 1.0f;
+		float zFar = 500.0f;
+		int width = 800;
+		int height = 600;
+		std::vector<View*> views;
+		void addView(View *view);
 		static Camera camera;
+
 	};
 
 }
