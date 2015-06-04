@@ -93,6 +93,7 @@
     <ClCompile Include="src\gui\Screen.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="View.cpp" />
+    <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
@@ -119,6 +120,7 @@
     <ClInclude Include="src\gui\Screen.h" />
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="View.h" />
+    <ClInclude Include="Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
