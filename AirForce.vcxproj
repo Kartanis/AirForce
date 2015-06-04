@@ -75,7 +75,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Drawable.cpp" />
+    <ClCompile Include="Model.cpp" />
+    <ClCompile Include="ModelViewScene.cpp" />
     <ClCompile Include="MouseEvent.cpp" />
     <ClCompile Include="OnMouseActionListener.cpp" />
     <ClCompile Include="Source.cpp" />
@@ -92,6 +95,7 @@
     <ClCompile Include="View.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="dependencies\freeglut\freeglut.h" />
     <ClInclude Include="dependencies\freeglut\freeglut_ext.h" />
     <ClInclude Include="dependencies\freeglut\freeglut_std.h" />
@@ -100,6 +104,8 @@
     <ClInclude Include="dependencies\glew\glxew.h" />
     <ClInclude Include="dependencies\glew\wglew.h" />
     <ClInclude Include="Drawable.h" />
+    <ClInclude Include="Model.h" />
+    <ClInclude Include="ModelViewScene.h" />
     <ClInclude Include="MouseEvent.h" />
     <ClInclude Include="OnMouseActionListener.h" />
     <ClInclude Include="OnScreenSizeChangedListener.h" />

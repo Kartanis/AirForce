@@ -5,6 +5,7 @@
 #include "../../Dependencies/freeglut/freeglut.h"
 #include "../../MouseEvent.h"
 #include "../../View.h"
+#include "../../Camera.h"
 
 namespace gui{
 
@@ -19,8 +20,8 @@ namespace gui{
 		friend void keyboard(unsigned char key, int x, int y);
 		Screen(int argc, char **argv);
 		~Screen();
-		void init(void);
-		void renderScene(void);
+		virtual void init(void);
+		virtual void renderScene(void);
 		static bool mouseAction(MouseEvent*, MouseEvent::Type, MouseEvent::Input);
 	private:
 		
@@ -29,6 +30,7 @@ namespace gui{
 		static Scene scene;
 		static std::vector<View*> views;
 		static void addView(View *view);
+		static Camera camera;
 	};
 
 }

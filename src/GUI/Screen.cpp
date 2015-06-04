@@ -1,8 +1,8 @@
 #include "Screen.h"
-#include "Scene.h"
 #include <iostream>
+#include "Scene.h"
+#include "../../MouseEvent.h"
 #include "../../Dependencies/glew/glew.h"
-
 
 using namespace gui;
 
@@ -11,6 +11,7 @@ int Screen::height = 600;
 
 // Scene Screen::scene(Screen::width, Screen::height);
 std::vector <View*> Screen::views;
+Camera Screen::camera;
 
 Screen::Screen(int argc, char **argv)
 {
@@ -18,7 +19,8 @@ Screen::Screen(int argc, char **argv)
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
 	glutInitWindowPosition(0, 0);
 	glutInitWindowSize(this->width, this->height);
-	
+
+	glEnableClientState(GL_VERTEX_ARRAY);						// Enable vertex arrays
 	// Screen::addView(new View(0, 0, this->width, 70));
 	// Screen::addView(new View(0, 71, 120, this->height));
 	Screen::addView(new Scene(0, 0, this->width, this->height));
@@ -67,73 +69,93 @@ void Screen::init(void){
 		"Shaders\\Fragment_Shader.glsl");
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	*/
-	glEnable(GL_DEPTH_TEST);
-	 glOrtho(0.0, this->width, this->height, 0.0, -1, 1);
+	 glEnable(GL_DEPTH_TEST);
+	 // glOrtho(0.0, this->width, this->height, 0.0, -1, 1);
 
 	
 }
 
 
+void drawGround() {
+	GLfloat fExtent = 50.f;
+	GLfloat fStep = 1.0f;
+	GLfloat y = -0.4f;
+	GLfloat iLine;
+
+	glBegin(GL_LINES);
+	for (iLine = -fExtent; iLine <= fExtent; iLine += fStep) {
+		if (iLine < 0)
+			glColor3f(1.0f, 0.0f, 0.0f);
+		else
+			glColor3f(0.0f, 1.0f, 0.0f);
+		glVertex3f(iLine, y, fExtent);
+		glVertex3f(iLine, y, -fExtent);
+		glVertex3f(fExtent, y, iLine);
+		glVertex3f(-fExtent, y, iLine);
+	}
+	glEnd();
+}
+
 void  gui::renderer(void) {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(0.0, 0.0, 0.0, 1.0); // clear black
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	/*//use the created program
-	glUseProgram(program);
+	static float fMoonRot = 0.0f;
+	static float fEarthRot = 0.0f;
 
-	//draw 3 vertices as triangles
-	glDrawArrays(GL_TRIANGLES, 0, 3);
-	*/
-	//glViewport(0, 0, Screen::width, Screen::height);
-	//glMatrixMode(GL_PROJECTION);
-	//glLoadIdentity();
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
 
-
-	for (std::vector<View*>::iterator v = Screen::views.begin(); v != Screen::views.end(); ++v) {
-		// (*v)->draw();
-	}
+	glTranslatef(0.0f, 0.0f, -0.0f);
 	
-	//glRectf(0.0f, 0.0f, 1.0f, 1.0f);
-	//Screen::scene.draw();
 
-	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_LESS);
+	glColor3ub(255, 255, 0);
+	// glDisable(GL_LIGHTING);
 
-	//Set up projection matrix
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	//Using gluPerspective. It's pretty easy and looks nice.
-	gluPerspective(-1, 2 , -1, 1);
+	glutSolidSphere(15.0f, 15, 15);
 
-	//Set up modelview matrix
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	// glEnable(GL_LIGHTING);
+	// glLightfv(GL_LIGHT0, GL_POSITION, new float[]{ 105.0f, 0.0f, 0.0f });
+	glRotatef(fEarthRot, 0.0f, 1.0f, 0.0f);
+	glColor3ub(0, 0, 255);
+	glTranslatef(15.0f, 0.0f, 0.0f);
+	glutSolidSphere(15.0f, 15, 15);
 
-	//3D rendering
+	glColor3ub(200, 200, 200);
+	glRotatef(fMoonRot, 0.0f, 1.0f, 0.0f);
+	glTranslatef(30.0f, 0.0f, 0.0f);
 
-	glDepthMask(GL_FALSE);
-	glDisable(GL_DEPTH_TEST);
+	fMoonRot += 15.0f;
+	if (fMoonRot > 360) fMoonRot = 0.0f;
 
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluOrtho2D(0, Screen::width, Screen::height, 0); //left,right,bottom,top
+	glutSolidSphere(6.0f, 15, 15);
+	glPopMatrix();
+	fEarthRot += 5.0f;
+	if (fEarthRot > 360) fEarthRot = 0.0f;
 
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	drawGround();
 
-	glColor3f(0.0, 0.0, 1.0);
-	for (std::vector<View*>::iterator v = Screen::views.begin(); v != Screen::views.end(); ++v) {
-		 (*v)->draw();
-	}
-	glDepthMask(GL_TRUE);
+	
 	glutSwapBuffers();
-	glutPostRedisplay();
+	// glutPostRedisplay();
 }
 
 void gui::reshape(int width, int height)
 {
+	if (height == 0)
+		height = 1;
+	float aspectRatio = (float)width / height;
+
+	glViewport(0, 0, width, height);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+
+	std::cout << aspectRatio;
+	gluPerspective(60.0, aspectRatio, 1.0, 425.0);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	Screen::camera.applyView();
+	
 	/*std::cout << "x:" << width << "h:" << height << "\n";
 	float aspectRatio;
 	if (height == 0)
@@ -162,31 +184,39 @@ void gui::reshape(int width, int height)
 	
 	// glOrtho(0.0, width, height, 0.0, -1, 1);
 	
-	glViewport(0, 0, width, height);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
 	
 	Screen::width = width;
 	Screen::height = height;
 
 	for (std::vector<View*>::iterator v = Screen::views.begin(); v != Screen::views.end(); ++v) {
-		(*v)->onScreenSizeChanged(width, height);
+		// (*v)->onScreenSizeChanged(width, height);
 	}
+
 }
 
 void gui::mouseClick(int button, int state, int x, int y)
 {
 	
-
+	std::cout << "["<<button << ":" << state<<"]\n";
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_UP)
 	{
 		int xx = (Screen::width / (float)Screen::width) * x;
 		int yy = (Screen::height / (float)Screen::height) * y;
 		std::cout << xx << ":::" << yy << "\n";
-		
+		// glEnableClientState
 		// Screen::scene.point(xx, yy);
 		MouseEvent *event = new MouseEvent(xx, yy);
 		Screen::mouseAction(event, MouseEvent::Type::MOUSE_CLICK, MouseEvent::Input::BUTTON_LEFT);
+	}
+	if (button == 3 && state == GLUT_DOWN) {
+		Screen::camera.zoomIn();
+
+		Screen::camera.applyView();
+	}
+	if (button == 4 && state == GLUT_DOWN) {
+		Screen::camera.zoomOut();
+
+		Screen::camera.applyView();
 	}
 }
 

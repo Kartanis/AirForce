@@ -44,7 +44,7 @@ void View::draw() {
 	} else
 		glColor3f(0.0f, 1.0f, 0.0f);
 	
-	glRectf(x, y, w, h);
+	// glRectf(x, y, w, h);
 	
 	
 }

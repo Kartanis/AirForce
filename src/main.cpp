@@ -5,8 +5,7 @@
 #include <vector>
 
 #include "Core/Shader_Loader.h"
-#include "GUI/Screen.h"
-#include "../View.h"
+#include "../ModelViewScene.h"
 
 using namespace Core;
 using namespace gui;
@@ -26,7 +25,7 @@ x refactoring
 
 
 int main(int argc, char **argv) {
-	Screen screen(argc, argv);
+	ModelViewScene screen(argc, argv);
 	return 0;
 
 }
