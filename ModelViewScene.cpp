@@ -1,11 +1,12 @@
 #include "ModelViewScene.h"
 #include "Cube.h"
+#include "House.h"
 #include <iostream>
 
 
 ModelViewScene::ModelViewScene(int argc, char **argv) : gui::Screen(argc, argv)
 {
-	this->model = new Model();
+	this->model = new House();
 	this->model->init();
 	
 	this->camera.init(

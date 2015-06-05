@@ -78,6 +78,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="Drawable.cpp" />
+    <ClCompile Include="House.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="ModelViewScene.cpp" />
     <ClCompile Include="MouseEvent.cpp" />
@@ -107,6 +108,7 @@
     <ClInclude Include="dependencies\glew\glxew.h" />
     <ClInclude Include="dependencies\glew\wglew.h" />
     <ClInclude Include="Drawable.h" />
+    <ClInclude Include="House.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="ModelViewScene.h" />
     <ClInclude Include="MouseEvent.h" />

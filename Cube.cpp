@@ -32,12 +32,7 @@ Cube::Cube()
 	this->verticesNumber = 8;
 	this->indicesNumber = 36;
 
-	cout << "Cube called.." << verticesNumber * Cube::POINTS_PER_VERTEX;
-
-	cout << "verticesNumber : " << verticesNumber << "\n";
-	cout << "indicesNumber : " << this->indicesNumber << "\n";
-
-	data = new float[verticesNumber * Cube::POINTS_PER_VERTEX]();
+	data = new float[verticesNumber * Model::POINTS_PER_VERTEX]();
 
 	data[0] = 1.0f;
 	data[1] = -1.0f;
@@ -46,7 +41,7 @@ Cube::Cube()
 	data[3] = 1.0f;
 	data[4] = -1.0f;
 	data[5] = 1.0f;
-
+	//([\d\.-]+) 
 	data[6] = -1.0f;
 	data[7] = -1.0f;
 	data[8] = 1.0f;

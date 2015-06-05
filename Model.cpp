@@ -44,16 +44,10 @@ void Model::init() {
 	//exit(0);
 	//cout << "indexVBO" << this->indexVBO << "\n";
 
-	cout << "VerticesNumber : " << this->verticesNumber << "\n";
-	cout << "POINTS_PER_VERTEX : " << POINTS_PER_VERTEX << "\n";
-
-	for (int i = 0; i <= this->indicesNumber - 3; i += 3) {
-		cout << this->indices[i] << ":" << this->indices[i + 1] << ":" << this->indices[i + 2] << "\n";
-	}
-
+	//cout << "VerticesNumber : " << this->verticesNumber << "\n";
+	//cout << "POINTS_PER_VERTEX : " << POINTS_PER_VERTEX << "\n";
+	
 	cout << "indicesNumber : " << indicesNumber << "\n";
-
-
 
 	cout << "triangleVBO" << triangleVBO << "\n";
 	cout << "indexVBO" << indexVBO << "\n";
