@@ -12,7 +12,7 @@ class ModelViewScene :
 	public gui::Screen
 {
 private:
-	Model model;
+	Model* model;
 	CVector3 unprojectedVectorFar, unprojectedVectorNear;
 public:
 	ModelViewScene(int argc, char **argv);

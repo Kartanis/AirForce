@@ -31,8 +31,8 @@ public:
 			matrix[2] -= 1;
 	};
 
-	void moveUp() { matrix[1] -= 1; };
-	void moveDown() { matrix[1] += 1; };
+	void moveUp() { matrix[1] += 1; };
+	void moveDown() { matrix[1] -= 1; };
 	void init(int, int, int,
 		int, int, int,
 		int, int, int);

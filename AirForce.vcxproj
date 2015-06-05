@@ -76,6 +76,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Cube.cpp" />
     <ClCompile Include="Drawable.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="ModelViewScene.cpp" />
@@ -97,6 +98,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Cube.h" />
     <ClInclude Include="dependencies\freeglut\freeglut.h" />
     <ClInclude Include="dependencies\freeglut\freeglut_ext.h" />
     <ClInclude Include="dependencies\freeglut\freeglut_std.h" />

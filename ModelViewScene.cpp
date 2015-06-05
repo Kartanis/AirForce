@@ -1,10 +1,13 @@
 #include "ModelViewScene.h"
+#include "Cube.h"
 #include <iostream>
 
 
 ModelViewScene::ModelViewScene(int argc, char **argv) : gui::Screen(argc, argv)
 {
-	model.Load("cube.obj");
+	this->model = new Model();
+	this->model->init();
+	
 	this->camera.init(
 		0, 5, 10, 
 		0, 0, 0, 
@@ -82,7 +85,7 @@ void ModelViewScene::renderScene() {
 	glColor3f(1.0f, 0.0f, 1.0f);
 	//glutSolidSphere(1, 15, 15);
 	glColor3f(1.0f, 1.0f, 1.0f);
-	model.Draw();
+	this->model->Draw();
 	glPopMatrix();
 	drawGround2();
 	glBegin(GL_LINE_STRIP);

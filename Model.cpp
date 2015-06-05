@@ -20,102 +20,98 @@ using namespace std;
 
 Model::~Model()
 {
-	glDeleteBuffersARB(1, &triangleVBO);
+	glDeleteBuffers(1, &triangleVBO);
+	glDeleteBuffers(1, &indexVBO);
 }
 
 
 Model::Model()
 {
+	cout << "Model called.." << "\n";
 	this->TotalConnectedTriangles = 0;
 	this->TotalConnectedPoints = 0;
 
-	float data[8][3] = {
-		{ 1.000000f, -1.000000, -1.000000 }, 
-		{ 1.000000, -1.000000, 1.000000 }, 
-		{ -1.000000, -1.000000, 1.000000 }, 
-		{ -1.000000, -1.000000, -1.000000 }, 
-		{ 1.000000, 1.000000, -0.999999 }, 
-		{ 0.999999, 1.000000, 1.000001 },
-		{ -1.000000, 1.000000, 1.000000 },
-		{ -1.000000, 1.000000, -1.000000 }
-	};
-	
-	unsigned int Indices[] = { 
-		2, 3, 4,
-		8, 7, 6,
-		5, 6, 2,
-		6, 7, 3,
-		3, 7, 8,
-		1, 4, 8,
-		1, 2, 4,
-		5, 8, 6,
-		1, 5, 2,
-		2, 6, 3,
-		4, 3, 8,
-		5, 1, 8,
-	};
+}
 
-	for (int i = 0; i < 36; i++) {
-		Indices[i]--;
-	}
+void Model::init() {
+	cout << "Model init called..";
 	/*---------------------- Инициализация VBO - (делается единожды, при запуске программы) ---------------------*/
 	/* Создание новго VBO и использование переменной "triangleVBO" для сохранения VBO id */
-	glGenBuffers(1, &triangleVBO);
+	glGenBuffers(1, &this->triangleVBO);
+	glGenBuffers(1, &this->indexVBO);
+	
+	//cout << "triangleVBO" << this->triangleVBO<<"\n";
+	//exit(0);
+	//cout << "indexVBO" << this->indexVBO << "\n";
 
+	cout << "VerticesNumber : " << this->verticesNumber << "\n";
+	cout << "POINTS_PER_VERTEX : " << POINTS_PER_VERTEX << "\n";
+
+	for (int i = 0; i <= this->indicesNumber - 3; i += 3) {
+		cout << this->indices[i] << ":" << this->indices[i + 1] << ":" << this->indices[i + 2] << "\n";
+	}
+
+	cout << "indicesNumber : " << indicesNumber << "\n";
+
+
+
+	cout << "triangleVBO" << triangleVBO << "\n";
+	cout << "indexVBO" << indexVBO << "\n";
+	
 	/* Делаем новый VBO активным */
-	glBindBuffer(GL_ARRAY_BUFFER, triangleVBO);
-
+	glBindBuffer(GL_ARRAY_BUFFER, this->triangleVBO);
 	/* Выгружаем данные в видеоустройство */
-	glBufferData(GL_ARRAY_BUFFER, (8) * 3 * sizeof(float), data, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, this->verticesNumber * POINTS_PER_VERTEX * sizeof(float), this->data, GL_STATIC_DRAW);
 
-	glGenBuffers(1, &indexVBO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexVBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Indices) * sizeof(unsigned int), Indices, GL_STATIC_DRAW);
+	
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->indexVBO);
 
-	/* Указываем что наши данные координат в индексе атрибутов, равный 0 (shaderAttribute), и содержат 3 числа с плавающей точкой на вершину */
-	glVertexAttribPointer(shaderAttribute, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->indicesNumber * sizeof(unsigned int), this->indices, GL_STATIC_DRAW);
+	
+	/* Указываем что наши данные координат в индексе атрибутов, равный 0 (shaderAttribute), и содержат POINTS_PER_VERTEX числа с плавающей точкой на вершину */
+	glVertexAttribPointer(this->shaderAttribute, POINTS_PER_VERTEX, GL_FLOAT, GL_FALSE, 0, 0);
 
 	/* Включаем индекс атрибутов, равный 0 (shaderAttribute), как используемый */
-	glEnableVertexAttribArray(shaderAttribute);
+	glEnableVertexAttribArray(this->shaderAttribute);
 
 	/* Делаем новый VBO активным */
-	glBindBuffer(GL_ARRAY_BUFFER, triangleVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, this->triangleVBO);
 
 	/*--------------------- Загрузка Vertex и Fragment из файлов и их компиляция --------------------*/
 	/* Читаем код шейдеров в соответствующие выделенные динамически буферы */
-	vertexSource = filetobuf("exampleVertexShader.vert");
-	fragmentSource = filetobuf("exampleFragmentShader.frag");
+	this->vertexSource = filetobuf("exampleVertexShader.vert");
+	this->fragmentSource = filetobuf("exampleFragmentShader.frag");
 
 	/* Назначаем нашим обработчикам "имена" для новых объектов шейдера */
-	vertexShader = glCreateShader(GL_VERTEX_SHADER);
-	fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+	this->vertexShader = glCreateShader(GL_VERTEX_SHADER);
+	this->fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 
 	/* Объединяем буферы исходных кодов шейдеров с соответствующими обработчиками */
-	glShaderSource(vertexShader, 1, (const GLchar**)&vertexSource, 0);
-	glShaderSource(fragmentShader, 1, (const GLchar**)&fragmentSource, 0);
+	glShaderSource(this->vertexShader, 1, (const GLchar**)&this->vertexSource, 0);
+	glShaderSource(this->fragmentShader, 1, (const GLchar**)&this->fragmentSource, 0);
 
 	/* Освобождаем ранее выделенную память */
-	free(vertexSource);
-	free(fragmentSource);
+	free(this->vertexSource);
+	free(this->fragmentSource);
 
 	/* Компилируем наши коды шейдеров */
-	glCompileShader(vertexShader);
-	glCompileShader(fragmentShader);
+	glCompileShader(this->vertexShader);
+	glCompileShader(this->fragmentShader);
 
 	/*-------------------- Создание программы шейдера, присоединение шейдера к ней и линковка ---------------------*/
 	/* Назначим нашей программе обработчику имя */
-	shaderProgram = glCreateProgram();
+	this->shaderProgram = glCreateProgram();
 
 	/* Присоединяем наши шейдеры к программе шейдера */
-	glAttachShader(shaderProgram, vertexShader);
-	glAttachShader(shaderProgram, fragmentShader);
+	glAttachShader(this->shaderProgram, this->vertexShader);
+	glAttachShader(this->shaderProgram, this->fragmentShader);
 
 	/* Связываем индекс атрибута, равный 0, (shaderAttribute) с in_Position*/
 	/* "in_Position" будет представлять массив данных в вершинном шейдере*/
-	glBindAttribLocation(shaderProgram, shaderAttribute, "in_Position");
+	glBindAttribLocation(this->shaderProgram, this->shaderAttribute, "in_Position");
 
 	/* Линкуем программу шейдера */
-	glLinkProgram(shaderProgram);
+	glLinkProgram(this->shaderProgram);
 
 	/* Установка нашей программы шейдера активной */
 	glUseProgram(shaderProgram);
@@ -267,10 +263,10 @@ void Model::Draw()
 	// Enable to draw Wireframe glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
-	
+
 	glEnableClientState(GL_VERTEX_ARRAY);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexVBO);
-	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, (void*)0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->indexVBO);
+	glDrawElements(GL_TRIANGLES, this->indicesNumber, GL_UNSIGNED_INT, (void*)0);
 
 	glPopMatrix();
 }

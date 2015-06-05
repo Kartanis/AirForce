@@ -47,7 +47,11 @@ Screen::Screen(int argc, char **argv)
 	Screen::addView(new Scene(0, 0, this->width, this->height));
 
 	glutCreateWindow("Drawing my first triangle");
-	glewInit();
+	GLenum glewInitStatus = glewInit();
+	if (glewInitStatus != GLEW_OK) {
+		std::cout << "Glew init status..." << glewInitStatus << "\n";
+		exit(glewInitStatus);
+	}
 
 	// register callbacks
 	glutDisplayFunc(gui::renderer);
