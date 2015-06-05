@@ -20,6 +20,7 @@ using namespace std;
 
 Model::~Model()
 {
+	glDeleteBuffersARB(1, &triangleVBO);
 }
 
 
@@ -27,6 +28,110 @@ Model::Model()
 {
 	this->TotalConnectedTriangles = 0;
 	this->TotalConnectedPoints = 0;
+	/*float data[6][3] = {
+		{ 0.0, 0.0, 0.0 },
+		{ 0.0, 10.0, 0.0 },
+		{ 10.0, 10.0, 0.0 },
+		{ 10.0, 0.0, 0.0 },
+		};
+		*/
+	float data[8][3] = {
+		{ 1.000000f, -1.000000, -1.000000 }, 
+		{ 1.000000, -1.000000, 1.000000 }, 
+		{ -1.000000, -1.000000, 1.000000 }, 
+		{ -1.000000, -1.000000, -1.000000 }, 
+		{ 1.000000, 1.000000, -0.999999 }, 
+		{ 0.999999, 1.000000, 1.000001 },
+		{ -1.000000, 1.000000, 1.000000 },
+		{ -1.000000, 1.000000, -1.000000 }
+	};
+	// unsigned int Indices[] = { 0, 3, 1,1, 3, 2,2, 3, 0,0, 1, 2 };
+	/*0, 1, 2, 3,
+		4, 7, 6, 5,
+		0, 4, 5, 1,
+
+		1, 5, 6, 2,
+		2, 6, 7, 3,
+		4, 0, 3, 7*/
+	unsigned int Indices[] = { 
+		2, 3, 4,
+		8, 7, 6,
+		5, 6, 2,
+		6, 7, 3,
+		3, 7, 8,
+		1, 4, 8,
+		1, 2, 4,
+		5, 8, 6,
+		1, 5, 2,
+		2, 6, 3,
+		4, 3, 8,
+		5, 1, 8,
+	};
+
+	for (int i = 0; i < 36; i++) {
+		Indices[i]--;
+	}
+	/*---------------------- Инициализация VBO - (делается единожды, при запуске программы) ---------------------*/
+	/* Создание новго VBO и использование переменной "triangleVBO" для сохранения VBO id */
+	glGenBuffers(1, &triangleVBO);
+
+	/* Делаем новый VBO активным */
+	glBindBuffer(GL_ARRAY_BUFFER, triangleVBO);
+
+	/* Выгружаем данные в видеоустройство */
+	glBufferData(GL_ARRAY_BUFFER, (8) * 3 * sizeof(float), data, GL_STATIC_DRAW);
+
+	glGenBuffers(1, &indexVBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexVBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Indices) * sizeof(unsigned int), Indices, GL_STATIC_DRAW);
+
+	/* Указываем что наши данные координат в индексе атрибутов, равный 0 (shaderAttribute), и содержат 3 числа с плавающей точкой на вершину */
+	glVertexAttribPointer(shaderAttribute, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+	/* Включаем индекс атрибутов, равный 0 (shaderAttribute), как используемый */
+	glEnableVertexAttribArray(shaderAttribute);
+
+	/* Делаем новый VBO активным */
+	glBindBuffer(GL_ARRAY_BUFFER, triangleVBO);
+
+	/*--------------------- Загрузка Vertex и Fragment из файлов и их компиляция --------------------*/
+	/* Читаем код шейдеров в соответствующие выделенные динамически буферы */
+	vertexSource = filetobuf("exampleVertexShader.vert");
+	fragmentSource = filetobuf("exampleFragmentShader.frag");
+
+	/* Назначаем нашим обработчикам "имена" для новых объектов шейдера */
+	vertexShader = glCreateShader(GL_VERTEX_SHADER);
+	fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+
+	/* Объединяем буферы исходных кодов шейдеров с соответствующими обработчиками */
+	glShaderSource(vertexShader, 1, (const GLchar**)&vertexSource, 0);
+	glShaderSource(fragmentShader, 1, (const GLchar**)&fragmentSource, 0);
+
+	/* Освобождаем ранее выделенную память */
+	free(vertexSource);
+	free(fragmentSource);
+
+	/* Компилируем наши коды шейдеров */
+	glCompileShader(vertexShader);
+	glCompileShader(fragmentShader);
+
+	/*-------------------- Создание программы шейдера, присоединение шейдера к ней и линковка ---------------------*/
+	/* Назначим нашей программе обработчику имя */
+	shaderProgram = glCreateProgram();
+
+	/* Присоединяем наши шейдеры к программе шейдера */
+	glAttachShader(shaderProgram, vertexShader);
+	glAttachShader(shaderProgram, fragmentShader);
+
+	/* Связываем индекс атрибута, равный 0, (shaderAttribute) с in_Position*/
+	/* "in_Position" будет представлять массив данных в вершинном шейдере*/
+	glBindAttribLocation(shaderProgram, shaderAttribute, "in_Position");
+
+	/* Линкуем программу шейдера */
+	glLinkProgram(shaderProgram);
+
+	/* Установка нашей программы шейдера активной */
+	glUseProgram(shaderProgram);
 }
 
 float* Model::calculateNormal(float *coord1, float *coord2, float *coord3)
@@ -80,7 +185,7 @@ int Model::Load(char* filename)
 		{
 			getline(objFile, line);											// Get line from file
 
-			if (line.c_str()[0] == 'v')										// The first character is a v: on this line is a vertex stored.
+			if (line.c_str()[0] == 'v' && line.c_str()[1] != 'n')										// The first character is a v: on this line is a vertex stored.
 			{
 				line[0] = ' ';												// Set first character to 0. This will allow us to use sscanf
 
@@ -88,7 +193,7 @@ int Model::Load(char* filename)
 					&vertexBuffer[TotalConnectedPoints],
 					&vertexBuffer[TotalConnectedPoints + 1],
 					&vertexBuffer[TotalConnectedPoints + 2]);
-				cout << "v " << vertexBuffer[TotalConnectedPoints] << " " << vertexBuffer[TotalConnectedPoints + 1] << " " << vertexBuffer[TotalConnectedPoints + 2] << "\n";
+				//cout << "v " << vertexBuffer[TotalConnectedPoints] << " " << vertexBuffer[TotalConnectedPoints + 1] << " " << vertexBuffer[TotalConnectedPoints + 2] << "\n";
 
 				TotalConnectedPoints += POINTS_PER_VERTEX;					// Add 3 to the total connected points
 			}
@@ -153,6 +258,13 @@ int Model::Load(char* filename)
 	}
 	cout << "Total points " << TotalConnectedPoints<<"\n";
 	cout << "Total triangles " << TotalConnectedTriangles << "\n";
+	/*
+	for (int i = 0; i < TotalConnectedPoints - 3; i += 3) {
+		cout << "v2 " << vertexBuffer[i] << " " << vertexBuffer[i + 1] << " " << vertexBuffer[i + 2] << "\n";
+	}*/
+	for (int i = 0; i < TotalConnectedPoints - 3; i += 3) {
+		cout << "v2 " << Faces_Triangles[i] << " " << Faces_Triangles[i + 1] << " " << Faces_Triangles[i + 2] << "\n";
+	}
 	return 0;
 }
 
@@ -165,13 +277,110 @@ void Model::Release()
 
 void Model::Draw()
 {
+	/*
+	//Инициализация VBO - делается единожды, при старте программы
+	//Создание переменной для хранения идентификатора VBO
+	GLuint triangleVBO;
 
-	glEnableClientState(GL_VERTEX_ARRAY);						// Enable vertex arrays
-	glEnableClientState(GL_NORMAL_ARRAY);						// Enable normal arrays
-	glVertexPointer(3, GL_FLOAT, 0, Faces_Triangles);				// Vertex Pointer to triangle array
-	glNormalPointer(GL_FLOAT, 0, normals);						// Normal pointer to normal array
-	glDrawArrays(GL_TRIANGLES, 0, TotalConnectedTriangles);		// Draw the triangles
-	glDisableClientState(GL_VERTEX_ARRAY);						// Disable vertex arrays
-	glDisableClientState(GL_NORMAL_ARRAY);						// Disable normal arrays
+	//Вершины треугольника (в обходе против часовой стрелки)
+	float data[] = { 1.0, 0.0, 1.0, 0.0, 0.0, -1.0, -1.0, 0.0, 1.0 };
+
+	//Создание нового VBO и сохранение идентификатора VBO
+	glGenBuffers(1, &triangleVBO);
+
+	//Установка активности VBO
+	glBindBuffer(GL_ARRAY_BUFFER, triangleVBO);
+
+	//Выгрузка данных вершин в видеоустройство
+	glBufferData(GL_ARRAY_BUFFER, sizeof(data), data, GL_STATIC_DRAW);
+
+
+	//Рисование треугольника из VBO - происходит каждый раз, когда окно, точка обзора или данные изменяются
+	//Устанавливаем 3 координаты каждой вершины с 0 шагом в этом массиве; тут необходимо
+	glVertexPointer(3, GL_FLOAT, 0, NULL);
+
+	//Сделать новую VBO активным. Повторите это, в случае изменения с инициализации
+	glBindBuffer(GL_ARRAY_BUFFER, triangleVBO);
+
+	//Данный массив содержит вершины(не нормалей, цвета, текстуры и т.д.)
+	glEnableClientState(GL_VERTEX_ARRAY);
+
+	//Рисование треугольника, указывая количества вершин
+	glDrawArrays(GL_TRIANGLES, 0, sizeof(data) / sizeof(float) / 3);
+	*/
+
+
+	// glBindBufferARB(GL_ARRAY_BUFFER_ARB, triangleVBO);
+	//Установка активности VBO
+	//glBindBuffer(GL_ARRAY_BUFFER, triangleVBO);
+
+	// glBufferDataARB(GL_ARRAY_BUFFER_ARB, TotalConnectedPoints, vertexBuffer, GL_STATIC_DRAW_ARB);
+	//Выгрузка данных вершин в видеоустройство
+	//glBufferData(GL_ARRAY_BUFFER, TotalConnectedPoints, vertexBuffer, GL_STATIC_DRAW);
+	//Рисование треугольника из VBO - происходит каждый раз, когда окно, точка обзора или данные изменяются
+	//Устанавливаем 3 координаты каждой вершины с 0 шагом в этом массиве; тут необходимо
+
+	// do same as vertex array except pointer
+	// glEnableClientState(GL_VERTEX_ARRAY);             // activate vertex coords array
+	// glVertexPointer(3, GL_FLOAT, 0, 0);               // last param is offset, not ptr
+
+	// draw 6 quads using offset of index array
+	// glDrawElements(GL_TRIANGLES, 24, GL_UNSIGNED_BYTE, 0);
+	// glDisableClientState(GL_VERTEX_ARRAY);
+
+	/*
+		glEnableClientState(GL_VERTEX_ARRAY);						// Enable vertex arrays
+		glVertexPointer(3, GL_FLOAT, 0, vertexBuffer);				// Vertex Pointer to triangle array
+		glDrawArrays(GL_VERTEX_ARRAY, 0, TotalConnectedPoints);		// Draw the triangles
+		glDisableClientState(GL_VERTEX_ARRAY);						// Disable vertex arrays
+	*/
+	/* Vertex data */
+
+
+	// glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
 	
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexVBO);
+	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, (void*)0);
+
+	glPopMatrix();
+
+	
+	/*
+	 glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexVBO);
+	 glDrawElements(GL_TRIANGLES, 24, GL_UNSIGNED_INT, (void*)0);
+	 glVertexPointer(3, GL_FLOAT, 0, NULL);
+	 glEnableClientState(GL_VERTEX_ARRAY);
+	 glDrawArrays(GL_TRIANGLES, 0, 6);
+	*/
+	/*glBegin(GL_POINTS);
+	for (int i = 0; i < this->TotalConnectedPoints; i+=3) {
+		glVertex3f(vertexBuffer[i], vertexBuffer[i + 1], vertexBuffer[i+2]);//triangle one first vertex
+	}
+	glEnd();*/
+
+	
+}
+
+/*       Function will read a text file into allocated char buffer       */
+char* Model::filetobuf(char *file)
+{
+	FILE *fptr;
+	long length;
+	char *buf;
+
+	fptr = fopen(file, "rb"); /* Open file for reading */
+	if (!fptr) /* Return NULL on failure */
+		return NULL;
+	fseek(fptr, 0, SEEK_END); /* Seek to the end of the file */
+	length = ftell(fptr); /* Find out how many bytes into the file we are */
+	buf = (char*)malloc(length + 1); /* Allocate a buffer for the entire length of the file and a null terminator */
+	fseek(fptr, 0, SEEK_SET); /* Go back to the beginning of the file */
+	fread(buf, length, 1, fptr); /* Read the contents of the file in to the buffer */
+	fclose(fptr); /* Close the file */
+	buf[length] = 0; /* Null terminator */
+
+	return buf; /* Return the buffer */
 }

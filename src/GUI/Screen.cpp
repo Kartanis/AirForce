@@ -179,23 +179,12 @@ void gui::idleFunc()
 }
 
 void gui::keyboard(unsigned char key, int x, int y) {
-	static bool fullscreen = false;
-	std::cout << "Pressed:" << key << "[" << x << "," << y << "]\n";
-	switch (key) {
-	case 'f': case 'F': //toggle screenmode
-		if (!fullscreen){
-			glutFullScreen();
-			fullscreen = true;
-		}
-		else if (fullscreen){
-			glutReshapeWindow(1366, 768);
-			glutPositionWindow(0, 0);
-			fullscreen = false;
-		}
-		break;
-
-	case 'x': case 'X': //toggle screenmode
-		exit(0);
+	Window &window = Window::getInstance();
+	if (window.isScreenAppended()) {
+		window.getScreen()->keyboardAction(key, x, y);
+	}
+	else {
+		return;
 	}
 }
 
@@ -210,9 +199,13 @@ bool Screen::mouseAction(MouseEvent *event, MouseEvent::Type type, MouseEvent::I
 
 void Screen::reshapeScene(int width, int height) {
 	std::cout << "reshape in base...";
+	
 	if (height == 0)
 		height = 1;
 	float aspectRatio = (float)width / height;
+
+	this->width = width;
+	this->height = height;
 
 	glViewport(0, 0, width, height);
 	glMatrixMode(GL_PROJECTION);
@@ -284,5 +277,26 @@ void Screen::mouseClick(int button, int state, int x, int y) {
 		this->camera.zoomOut();
 
 		this->camera.applyView();
+	}
+}
+
+void Screen::keyboardAction(unsigned char key, int x, int y) {
+	static bool fullscreen = false;
+	std::cout << "Pressed:" << key << "[" << x << "," << y << "]\n";
+	switch (key) {
+	case 'f': case 'F': //toggle screenmode
+		if (!fullscreen){
+			glutFullScreen();
+			fullscreen = true;
+		}
+		else if (fullscreen){
+			glutReshapeWindow(1366, 768);
+			glutPositionWindow(0, 0);
+			fullscreen = false;
+		}
+		break;
+
+	case 'x': case 'X': //toggle screenmode
+		exit(0);
 	}
 }

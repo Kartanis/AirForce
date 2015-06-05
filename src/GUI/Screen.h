@@ -26,6 +26,7 @@ namespace gui{
 
 		virtual bool mouseAction(MouseEvent*, MouseEvent::Type, MouseEvent::Input);
 		virtual void mouseClick(int button, int state, int x, int y);
+		virtual void keyboardAction(unsigned char key, int x, int y);
 		// static bool mouseAction(MouseEvent*, MouseEvent::Type, MouseEvent::Input);
 	private:
 		

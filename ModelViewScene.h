@@ -13,5 +13,6 @@ public:
 	virtual void renderScene(void);
 	virtual void reshapeScene(int width, int height);
 	static bool mouseAction(MouseEvent*, MouseEvent::Type, MouseEvent::Input);
+	virtual void keyboardAction(unsigned char key, int x, int y);
 };
 
