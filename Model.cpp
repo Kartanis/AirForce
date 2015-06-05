@@ -28,13 +28,7 @@ Model::Model()
 {
 	this->TotalConnectedTriangles = 0;
 	this->TotalConnectedPoints = 0;
-	/*float data[6][3] = {
-		{ 0.0, 0.0, 0.0 },
-		{ 0.0, 10.0, 0.0 },
-		{ 10.0, 10.0, 0.0 },
-		{ 10.0, 0.0, 0.0 },
-		};
-		*/
+
 	float data[8][3] = {
 		{ 1.000000f, -1.000000, -1.000000 }, 
 		{ 1.000000, -1.000000, 1.000000 }, 
@@ -45,14 +39,7 @@ Model::Model()
 		{ -1.000000, 1.000000, 1.000000 },
 		{ -1.000000, 1.000000, -1.000000 }
 	};
-	// unsigned int Indices[] = { 0, 3, 1,1, 3, 2,2, 3, 0,0, 1, 2 };
-	/*0, 1, 2, 3,
-		4, 7, 6, 5,
-		0, 4, 5, 1,
-
-		1, 5, 6, 2,
-		2, 6, 7, 3,
-		4, 0, 3, 7*/
+	
 	unsigned int Indices[] = { 
 		2, 3, 4,
 		8, 7, 6,
@@ -277,67 +264,7 @@ void Model::Release()
 
 void Model::Draw()
 {
-	/*
-	//Инициализация VBO - делается единожды, при старте программы
-	//Создание переменной для хранения идентификатора VBO
-	GLuint triangleVBO;
-
-	//Вершины треугольника (в обходе против часовой стрелки)
-	float data[] = { 1.0, 0.0, 1.0, 0.0, 0.0, -1.0, -1.0, 0.0, 1.0 };
-
-	//Создание нового VBO и сохранение идентификатора VBO
-	glGenBuffers(1, &triangleVBO);
-
-	//Установка активности VBO
-	glBindBuffer(GL_ARRAY_BUFFER, triangleVBO);
-
-	//Выгрузка данных вершин в видеоустройство
-	glBufferData(GL_ARRAY_BUFFER, sizeof(data), data, GL_STATIC_DRAW);
-
-
-	//Рисование треугольника из VBO - происходит каждый раз, когда окно, точка обзора или данные изменяются
-	//Устанавливаем 3 координаты каждой вершины с 0 шагом в этом массиве; тут необходимо
-	glVertexPointer(3, GL_FLOAT, 0, NULL);
-
-	//Сделать новую VBO активным. Повторите это, в случае изменения с инициализации
-	glBindBuffer(GL_ARRAY_BUFFER, triangleVBO);
-
-	//Данный массив содержит вершины(не нормалей, цвета, текстуры и т.д.)
-	glEnableClientState(GL_VERTEX_ARRAY);
-
-	//Рисование треугольника, указывая количества вершин
-	glDrawArrays(GL_TRIANGLES, 0, sizeof(data) / sizeof(float) / 3);
-	*/
-
-
-	// glBindBufferARB(GL_ARRAY_BUFFER_ARB, triangleVBO);
-	//Установка активности VBO
-	//glBindBuffer(GL_ARRAY_BUFFER, triangleVBO);
-
-	// glBufferDataARB(GL_ARRAY_BUFFER_ARB, TotalConnectedPoints, vertexBuffer, GL_STATIC_DRAW_ARB);
-	//Выгрузка данных вершин в видеоустройство
-	//glBufferData(GL_ARRAY_BUFFER, TotalConnectedPoints, vertexBuffer, GL_STATIC_DRAW);
-	//Рисование треугольника из VBO - происходит каждый раз, когда окно, точка обзора или данные изменяются
-	//Устанавливаем 3 координаты каждой вершины с 0 шагом в этом массиве; тут необходимо
-
-	// do same as vertex array except pointer
-	// glEnableClientState(GL_VERTEX_ARRAY);             // activate vertex coords array
-	// glVertexPointer(3, GL_FLOAT, 0, 0);               // last param is offset, not ptr
-
-	// draw 6 quads using offset of index array
-	// glDrawElements(GL_TRIANGLES, 24, GL_UNSIGNED_BYTE, 0);
-	// glDisableClientState(GL_VERTEX_ARRAY);
-
-	/*
-		glEnableClientState(GL_VERTEX_ARRAY);						// Enable vertex arrays
-		glVertexPointer(3, GL_FLOAT, 0, vertexBuffer);				// Vertex Pointer to triangle array
-		glDrawArrays(GL_VERTEX_ARRAY, 0, TotalConnectedPoints);		// Draw the triangles
-		glDisableClientState(GL_VERTEX_ARRAY);						// Disable vertex arrays
-	*/
-	/* Vertex data */
-
-
-	// glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	// Enable to draw Wireframe glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
 	
@@ -346,22 +273,6 @@ void Model::Draw()
 	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, (void*)0);
 
 	glPopMatrix();
-
-	
-	/*
-	 glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexVBO);
-	 glDrawElements(GL_TRIANGLES, 24, GL_UNSIGNED_INT, (void*)0);
-	 glVertexPointer(3, GL_FLOAT, 0, NULL);
-	 glEnableClientState(GL_VERTEX_ARRAY);
-	 glDrawArrays(GL_TRIANGLES, 0, 6);
-	*/
-	/*glBegin(GL_POINTS);
-	for (int i = 0; i < this->TotalConnectedPoints; i+=3) {
-		glVertex3f(vertexBuffer[i], vertexBuffer[i + 1], vertexBuffer[i+2]);//triangle one first vertex
-	}
-	glEnd();*/
-
-	
 }
 
 /*       Function will read a text file into allocated char buffer       */
