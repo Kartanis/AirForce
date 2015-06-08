@@ -1,6 +1,7 @@
 #pragma once
 #include "src\GUI\Screen.h"
 #include "Model.h"
+#include "Terrain.h"
 
 class CVector3
 {
@@ -13,6 +14,8 @@ class ModelViewScene :
 {
 private:
 	Model* model;
+	Terrain* terrain; 
+
 	CVector3 unprojectedVectorFar, unprojectedVectorNear;
 public:
 	ModelViewScene(int argc, char **argv);

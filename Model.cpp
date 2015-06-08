@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_DEPRECATE
 #include "Model.h"
 #include <iostream>
 #include <fstream>
@@ -254,7 +255,10 @@ void Model::Release()
 
 void Model::Draw()
 {
-	// Enable to draw Wireframe glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	// Enable to draw Wireframe 
+	if (isWireFrame) {
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	}
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
 

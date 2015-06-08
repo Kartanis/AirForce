@@ -46,5 +46,6 @@ protected:
 	const float NUM_OF_VERTICES_IN_DATA = 3;
 
 	/* Вершины треугольника (направление обхода: против часовой стрелки) */
+	bool isWireFrame = false;
 };
 

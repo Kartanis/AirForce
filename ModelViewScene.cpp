@@ -8,6 +8,9 @@ ModelViewScene::ModelViewScene(int argc, char **argv) : gui::Screen(argc, argv)
 {
 	this->model = new House();
 	this->model->init();
+
+// 	this->terrain = new Terrain();
+// 	this->terrain->init();
 	
 	this->camera.init(
 		0, 5, 10, 
@@ -87,8 +90,9 @@ void ModelViewScene::renderScene() {
 	//glutSolidSphere(1, 15, 15);
 	glColor3f(1.0f, 1.0f, 1.0f);
 	this->model->Draw();
+	//this->terrain->Draw();
 	glPopMatrix();
-	drawGround2();
+	// drawGround2();
 	glBegin(GL_LINE_STRIP);
 	glVertex3f(unprojectedVectorFar.x, unprojectedVectorFar.y, unprojectedVectorFar.z);
 	glVertex3f(unprojectedVectorNear.x, unprojectedVectorNear.y, unprojectedVectorNear.z);
