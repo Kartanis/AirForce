@@ -1,7 +1,7 @@
 #include "View.h"
 #include <iostream>
-#include "Dependencies/glew/glew.h"
-#include "Dependencies/freeglut/freeglut.h"
+#include "../../../Dependencies/glew/glew.h"
+#include "../../../Dependencies/freeglut/freeglut.h"
 
 View::View(int x, int y, int w, int h)
 {
@@ -45,7 +45,6 @@ void View::draw() {
 		glColor3f(0.0f, 1.0f, 0.0f);
 	
 	// glRectf(x, y, w, h);
-	
 	
 }
 

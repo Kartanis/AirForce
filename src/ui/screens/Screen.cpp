@@ -1,9 +1,9 @@
 #include "Screen.h"
 #include <iostream>
-#include "Scene.h"
-#include "../../MouseEvent.h"
-#include "../../Window.h"
-#include "../../Dependencies/glew/glew.h"
+#include "../scene/Scene.h"
+#include "../events/MouseEvent.h"
+#include "../window/Window.h"
+#include "../../../Dependencies/glew/glew.h"
 
 using namespace gui;
 
@@ -44,7 +44,7 @@ Screen::Screen(int argc, char **argv)
 
 	// Screen::addView(new View(0, 0, this->width, 70));
 	// Screen::addView(new View(0, 71, 120, this->height));
-	Screen::addView(new Scene(0, 0, this->width, this->height));
+	// Screen::addView(new Scene(0, 0, this->width, this->height));
 
 	glutCreateWindow("Drawing my first triangle");
 	GLenum glewInitStatus = glewInit();
@@ -68,10 +68,6 @@ Screen::Screen(int argc, char **argv)
 
 Screen::~Screen()
 {
-}
-
-void Screen::addView(View* view){
-	Screen::views.push_back(view);
 }
 
 void Screen::renderScene() {
@@ -194,10 +190,10 @@ void gui::keyboard(unsigned char key, int x, int y) {
 
 
 bool Screen::mouseAction(MouseEvent *event, MouseEvent::Type type, MouseEvent::Input input) {
-	for (std::vector<View*>::iterator v = Screen::views.begin(); v != Screen::views.end(); ++v) {
+	/*for (std::vector<View*>::iterator v = Screen::views.begin(); v != Screen::views.end(); ++v) {
 		if ((*v)->onMouseAction(event, type, input))
 			return true;
-	}
+	}*/
 	return false;
 }
 
@@ -253,9 +249,9 @@ void Screen::reshapeScene(int width, int height) {
 	Screen::width = width;
 	Screen::height = height;
 
-	for (std::vector<View*>::iterator v = Screen::views.begin(); v != Screen::views.end(); ++v) {
+	// for (std::vector<View*>::iterator v = Screen::views.begin(); v != Screen::views.end(); ++v) {
 		// (*v)->onScreenSizeChanged(width, height);
-	}
+	//}
 
 }
 

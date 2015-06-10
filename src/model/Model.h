@@ -1,9 +1,10 @@
 #pragma once
-#include "Dependencies/glew/glew.h"
+
+#include "../../Dependencies/glew/glew.h"
+
 class Model
 {
 private: 
-	
 	
 public:
 	static const int POINTS_PER_VERTEX = 3;
@@ -12,11 +13,10 @@ public:
 	~Model();
 
 	float* Model::calculateNormal(float* coord1, float* coord2, float* coord3);
-	int Model::Load(char *filename);	// Loads the model
-	virtual void Model::Draw();					// Draws the model on the screen
-	void Model::Release();				// Release the model
+	int Model::Load(char *filename);		// Loads the model
+	virtual void Model::Draw();				// Draws the model on the screen
+	void Model::Release();					// Release the model
 	void init();
-	
 
 protected:
 	float* normals;							// Stores the normals
@@ -29,14 +29,13 @@ protected:
 	unsigned int *indices;
 	int indicesNumber = 0;
 
-	unsigned int triangleVBO=0;
-	unsigned int indexVBO=0;
+	unsigned int triangleVBO = 0;
+	unsigned int indexVBO = 0;
 
 	char* filetobuf(char *file);
 
 	/* Это имя программы шейдера */
 	GLuint shaderProgram;
-
 	/* Эти указатели будут получать адреса в памяти исходных кодов шейдера */
 	GLchar *vertexSource, *fragmentSource;
 	/* Эти переменные используются для шейдеров */

@@ -1,8 +1,9 @@
 #pragma once
 #include <vector>
 #include "Drawable.h"
-#include "OnMouseActionListener.h"
-#include "OnScreenSizeChangedListener.h"
+#include "../listeners/OnMouseActionListener.h"
+#include "../listeners/OnScreenSizeChangedListener.h"
+#include "../events/MouseEvent.h"
 
 class View : public OnMouseActionListener, public Drawable, public OnScreenSizeChangedListener
 {

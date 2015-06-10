@@ -5,11 +5,10 @@
 #include <vector>
 
 #include "Core/Shader_Loader.h"
-#include "../ModelViewScene.h"
-#include "../Window.h"
+#include "ui\screens\ModelViewScreen.h"
+#include "ui\window\Window.h"
 
 using namespace Core;
-using namespace gui;
 
 GLuint program;
 
@@ -24,10 +23,9 @@ x mouse handler
 x refactoring
 */
 
-
 int main(int argc, char **argv) {
 	Window &window = Window::getInstance();
-	window.setScreen(new ModelViewScene(argc, argv));
+	window.setScreen(new ModelViewScreen(argc, argv));
 	window.getScreen()->init();
 
 	glutMainLoop();
@@ -35,7 +33,6 @@ int main(int argc, char **argv) {
 	return 0;
 
 }
-
 
 int getShaderLanguageVersion(void) {
 	std::string version = std::string(reinterpret_cast<const char*>(glGetString(GL_SHADING_LANGUAGE_VERSION)));

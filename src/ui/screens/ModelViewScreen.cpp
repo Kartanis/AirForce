@@ -1,10 +1,11 @@
-#include "ModelViewScene.h"
-#include "Cube.h"
-#include "House.h"
+#include "ModelViewScreen.h"
+#include "../../model/Cube.h"
+#include "../../model/House.h"
 #include <iostream>
 
+int rot = 0;
 
-ModelViewScene::ModelViewScene(int argc, char **argv) : gui::Screen(argc, argv)
+ModelViewScreen::ModelViewScreen(int argc, char **argv) : gui::Screen(argc, argv)
 {
 	this->model = new House();
 	this->model->init();
@@ -18,13 +19,11 @@ ModelViewScene::ModelViewScene(int argc, char **argv) : gui::Screen(argc, argv)
 		0, 1, 0);
 }
 
-
-ModelViewScene::~ModelViewScene()
+ModelViewScreen::~ModelViewScreen()
 {
 }
 
-
-void ModelViewScene::init(void){
+void ModelViewScreen::init(void){
 
 	std::cout << "init...";
 	glMatrixMode(GL_PROJECTION);
@@ -76,14 +75,14 @@ void drawGround2() {
 	}
 	glEnd();
 }
-void ModelViewScene::renderScene() {
+void ModelViewScreen::renderScene() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 	//gluLookAt(0, 5, 10, 0, 0, 0, 0, 1, 0);
 	camera.applyView();
 	glPushMatrix();
-	glRotatef(45, 0, 1, 0);
-	glRotatef(90, 0, 1, 0);
+	glRotatef(rot % 360, 0, 1, 0);
+	// glRotatef(90, 0, 1, 0);
 	//	g_rotation++;
 	//glutSolidSphere(5, 15, 15);
 	glColor3f(1.0f, 0.0f, 1.0f);
@@ -92,7 +91,7 @@ void ModelViewScene::renderScene() {
 	this->model->Draw();
 	//this->terrain->Draw();
 	glPopMatrix();
-	// drawGround2();
+	 drawGround2();
 	glBegin(GL_LINE_STRIP);
 	glVertex3f(unprojectedVectorFar.x, unprojectedVectorFar.y, unprojectedVectorFar.z);
 	glVertex3f(unprojectedVectorNear.x, unprojectedVectorNear.y, unprojectedVectorNear.z);
@@ -101,15 +100,13 @@ void ModelViewScene::renderScene() {
 
 }
 
-void ModelViewScene::reshapeScene(int width, int height) {
+void ModelViewScreen::reshapeScene(int width, int height) {
 	std::cout << "reshapeScene...";
 	
 	Screen::reshapeScene(width, height);
 }
 
-
-
-void ModelViewScene::keyboardAction(unsigned char key, int x, int y) {
+void ModelViewScreen::keyboardAction(unsigned char key, int x, int y) {
 	
 	std::cout << "Pressed:" << key << "[" << x << "," << y << "]\n";
 	switch (key) {
@@ -119,14 +116,17 @@ void ModelViewScene::keyboardAction(unsigned char key, int x, int y) {
 	case 's': case 'S': camera.moveDown(); break;
 	case 'w': case 'W': camera.moveUp(); break;
 	case 'd': case 'D': camera.moveRight(); break;
-	case 'q': case 'Q': camera.moveLeftSide(); break;
-	case 'e': case 'E': camera.moveRightSide(); break;
+	case 'q': case 'Q': rot -= 15; // camera.moveLeftSide(); 
+		break;
+	case 'e': case 'E': rot += 15;
+		// camera.moveRightSide(); 
+		break;
 	default:
 		Screen::keyboardAction(key, x, y);
 	}
 }
 
-void ModelViewScene::mouseClick(int button, int state, int x, int y) {
+void ModelViewScreen::mouseClick(int button, int state, int x, int y) {
 
 	std::cout << "[" << button << ":" << state << "]\n";
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
@@ -136,10 +136,9 @@ void ModelViewScene::mouseClick(int button, int state, int x, int y) {
 	else {
 		Screen::mouseClick(button, state, x, y);
 	}
-
 }
 
-void ModelViewScene::unProjectMouse(int x, int y) {
+void ModelViewScreen::unProjectMouse(int x, int y) {
 	// mouse_x, mouse_y  - оконные координаты курсора мыши.
 	// p1, p2            - возвращаемые параметры - концы селектирующего отрезка,
 	//                     лежащие соответственно на ближней и дальней плоскостях

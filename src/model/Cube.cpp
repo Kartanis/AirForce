@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "Dependencies/glew/glew.h"
+#include "../../Dependencies/glew/glew.h"
 #include <iostream>
 #include <sstream>
 #include <fstream>

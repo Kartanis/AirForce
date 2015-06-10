@@ -1,11 +1,12 @@
-#define _CRT_SECURE_NO_DEPRECATE
 #include "Model.h"
+
+#include "../../Dependencies/glew/glew.h"
+
 #include <iostream>
 #include <fstream>
 #include <stdio.h>
 #include <string.h>
 
-#include "Dependencies/glew/glew.h"
 #include <iostream>
 #include <sstream>
 #include <fstream>
@@ -17,6 +18,7 @@
 
 #define POINTS_PER_VERTEX 3
 #define TOTAL_FLOATS_IN_TRIANGLE 9
+
 using namespace std;
 
 Model::~Model()

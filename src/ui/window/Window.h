@@ -1,5 +1,5 @@
 #pragma once
-#include "src\GUI\Screen.h"
+#include "../screens/Screen.h"
 
 using namespace gui;
 

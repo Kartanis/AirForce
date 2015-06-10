@@ -1,9 +1,9 @@
 #include "Scene.h"
-#include "features\Mark.h"
-#include "features\BlinkedMark.h"
+#include "../../GUI/features/Mark.h"
+#include "../../GUI/features/BlinkedMark.h"
 #include <cmath> 
 #include "Scene.h"
-#include "../GUI/Screen.h"
+#include "../screens/Screen.h"
 
 #define PI 3.14159265358979323846
 

@@ -7,7 +7,6 @@ Frame::Frame(int width, int height)
 	this->height = height;
 }
 
-
 Frame::~Frame()
 {
 }
@@ -28,7 +27,6 @@ void Frame::draw() {
 		int ustart = 0;
 		int bend = 0;
 
-
 // 		600 / 5 = 120
 		// 0 = -1.0
 		// 120 = 2 / 5 = 0.4
@@ -38,7 +36,6 @@ void Frame::draw() {
 		glVertex3f(this->width, 0.0f, start + (this->height / steps) * i);
 		glEnd();
 	}
-	
 
 	steps = this->width / mult;
 	for (int i = 0; i < steps; i++) {
@@ -47,7 +44,6 @@ void Frame::draw() {
 		int rend = 0;
 		int ustart = 0;
 		int bend = 0;
-
 
 		// 		600 / 5 = 120
 		// 0 = -1.0

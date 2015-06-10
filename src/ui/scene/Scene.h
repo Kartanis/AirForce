@@ -1,9 +1,9 @@
 #pragma once
-#include "../Frame.h"
-#include "features\BlinkedMark.h"
+#include "../temp/Frame.h"
+#include "../../GUI/features/BlinkedMark.h"
 #include <vector>
-#include "../../View.h"
-#include "../../Drawable.h"
+#include "../temp/View.h"
+#include "../temp/Drawable.h"
 
 namespace gui{
 

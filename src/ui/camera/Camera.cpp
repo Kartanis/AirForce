@@ -1,5 +1,5 @@
 #include "Camera.h"
-#include "Dependencies\freeglut\glut.h"
+#include "../../../Dependencies\freeglut\glut.h"
 
 double Camera::matrix[9] = { 0.0, 35.0, -15, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0 };
 const double Camera::zoomStep = 1.0;

@@ -1,11 +1,11 @@
 #pragma once
 
 #include <vector>
-#include "../../Dependencies/glew/glew.h"
-#include "../../Dependencies/freeglut/freeglut.h"
-#include "../../MouseEvent.h"
-#include "../../View.h"
-#include "../../Camera.h"
+#include "../../../Dependencies/glew/glew.h"
+#include "../../../Dependencies/freeglut/freeglut.h"
+#include "../events/MouseEvent.h"
+
+#include "../camera/Camera.h"
 
 namespace gui{
 
@@ -38,8 +38,6 @@ namespace gui{
 		float zFar = 500.0f;
 		int width = 800;
 		int height = 600;
-		std::vector<View*> views;
-		void addView(View *view);
 		static Camera camera;
 
 	};

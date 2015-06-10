@@ -10,6 +10,50 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Core\Shader_Loader.cpp" />
+    <ClCompile Include="src\GLSLUtils.cpp" />
+    <ClCompile Include="src\GUI\features\BlinkedMark.cpp" />
+    <ClCompile Include="src\GUI\features\Mark.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\model\Cube.cpp" />
+    <ClCompile Include="src\model\House.cpp" />
+    <ClCompile Include="src\model\Model.cpp" />
+    <ClCompile Include="src\model\Terrain.cpp" />
+    <ClCompile Include="src\ui\camera\Camera.cpp" />
+    <ClCompile Include="src\ui\events\MouseEvent.cpp" />
+    <ClCompile Include="src\ui\listeners\OnMouseActionListener.cpp" />
+    <ClCompile Include="src\ui\scene\Scene.cpp" />
+    <ClCompile Include="src\ui\screens\ModelViewScreen.cpp" />
+    <ClCompile Include="src\ui\screens\Screen.cpp" />
+    <ClCompile Include="src\ui\temp\Core.cpp" />
+    <ClCompile Include="src\ui\temp\Drawable.cpp" />
+    <ClCompile Include="src\ui\temp\Frame.cpp" />
+    <ClCompile Include="src\ui\temp\View.cpp" />
+    <ClCompile Include="src\ui\window\Window.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Core\Shader_Loader.h" />
+    <ClInclude Include="src\GUI\features\BlinkedMark.h" />
+    <ClInclude Include="src\GUI\features\Mark.h" />
+    <ClInclude Include="src\model\Cube.h" />
+    <ClInclude Include="src\model\House.h" />
+    <ClInclude Include="src\model\Model.h" />
+    <ClInclude Include="src\model\Terrain.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\ui\camera\Camera.h" />
+    <ClInclude Include="src\ui\events\MouseEvent.h" />
+    <ClInclude Include="src\ui\listeners\OnMouseActionListener.h" />
+    <ClInclude Include="src\ui\listeners\OnScreenSizeChangedListener.h" />
+    <ClInclude Include="src\ui\scene\Scene.h" />
+    <ClInclude Include="src\ui\screens\ModelViewScreen.h" />
+    <ClInclude Include="src\ui\screens\Screen.h" />
+    <ClInclude Include="src\ui\temp\Core.h" />
+    <ClInclude Include="src\ui\temp\Drawable.h" />
+    <ClInclude Include="src\ui\temp\Frame.h" />
+    <ClInclude Include="src\ui\temp\View.h" />
+    <ClInclude Include="src\ui\window\Window.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{D51711A5-75E1-4456-A1EA-2E8322B48903}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -74,58 +118,6 @@
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);opengl32.lib;freeglut.lib;glew32.lib;</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Cube.cpp" />
-    <ClCompile Include="Drawable.cpp" />
-    <ClCompile Include="House.cpp" />
-    <ClCompile Include="Model.cpp" />
-    <ClCompile Include="ModelViewScene.cpp" />
-    <ClCompile Include="MouseEvent.cpp" />
-    <ClCompile Include="OnMouseActionListener.cpp" />
-    <ClCompile Include="Source.cpp" />
-    <ClCompile Include="src\Core.cpp" />
-    <ClCompile Include="src\core\Shader_Loader.cpp" />
-    <ClCompile Include="src\Frame.cpp" />
-    <ClCompile Include="src\GLSLUtils.cpp" />
-    <ClCompile Include="src\gui\features\BlinkedMark.cpp" />
-    <ClCompile Include="src\gui\features\Mark.cpp" />
-    <ClCompile Include="src\gui\GUI.cpp" />
-    <ClCompile Include="src\gui\Scene.cpp" />
-    <ClCompile Include="src\gui\Screen.cpp" />
-    <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="View.cpp" />
-    <ClCompile Include="Window.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="Cube.h" />
-    <ClInclude Include="dependencies\freeglut\freeglut.h" />
-    <ClInclude Include="dependencies\freeglut\freeglut_ext.h" />
-    <ClInclude Include="dependencies\freeglut\freeglut_std.h" />
-    <ClInclude Include="dependencies\freeglut\glut.h" />
-    <ClInclude Include="dependencies\glew\glew.h" />
-    <ClInclude Include="dependencies\glew\glxew.h" />
-    <ClInclude Include="dependencies\glew\wglew.h" />
-    <ClInclude Include="Drawable.h" />
-    <ClInclude Include="House.h" />
-    <ClInclude Include="Model.h" />
-    <ClInclude Include="ModelViewScene.h" />
-    <ClInclude Include="MouseEvent.h" />
-    <ClInclude Include="OnMouseActionListener.h" />
-    <ClInclude Include="OnScreenSizeChangedListener.h" />
-    <ClInclude Include="src\Core.h" />
-    <ClInclude Include="src\Core\Shader_Loader.h" />
-    <ClInclude Include="src\Frame.h" />
-    <ClInclude Include="src\gui\features\BlinkedMark.h" />
-    <ClInclude Include="src\gui\features\Mark.h" />
-    <ClInclude Include="src\gui\GUI.h" />
-    <ClInclude Include="src\gui\Scene.h" />
-    <ClInclude Include="src\gui\Screen.h" />
-    <ClInclude Include="src\resource.h" />
-    <ClInclude Include="View.h" />
-    <ClInclude Include="Window.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
