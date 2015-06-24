@@ -2,6 +2,7 @@
 #include "../../model/Cube.h"
 #include "../../model/House.h"
 #include <iostream>
+#include <math.h>
 
 int rot = 0;
 /*
@@ -128,12 +129,14 @@ void ModelViewScreen::renderScene() {
 	camera.applyView();
 	glPushMatrix();
 	glRotatef(rot % 360, 0, 1, 0);
+	glTranslatef(lastIntersect.x, lastIntersect.y, lastIntersect.z);
 	// glRotatef(90, 0, 1, 0);
 	//	g_rotation++;
 	//glutSolidSphere(5, 15, 15);
 	glColor3f(1.0f, 0.0f, 1.0f);
 	//glutSolidSphere(1, 15, 15);
 	glColor3f(1.0f, 1.0f, 1.0f);
+	
 	this->model->Draw();
 	//this->terrain->Draw();
 	glPopMatrix();
@@ -180,9 +183,9 @@ void ModelViewScreen::mouseClick(int button, int state, int x, int y) {
 	{
 		unProjectMouse(x, y);
 	} else if (button == 3 && state == GLUT_DOWN) {
-		this->camera.moveDown();
-	} else if (button == 4 && state == GLUT_DOWN) {
 		this->camera.moveUp();
+	} else if (button == 4 && state == GLUT_DOWN) {
+		this->camera.moveDown();
 	} else {
 		Screen::mouseClick(button, state, x, y);
 	}
@@ -222,6 +225,8 @@ void ModelViewScreen::unProjectMouse(int x, int y) {
 	unprojectedVectorFar.x = wx;
 	unprojectedVectorFar.y = wy;
 	unprojectedVectorFar.z = wz;
+	
+	terrain->intersect(unprojectedVectorNear, unprojectedVectorFar, &lastIntersect);
 
 	checkSelected();
 }

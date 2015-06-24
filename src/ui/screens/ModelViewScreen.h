@@ -13,6 +13,7 @@ private:
 	Terrain* terrain; 
 
 	CVector3 unprojectedVectorFar, unprojectedVectorNear;
+	CVector3 lastIntersect;
 public:
 	ModelViewScreen(int argc, char **argv);
 	virtual ~ModelViewScreen();
