@@ -85,17 +85,18 @@ void Terrain::intersect(CVector3 near, CVector3 far, CVector3 *res) {
 	// if (!(Math::intersect_triangle(orig, dir, rv1, rv2, rv3, &t, &u, &v) == 0 || Math::intersect_triangle3(orig, dir, lv1, lv2, lv3, &t, &u, &v) == 0))  {
 		// return;
 	//} 
-	
-	std::cout << "Intersection......Start\n";
-	std::cout << u << " " << v << " " << t << "\n";
-	std::cout << orig[0] << " " << orig[1] << " " << orig[2] << "\n";
-	std::cout << dir[0] << " " << dir[1] << " " << dir[2] << "\n";
-	std::cout << orig[0] + dir[0] * t << " " << orig[1] + dir[1] * t << " " << orig[2] + dir[2] * t << "\n";
-	std::cout << "Intersection......End\n";
 
 	res->x = orig[0] + dir[0] * t;
 	res->y = orig[1] + dir[1] * t;
 	res->z = orig[2] + dir[2] * t;
+
+	std::cout << "Intersection......Start\n";
+	std::cout << u << " " << v << " " << t << "\n";
+	std::cout << orig[0] << " " << orig[1] << " " << orig[2] << "\n";
+	std::cout << dir[0] << " " << dir[1] << " " << dir[2] << "\n";
+	std::cout << *(res) << "\n";
+	std::cout << "Intersection......End\n";
+
 
 };
 

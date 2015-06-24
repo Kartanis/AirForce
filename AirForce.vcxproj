@@ -36,6 +36,8 @@
     <ClCompile Include="src\ui\window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="headers\math\CVector3.h" />
+    <ClInclude Include="headers\math\Math.h" />
     <ClInclude Include="src\Core\Shader_Loader.h" />
     <ClInclude Include="src\FileSyestem\ObjModelReader.h" />
     <ClInclude Include="src\GUI\features\BlinkedMark.h" />

@@ -16,8 +16,6 @@ public:
 	virtual ~CVector3();
 
 	float x, y, z;
-
-
 	friend std::ostream& operator<<(std::ostream& os, const CVector3& vec);
 
 	

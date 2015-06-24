@@ -5,7 +5,7 @@
  *      Author: Сергей
  */
 
-#include <math\CVector3.h>
+#include <math/CVector3.h>
 
 CVector3::CVector3() {
 	// TODO Auto-generated constructor stub
