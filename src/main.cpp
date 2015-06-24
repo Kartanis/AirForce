@@ -7,6 +7,7 @@
 #include "Core/Shader_Loader.h"
 #include "ui\screens\ModelViewScreen.h"
 #include "ui\window\Window.h"
+#include "FileSyestem\ObjModelReader.h"
 
 using namespace Core;
 
@@ -24,6 +25,9 @@ x refactoring
 */
 
 int main(int argc, char **argv) {
+	ObjModelReader modelReader;
+	modelReader.load("cube.obj");
+	
 	Window &window = Window::getInstance();
 	window.setScreen(new ModelViewScreen(argc, argv));
 	window.getScreen()->init();

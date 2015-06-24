@@ -3,15 +3,7 @@
 #include "Screen.h"
 #include "../../model/Model.h"
 #include "../../model/Terrain.h"
-
-class Model;
-class Terrain;
-
-class CVector3
-{
-public:
-	float x, y, z;
-};
+#include "../../Core/CVector3.h"
 
 class ModelViewScreen :
 	public gui::Screen

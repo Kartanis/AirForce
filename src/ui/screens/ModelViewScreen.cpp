@@ -4,6 +4,52 @@
 #include <iostream>
 
 int rot = 0;
+/*
+float PlaneDistance(CVector3 a, CVector3 b)
+{
+	return sqrt((a.x - b.x)*(a.x - b.x) + (a.y - b.y)*(a.y - b.y) + (a.z - b.z)*(a.z - b.z)); 
+}
+
+float Normal(CVector3 vPolygon[])
+{
+	CVector3 vVector1 = vPolygon[2] - vPolygon[0];
+	CVector3 vVector2 = vPolygon[1] - vPolygon[0];
+	CVector3 vNormal = Cross(vVector1, vVector2);
+	vNormal = Normalize(vNormal);
+	return vNormal;
+}
+
+bool IntersectedPlane(CVector3 vPoly[], CVector3 vLine[],
+	CVector3 &vNormal, float &originDistance)
+{
+	float distance1 = 0, distance2 = 0;                  vNormal = Normal(vPoly);
+	originDistance = PlaneDistance(vNormal, vPoly[0]);
+
+	distance1 = ((vNormal.x * vLine[0].x) + (vNormal.y * vLine[0].y) +
+		(vNormal.z * vLine[0].z)) + originDistance;
+	distance2 = ((vNormal.x * vLine[1].x) + (vNormal.y * vLine[1].y) +
+		(vNormal.z * vLine[1].z)) + originDistance;
+
+	if (distance1 * distance2 >= 0) return false;
+	return true;
+}
+
+*/
+
+void drawSelected() {
+	glColor3f(1.0f, 1.0f, 0.0f);
+	glBegin(GL_QUADS);
+	glVertex3f(0.0f, 0.0f, 0.0f);
+	glVertex3f(1.0f, 0.0f, 0.0f);
+	glVertex3f(1.0f, 0.0f, 1.0f);
+	glVertex3f(0.0f, 0.0f, 1.0f);
+	glEnd();
+}
+
+void checkSelected() {
+
+}
+
 
 ModelViewScreen::ModelViewScreen(int argc, char **argv) : gui::Screen(argc, argv)
 {
@@ -96,6 +142,7 @@ void ModelViewScreen::renderScene() {
 	glVertex3f(unprojectedVectorFar.x, unprojectedVectorFar.y, unprojectedVectorFar.z);
 	glVertex3f(unprojectedVectorNear.x, unprojectedVectorNear.y, unprojectedVectorNear.z);
 	glEnd();
+	drawSelected();
 	glutSwapBuffers();
 
 }
@@ -113,8 +160,8 @@ void ModelViewScreen::keyboardAction(unsigned char key, int x, int y) {
 	case 'a': case 'A': //toggle screenmode
 		camera.moveLeft();
 		break;
-	case 's': case 'S': camera.moveDown(); break;
-	case 'w': case 'W': camera.moveUp(); break;
+	case 's': case 'S': camera.moveBack(); break;
+	case 'w': case 'W': camera.moveForward(); break;
 	case 'd': case 'D': camera.moveRight(); break;
 	case 'q': case 'Q': rot -= 15; // camera.moveLeftSide(); 
 		break;
@@ -132,8 +179,11 @@ void ModelViewScreen::mouseClick(int button, int state, int x, int y) {
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
 	{
 		unProjectMouse(x, y);
-	}
-	else {
+	} else if (button == 3 && state == GLUT_DOWN) {
+		this->camera.moveDown();
+	} else if (button == 4 && state == GLUT_DOWN) {
+		this->camera.moveUp();
+	} else {
 		Screen::mouseClick(button, state, x, y);
 	}
 }
@@ -172,5 +222,6 @@ void ModelViewScreen::unProjectMouse(int x, int y) {
 	unprojectedVectorFar.x = wx;
 	unprojectedVectorFar.y = wy;
 	unprojectedVectorFar.z = wz;
-}
 
+	checkSelected();
+}
