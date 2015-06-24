@@ -10,7 +10,7 @@
 #include <string>
 #include <vector>
 #include "../model/Model.h"
-#include "../Core/CVector3.h"
+#include <math/CVector3.h>
 
 class ObjModelReader {
 public:

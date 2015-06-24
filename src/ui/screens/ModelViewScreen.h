@@ -3,7 +3,7 @@
 #include "Screen.h"
 #include "../../model/Model.h"
 #include "../../model/Terrain.h"
-#include "../../Core/CVector3.h"
+#include <math/CVector3.h>
 
 class ModelViewScreen :
 	public gui::Screen

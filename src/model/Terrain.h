@@ -1,6 +1,6 @@
 #pragma once
 #include "Model.h"
-#include "../Core/CVector3.h"
+#include <math/CVector3.h>
 class Terrain :
 	public Model
 {
