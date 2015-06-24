@@ -1,6 +1,6 @@
 #include "Terrain.h"
 #include <iostream>
-#include "../../Math.h"
+#include <math/Math.h>
 
 
 Terrain::Terrain()
