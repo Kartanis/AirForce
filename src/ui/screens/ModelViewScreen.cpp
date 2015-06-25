@@ -37,13 +37,19 @@ bool IntersectedPlane(CVector3 vPoly[], CVector3 vLine[],
 
 */
 
-void drawSelected() {
+void drawSelected(CVector3 intersection) {
+
 	glColor3f(1.0f, 1.0f, 0.0f);
 	glBegin(GL_QUADS);
-	glVertex3f(0.0f, 0.0f, 0.0f);
-	glVertex3f(1.0f, 0.0f, 0.0f);
-	glVertex3f(1.0f, 0.0f, 1.0f);
-	glVertex3f(0.0f, 0.0f, 1.0f);
+
+	int x = (int)(intersection.x);
+	int z = (int)(intersection.z);
+	float y = -0.0f;
+
+	glVertex3f(x, y, z);
+	glVertex3f(x, y, z + 1.0f);
+	glVertex3f(x + 1.0f, y, z + 1.0f);
+	glVertex3f(x + 1.0f, y, z);
 	glEnd();
 }
 
@@ -145,7 +151,7 @@ void ModelViewScreen::renderScene() {
 	glVertex3f(unprojectedVectorFar.x, unprojectedVectorFar.y, unprojectedVectorFar.z);
 	glVertex3f(unprojectedVectorNear.x, unprojectedVectorNear.y, unprojectedVectorNear.z);
 	glEnd();
-	drawSelected();
+	drawSelected(this->lastIntersect);
 	glutSwapBuffers();
 
 }
