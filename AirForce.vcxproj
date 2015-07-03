@@ -16,6 +16,7 @@
     <ClCompile Include="src\GLSLUtils.cpp" />
     <ClCompile Include="src\GUI\features\BlinkedMark.cpp" />
     <ClCompile Include="src\GUI\features\Mark.cpp" />
+    <ClCompile Include="src\json\jsoncpp.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\math\CVector3.cpp" />
     <ClCompile Include="src\math\Math.cpp" />
