@@ -1,4 +1,4 @@
-#include "Model.h"
+#include <models\Model.h>
 
 #include "../../Dependencies/glew/glew.h"
 

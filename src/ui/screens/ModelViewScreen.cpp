@@ -1,6 +1,6 @@
 #include "ModelViewScreen.h"
-#include "../../model/Cube.h"
-#include "../../model/House.h"
+#include <models\Cube.h>
+#include <models\House.h>
 #include <iostream>
 #include <math.h>
 

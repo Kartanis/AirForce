@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Screen.h"
-#include "../../model/Model.h"
-#include "../../model/Terrain.h"
+#include <models\Model.h>
+#include <models\Terrain.h>
 #include <math/CVector3.h>
 
 class ModelViewScreen :

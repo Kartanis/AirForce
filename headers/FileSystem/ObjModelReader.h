@@ -9,7 +9,7 @@
 
 #include <string>
 #include <vector>
-#include "../model/Model.h"
+#include <models/Model.h>
 #include <math/CVector3.h>
 
 class ObjModelReader {
