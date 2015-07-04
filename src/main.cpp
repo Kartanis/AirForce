@@ -31,8 +31,11 @@ int main(int argc, char **argv) {
 	Json::Value root;   // will contains the root value after parsing.
 	Json::Reader reader;
 	FileReader fr("resources/maps/ancient_kiev.map");
-	bool parsingSuccessful = reader.parse(
-		"{ 	\"id\": \"ancient_kiev\", 	\"name\": \"Ancient Kiev\", 	\"objects\": [ 		\n{\"name\": \"Oak\", \"id\": \n\"oak\",\" position\":\n{\"x\": 0.0,\"y\":0.0,\n\" z\": 0.0},\" rotate\": {\"x\": 0.0,\" y\": 0.0,\" z\": 0.0}},  		\n{\"name\": \n\"House\", \"id\": \n\"house\",\" position\": {\"x\": 10.0,\" y\": 0.0,\" z\": 0.0},\" rotate\": {\" x\": 0.0,\" y\": 0.0,\" z\": 0.0}} 	] }", root);
+
+	std::string line = fr.readLine();
+	std::cout << line << "\n";
+
+	bool parsingSuccessful = reader.parse(line, root);
 	//bool parsingSuccessful = reader.parse(" {      \"encoding\" : \"UTF-8\",           \"plug-ins\" : [         \"python\",         \"c++\",         \"ruby\"         ],               \"indent\" : { \"length\" : 3, \"use_space\": true } }", root);
 	if (!parsingSuccessful)
 	{
@@ -48,11 +51,7 @@ int main(int argc, char **argv) {
 	std::cout << encoding << "\n";
 	// Get the value of the member of root named 'encoding', return a 'null' value if
 	// there is no such member.
-	const Json::Value plugins = root["objects"];
-	for (int index = 0; index < plugins.size(); ++index)  // Iterates over the sequence elements. 
-	{		
-		std::cout << plugins[index];
-	}
+	
 
 	// And you can write to a stream, using the StyledWriter automatically.
 	//std::cout << root << "\n";

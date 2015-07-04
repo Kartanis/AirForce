@@ -31,9 +31,8 @@ std::string FileReader::readLine(){
 	while (getline(this->file, line)) {
 		return line;
 	}
-
-	file.close();
 }
+
 bool FileReader::writeLine(std::string line){
 	return false;
 }
