@@ -27,6 +27,11 @@ Model::~Model()
 	glDeleteBuffers(1, &indexVBO);
 }
 
+/*Model::Model(ObjModelReader reader) {
+
+	this->data = new float[reader.getVerticesNumber()];
+	this->indices = new unsigned int[reader.getFacesNumber()];
+}*/
 
 Model::Model()
 {

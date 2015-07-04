@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../../Dependencies/glew/glew.h"
+#include <FileSystem\ObjModelReader.h>
 
 class Model
 {
@@ -10,6 +11,7 @@ public:
 	static const int POINTS_PER_VERTEX = 3;
 
 	Model();
+//	Model(ObjModelReader reader);
 	~Model();
 
 	float* Model::calculateNormal(float* coord1, float* coord2, float* coord3);
