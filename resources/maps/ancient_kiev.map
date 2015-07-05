@@ -1,0 +1,1 @@
+{ "id": "ancient_kiev", "name": "Ancient Kiev", "objects": [ {"name": "Oak", "id": "oak","position": {"x": 0.0,"y":0.0,"z": 0.0},"rotate": {"x": 0.0,"y": 0.0,"z": 0.0}}, {"name": "House", "id": "house","position": {"x": 10.0,"y": 0.0,"z": 0.0},"rotate": {"x": 0.0,"y": 0.0,"z": 0.0}} ] }
