@@ -11,6 +11,7 @@ class ModelViewScreen :
 private:
 	Model* model;
 	Terrain* terrain; 
+	Model* cube;
 
 	CVector3 unprojectedVectorFar, unprojectedVectorNear;
 	CVector3 lastIntersect;

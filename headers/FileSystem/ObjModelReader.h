@@ -9,7 +9,6 @@
 
 #include <string>
 #include <vector>
-#include <models/Model.h>
 #include <math/CVector3.h>
 
 enum ParsingElement{

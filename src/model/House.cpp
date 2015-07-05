@@ -17,7 +17,9 @@ House::House()
 	this->indicesNumber = 3720*3;
 
 	data = new float[verticesNumber * Model::POINTS_PER_VERTEX]
-	{-0.533440f, 1.599902f, 0.821593f,
+	{
+		// 0.0f,
+	-0.533440f, 1.599902f, 0.821593f,
 	2.543983f, 1.599902f, 0.821593f,
 	-0.533440f, 1.559253f, 0.825597f,
 	2.543983f, 1.559253f, 0.825597f,
@@ -5660,7 +5662,7 @@ House::House()
 	1873, 1881, 1889,
 	1857, 1865, 1873,
 	1873, 1905, 1857};
-
+	
 	for (int i = 0; i < this->indicesNumber; i++) {
 		this->indices[i]--;
 	}

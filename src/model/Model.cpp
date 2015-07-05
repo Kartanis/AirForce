@@ -16,29 +16,60 @@
 
 #define KEY_ESCAPE 27
 
-#define POINTS_PER_VERTEX 3
 #define TOTAL_FLOATS_IN_TRIANGLE 9
 
 using namespace std;
 
 Model::~Model()
-{
-	glDeleteBuffers(1, &triangleVBO);
-	glDeleteBuffers(1, &indexVBO);
+{ 
+	glDeleteBuffers(1, &this->indexVBO);
+	glDeleteBuffers(1, &this->triangleVBO);
+	delete data;
+	delete indices;
 }
 
-/*Model::Model(ObjModelReader reader) {
+Model::Model(ObjModelReader reader) {
+	//Model::Model();
+	cout << "Model from reader called.." << "\n";
 
-	this->data = new float[reader.getVerticesNumber()];
-	this->indices = new unsigned int[reader.getFacesNumber()];
-}*/
+	this->TotalConnectedTriangles = 0;
+	this->TotalConnectedPoints = 0;
+	
+	this->verticesNumber = reader.getVertices().size();
+	this->indicesNumber = reader.getFaces().size();
+	cout << "Model from reader called..2.1" << "\n";
+	cout << "vertNum: " << reader.getVertices().size() << "\n";
+	cout << "faceNum:" << reader.getFaces().size() << "\n";
+	cout << "verticesNumber:" << verticesNumber << "\n";
+	cout << "indicesNumber:" << indicesNumber << "\n";
+
+	this->data = new float[verticesNumber * Model::POINTS_PER_VERTEX];
+	this->indices = new unsigned int[indicesNumber];
+	cout << "Model from reader called..2" << "\n";
+
+	for (int i = 0; i < verticesNumber; i++) {
+		cout << i << ". " << reader.getVertices()[i]; 
+		if((i+1)%3 == 0)
+			cout<< "\n";
+		data[i * Model::POINTS_PER_VERTEX] = reader.getVertices()[i].x;
+		data[i * Model::POINTS_PER_VERTEX + 1] = reader.getVertices()[i].y;
+		data[i * Model::POINTS_PER_VERTEX + 2] = reader.getVertices()[i].z;
+	}
+
+	cout << "Model from reader called..3" << "\n";
+	for (int i = 0; i < indicesNumber; i++) {
+		indices[i] = (unsigned int)reader.getFaces()[i].x - 1;
+	}
+
+	cout << "Model from reader called..4" << "\n";
+	
+}
 
 Model::Model()
 {
 	cout << "Model called.." << "\n";
 	this->TotalConnectedTriangles = 0;
 	this->TotalConnectedPoints = 0;
-
 }
 
 void Model::init() {
@@ -47,6 +78,9 @@ void Model::init() {
 	/* Создание новго VBO и использование переменной "triangleVBO" для сохранения VBO id */
 	glGenBuffers(1, &this->triangleVBO);
 	glGenBuffers(1, &this->indexVBO);
+
+	cout << "triangleVBO::" + this->triangleVBO<<"\n";
+	cout << "indexVBO::" + this->indexVBO << "\n";
 	
 	//cout << "triangleVBO" << this->triangleVBO<<"\n";
 	//exit(0);
@@ -57,19 +91,25 @@ void Model::init() {
 	
 	cout << "indicesNumber : " << indicesNumber << "\n";
 
-	cout << "triangleVBO" << triangleVBO << "\n";
-	cout << "indexVBO" << indexVBO << "\n";
+	cout << "triangleVBO:" << triangleVBO << "\n";
+	cout << "indexVBO:" << indexVBO << "\n";
+
+
+	cout << "triangleVBO::" << this->triangleVBO << "\n";
+	cout << "indexVBO::" << this->indexVBO << "\n";
 	
 	/* Делаем новый VBO активным */
 	glBindBuffer(GL_ARRAY_BUFFER, this->triangleVBO);
 	/* Выгружаем данные в видеоустройство */
+	cout << "glBindBuffer::" << "1\n";
 	glBufferData(GL_ARRAY_BUFFER, this->verticesNumber * POINTS_PER_VERTEX * sizeof(float), this->data, GL_STATIC_DRAW);
-
+	cout << "glBufferData::" << "\n";
+	//glBindBuffer(GL_ARRAY_BUFFER, 0);
+	cout << "glBindBuffer::" << "0\n";
 	
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->indexVBO);
-
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->indicesNumber * sizeof(unsigned int), this->indices, GL_STATIC_DRAW);
-	
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	/* Указываем что наши данные координат в индексе атрибутов, равный 0 (shaderAttribute), и содержат POINTS_PER_VERTEX числа с плавающей точкой на вершину */
 	glVertexAttribPointer(this->shaderAttribute, POINTS_PER_VERTEX, GL_FLOAT, GL_FALSE, 0, 0);
 
@@ -77,7 +117,7 @@ void Model::init() {
 	glEnableVertexAttribArray(this->shaderAttribute);
 
 	/* Делаем новый VBO активным */
-	glBindBuffer(GL_ARRAY_BUFFER, this->triangleVBO);
+	//glBindBuffer(GL_ARRAY_BUFFER, this->triangleVBO);
 
 	/*--------------------- Загрузка Vertex и Fragment из файлов и их компиляция --------------------*/
 	/* Читаем код шейдеров в соответствующие выделенные динамически буферы */
@@ -117,6 +157,8 @@ void Model::init() {
 
 	/* Установка нашей программы шейдера активной */
 	glUseProgram(shaderProgram);
+
+	this->inited = true;
 }
 
 float* Model::calculateNormal(float *coord1, float *coord2, float *coord3)
@@ -262,6 +304,14 @@ void Model::Release()
 
 void Model::Draw()
 {
+	if (!inited) {
+		cout << "not inited\n";
+		return;
+	}
+
+	cout << "triangleVBO::" << triangleVBO << "\n";
+	cout << "indexVBO::" << indexVBO << "\n";
+
 	// Enable to draw Wireframe 
 	if (isWireFrame) {
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -269,9 +319,19 @@ void Model::Draw()
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
 
+	cout << "--------------------------------1-------------------------\n";
 	glEnableClientState(GL_VERTEX_ARRAY);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->indexVBO);
-	glDrawElements(GL_TRIANGLES, this->indicesNumber, GL_UNSIGNED_INT, (void*)0);
+	cout << "--------------------------------2-------------------------\n";
+	glBindBuffer(GL_ARRAY_BUFFER, triangleVBO);
+	cout << "--------------------------------3-------------------------\n";
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexVBO);
+	cout << "--------------------------------4-------------------------\n";
+	glDrawElements(GL_TRIANGLES, indicesNumber, GL_UNSIGNED_INT, (void*)0);
+	cout << "--------------------------------5-------------------------\n";
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	cout << "--------------------------------6-------------------------\n";
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	cout << "--------------------------------7-------------------------\n";
 
 	glPopMatrix();
 }

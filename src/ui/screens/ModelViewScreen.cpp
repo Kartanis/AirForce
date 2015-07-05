@@ -60,8 +60,16 @@ void checkSelected() {
 
 ModelViewScreen::ModelViewScreen(int argc, char **argv) : gui::Screen(argc, argv)
 {
-	this->model = new House();
-	this->model->init();
+
+	ObjModelReader modelReader;
+	modelReader.load("cube.obj");
+
+	this->cube = new Model(modelReader);
+	this->cube->init();
+
+	// this->model = new House();
+	//this->model->init();
+
 
 // 	this->terrain = new Terrain();
 // 	this->terrain->init();
@@ -143,9 +151,12 @@ void ModelViewScreen::renderScene() {
 	//glutSolidSphere(1, 15, 15);
 	glColor3f(1.0f, 1.0f, 1.0f);
 	
-	this->model->Draw();
+	//this->model->Draw();
+	this->cube->Draw();
+	
 	//this->terrain->Draw();
 	glPopMatrix();
+	
 	 drawGround2();
 	glBegin(GL_LINE_STRIP);
 	glVertex3f(unprojectedVectorFar.x, unprojectedVectorFar.y, unprojectedVectorFar.z);

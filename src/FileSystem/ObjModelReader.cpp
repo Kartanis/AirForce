@@ -30,6 +30,14 @@ void ObjModelReader::load(std::string filename) {
 
 	 modelFile.close();
 
+
+	 for (int i = 0; i < this->vertices.size(); i++) {
+		 std::cout << "v" << vertices[i];
+		 if ((i + 1) % 3 == 0) {
+			 std::cout << std::endl;
+		 }
+	 }
+
 	 for (int i = 0; i < this->faces.size(); i++) {
 		 std::cout << "f" << faces[i];
 		 if ((i + 1) % 3 == 0) {
@@ -116,13 +124,13 @@ short ObjModelReader::parseFaces(std::string line, CVector3& res) {
 			do {
 				tokens = token.substr(0, internalPos);
 
-				std::cout << "ts::" << tokens << "::tn::" << token << std::endl;
+//				std::cout << "ts::" << tokens << "::tn::" << token << std::endl;
 				switch (++pe) {
 				case PREFIX: break;
 				case X: res.x = atof(tokens.c_str()); std::cout << "x<-" << tokens << "(" << res.x << ")\n"; break;
 				case Y: res.y = atof(tokens.c_str()); std::cout << "z<-" << tokens << "(" << res.y << ")\n";  break;
 				}
-				std::cout << "t:" << tokens << std::endl;
+//				std::cout << "t:" << tokens << std::endl;
 				token.erase(0, internalPos + internalDelimiter.length());
 			} while ((internalPos = token.find(internalDelimiter)) != std::string::npos);
 		}
@@ -130,36 +138,36 @@ short ObjModelReader::parseFaces(std::string line, CVector3& res) {
 			continue;
 		}
 			
-		std::cout << "ts::" << tokens << "::tn::" << token << std::endl;
+		//std::cout << "ts::" << tokens << "::tn::" << token << std::endl;
 		res.z = atof(token.c_str());
-		std::cout << "z<-" << token << "(" << res.z << ")\n";
-		std::cout << res << std::endl;
+		//std::cout << "z<-" << token << "(" << res.z << ")\n";
+		//std::cout << res << std::endl;
 		this->faces.push_back(res);
 		this->facesNumber++;
 	}
 
-	std::cout << "line::" + line << std::endl;
-	std::cout << "token::" + token<<std::endl;
+	//std::cout << "line::" + line << std::endl;
+	//std::cout << "token::" + token<<std::endl;
 	token = line;
 	pe = PREFIX;
 	while ((internalPos = token.find(internalDelimiter)) != std::string::npos) {
 		tokens = token.substr(0, internalPos);
 
-		std::cout << "ts::" << tokens << "::tn::" << token << std::endl;
+		//std::cout << "ts::" << tokens << "::tn::" << token << std::endl;
 		switch (++pe) {
 		case PREFIX: break;
 		case X: res.x = atof(tokens.c_str()); std::cout << "x<-" << tokens << "(" << res.x << ")\n"; break;
 		case Y: res.y = atof(tokens.c_str()); std::cout << "z<-" << tokens << "(" << res.y << ")\n";  break;
 		}
-		std::cout << "t:" << tokens << std::endl;
+		//std::cout << "t:" << tokens << std::endl;
 		token.erase(0, internalPos + internalDelimiter.length());
 	}
-	std::cout << "ts::" << tokens << "::tn::" << token << std::endl;
+	//std::cout << "ts::" << tokens << "::tn::" << token << std::endl;
 	res.z = atof(token.c_str());
 	this->faces.push_back(res);
 	this->facesNumber++;
-	std::cout << "z<-" << token << "(" << res.z << ")\n";
-	std::cout << res << std::endl;
+	//std::cout << "z<-" << token << "(" << res.z << ")\n";
+	//std::cout << res << std::endl;
 	return EXIT_SUCCESS;
 }
 
@@ -184,3 +192,20 @@ std::string ObjModelReader::parseId(std::string line) {
 	// Model m;
 	//m.
 //}
+
+
+int ObjModelReader::getVerticesNumber() {
+	return this->verticesNumber;
+}
+
+int ObjModelReader::getFacesNumber() {
+	return this->facesNumber;
+}
+
+std::vector<CVector3> ObjModelReader::getVertices() {
+	return this->vertices;
+}
+
+std::vector<CVector3> ObjModelReader::getFaces() {
+	return this->faces;
+}
