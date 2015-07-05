@@ -11,6 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="headers\tga\tga.c" />
+    <ClCompile Include="headers\tga\tgaread.c" />
+    <ClCompile Include="headers\tga\tgawrite.c" />
     <ClCompile Include="src\Core\Shader_Loader.cpp" />
     <ClCompile Include="src\FileSystem\FileReader.cpp" />
     <ClCompile Include="src\FileSystem\ObjModelReader.cpp" />
@@ -46,6 +49,8 @@
     <ClInclude Include="headers\models\House.h" />
     <ClInclude Include="headers\models\Model.h" />
     <ClInclude Include="headers\models\Terrain.h" />
+    <ClInclude Include="headers\tga\tga.h" />
+    <ClInclude Include="headers\tga\tgaconfig.h" />
     <ClInclude Include="src\Core\Shader_Loader.h" />
     <ClInclude Include="src\GUI\features\BlinkedMark.h" />
     <ClInclude Include="src\GUI\features\Mark.h" />
