@@ -6,6 +6,9 @@
 class Model
 {
 private: 
+	CVector3 pos;
+	CVector3 rot;
+	unsigned short rotDegree;
 
 	void drawVertex(unsigned int ind);
 public:
@@ -21,6 +24,9 @@ public:
 	virtual void Model::Draw();				// Draws the model on the screen
 	void Model::Release();					// Release the model
 	void init();
+	void translate(CVector3);
+	void rotate(unsigned short, CVector3);
+	void rotate(unsigned short);
 
 protected:
 	float* normals;							// Stores the normals

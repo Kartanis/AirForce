@@ -4,7 +4,6 @@
 #include <iostream>
 #include <math.h>
 
-int rot = 0;
 /*
 float PlaneDistance(CVector3 a, CVector3 b)
 {
@@ -139,25 +138,14 @@ void drawGround2() {
 void ModelViewScreen::renderScene() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
-	//gluLookAt(0, 5, 10, 0, 0, 0, 0, 1, 0);
 	camera.applyView();
 	glPushMatrix();
-	glRotatef(rot % 360, 0, 1, 0);
-	glTranslatef(lastIntersect.x, lastIntersect.y, lastIntersect.z);
-	// glRotatef(90, 0, 1, 0);
-	//	g_rotation++;
-	//glutSolidSphere(5, 15, 15);
-	glColor3f(1.0f, 0.0f, 1.0f);
-	//glutSolidSphere(1, 15, 15);
 	glColor3f(1.0f, 1.0f, 1.0f);
 	
-	this->cube->Draw();
 	this->model->Draw();
-	
-	
-	//this->terrain->Draw();
+		
 	glPopMatrix();
-	
+	this->cube->Draw();
 	 drawGround2();
 	glBegin(GL_LINE_STRIP);
 	glVertex3f(unprojectedVectorFar.x, unprojectedVectorFar.y, unprojectedVectorFar.z);
@@ -184,10 +172,12 @@ void ModelViewScreen::keyboardAction(unsigned char key, int x, int y) {
 	case 's': case 'S': camera.moveBack(); break;
 	case 'w': case 'W': camera.moveForward(); break;
 	case 'd': case 'D': camera.moveRight(); break;
-	case 'q': case 'Q': rot -= 15; // camera.moveLeftSide(); 
+	case 'q': case 'Q': 
+		this->model->rotate(-90);
 		break;
-	case 'e': case 'E': rot += 15;
-		// camera.moveRightSide(); 
+	case 'e': case 'E': 
+		
+		this->model->rotate(+90);
 		break;
 	default:
 		Screen::keyboardAction(key, x, y);
@@ -246,5 +236,6 @@ void ModelViewScreen::unProjectMouse(int x, int y) {
 	
 	terrain->intersect(unprojectedVectorNear, unprojectedVectorFar, &lastIntersect);
 
+	this->model->translate(lastIntersect);
 	checkSelected();
 }

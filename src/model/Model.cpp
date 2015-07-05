@@ -34,6 +34,15 @@ Model::Model(ObjModelReader reader) {
 
 	this->TotalConnectedTriangles = 0;
 	this->TotalConnectedPoints = 0;
+
+	this->rotDegree = 0;
+	this->pos.x = 0.0f;
+	this->pos.y = 0.0f;
+	this->pos.z = 0.0f;
+
+	this->rot.x = 0.0f;
+	this->rot.y = 0.0f;
+	this->rot.z = 0.0f;
 	
 	this->verticesNumber = reader.getVertices().size();
 	this->indicesNumber = reader.getFaces().size();
@@ -74,6 +83,15 @@ Model::Model()
 	cout << "Model called.." << "\n";
 	this->TotalConnectedTriangles = 0;
 	this->TotalConnectedPoints = 0;
+
+	this->rotDegree = 0;
+	this->pos.x = 0.0f;
+	this->pos.y = 0.0f;
+	this->pos.z = 0.0f;
+
+	this->rot.x = 0.0f;
+	this->rot.y = 0.0f;
+	this->rot.z = 0.0f;
 }
 
 void Model::init() {
@@ -315,8 +333,20 @@ void Model::drawVertex(unsigned int ind) {
 
 void Model::Draw()
 {
-	
+
 	cout << "-------------------------------------Start to Draw() ------------------------------------------------\n";
+	// Enable to draw Wireframe 
+	if (isWireFrame) {
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	}
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+
+	glTranslatef(this->pos.x, this->pos.y, this->pos.z);
+	//glRotatef(this->rotDegree % 360, 1, 0, 0);
+	glRotatef(this->rotDegree % 360, 0, 1, 0);
+	//glRotatef(this->rotDegree % 360, 0, 0, 1);
+		
 	for (int i = 0; i < indicesNumber; i += 3) {
 		if (indicesNumber< 100) {
 			cout << "i:" << i << "\t" << "pos:" << indices[i] << "\tx:" << data[indices[i] * 3] << "\ty:" << data[indices[i] * 3 + 1] << "\tz:" << data[indices[i] * 3 + 2] << "\n";
@@ -331,7 +361,11 @@ void Model::Draw()
 
 		glEnd();
 	}
+
+
+	glPopMatrix();
 	cout << "-------------------------------------End to Draw() ------------------------------------------------\n";
+	
 	return;
 	if (!inited) {
 		cout << "not inited\n";
@@ -340,13 +374,8 @@ void Model::Draw()
 	cout << "triangleVBO::" << triangleVBO << "\n";
 	cout << "indexVBO::" << indexVBO << "\n";
 
-	// Enable to draw Wireframe 
-	if (isWireFrame) {
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	}
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
 	
+
 	cout << "--------------------------------1-------------------------\n";
 	glEnableClientState(GL_VERTEX_ARRAY);
 	cout << "--------------------------------2-------------------------\n";
@@ -362,7 +391,6 @@ void Model::Draw()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	cout << "--------------------------------7-------------------------\n";
 
-	glPopMatrix();
 }
 
 /*       Function will read a text file into allocated char buffer       */
@@ -385,3 +413,23 @@ char* Model::filetobuf(char *file)
 
 	return buf; /* Return the buffer */
 }
+
+void Model::translate(CVector3 pos) {
+	this->pos = pos;
+}
+
+void Model::rotate(unsigned short rotDegree, CVector3 rot) {
+	this->rotDegree = rotDegree;
+	this->rot = rot;
+
+	if (this->rotDegree > 360)
+		this->rotDegree %= 360;
+}
+
+
+void Model::rotate(unsigned short rotDegree) {
+	this->rotDegree += rotDegree;
+	if (this->rotDegree < 0 || 360 < this->rotDegree)
+		this->rotDegree %= 360;
+}
+
