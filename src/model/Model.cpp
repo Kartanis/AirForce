@@ -1,6 +1,7 @@
 #include <models\Model.h>
 
 #include "../../Dependencies/glew/glew.h"
+#include "../../Dependencies/freeglut/freeglut.h"
 
 #include <iostream>
 #include <fstream>
@@ -13,12 +14,80 @@
 #include <string>
 #include <vector>
 #include <cmath>
+#include <tga\tga.h>
 
 #define KEY_ESCAPE 27
 
 #define TOTAL_FLOATS_IN_TRIANGLE 9
 
 using namespace std;
+
+
+GLuint LoadGLTexture(GLvoid)
+{
+	TGA *tga;
+	TGAData *data;
+
+	data = (TGAData*)malloc(sizeof(TGAData));
+	if (!data) {
+		TGA_ERROR((TGA*)NULL, TGA_OOM);
+		return 0;
+	}
+
+	printf("[open] name=%s, mode=%s\n", "background.tga", "r");
+	tga = TGAOpen("background.tga", "r");
+	if (!tga || tga->last != TGA_OK) {
+		TGA_ERROR(tga, TGA_OPEN_FAIL);
+		return 0;
+	}
+
+	printf("[read] image\n");
+	data->flags = TGA_IMAGE_INFO | TGA_IMAGE_DATA;;
+	if (TGAReadImage(tga, data) != TGA_OK) {
+		TGA_ERROR(tga, TGA_READ_FAIL);
+		return 0;
+	}
+
+	if (data->flags & TGA_IMAGE_INFO) {
+		printf("[info] width=%i\n", tga->hdr.width);
+		printf("[info] height=%i\n", tga->hdr.height);
+
+		printf("[info] color map type=%i\n", tga->hdr.map_t);
+
+		printf("[info] image type=%i\n", tga->hdr.img_t);
+
+		printf("[info] depth=%i\n", tga->hdr.depth);
+		printf("[info] x=%i\n", tga->hdr.x);
+		printf("[info] y=%i\n", tga->hdr.y);
+		printf("[info] orientation=%s-%s\n",
+			(tga->hdr.vert == TGA_BOTTOM) ?
+			"bottom" : "top",
+			(tga->hdr.horz == TGA_LEFT) ?
+			"left" : "right");
+	}
+
+	std::cout << "------------------------------------Loading texture 0 -------------------------------------\n";
+	GLuint textureID;
+	glGenTextures(1, &textureID);
+
+	// Сделаем созданную текстуру текущий, таким образом все следующие функции будут работать именно с этой текстурой
+	glBindTexture(GL_TEXTURE_2D, textureID);
+
+	// Передадим изображение OpenGL
+	std::cout << "------------------------------------Loading texture 1 -------------------------------------\n";
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, tga->hdr.width, tga->hdr.height, 0, GL_BGR, GL_UNSIGNED_BYTE, data->img_data);
+	std::cout << "------------------------------------Loading texture 2 -------------------------------------\n";
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	std::cout << "------------------------------------Loading texture 3 -------------------------------------\n";
+
+	printf("[close]\n");
+	TGAClose(tga);
+	printf("[exit] main\n");
+
+	return textureID;
+}
 
 Model::~Model()
 { 
@@ -75,6 +144,7 @@ Model::Model(ObjModelReader reader) {
 	}
 
 	cout << "Model from reader called..4" << "\n";
+	this->textureId = LoadGLTexture();
 	
 }
 
@@ -328,12 +398,14 @@ void Model::Release()
 
 void Model::drawVertex(unsigned int ind) {
 	int pos = ind * Model::POINTS_PER_VERTEX;
+
+	
+
 	glVertex3f(data[pos], data[pos + 1], data[pos + 2]);
 }
 
 void Model::Draw()
 {
-
 	cout << "-------------------------------------Start to Draw() ------------------------------------------------\n";
 	// Enable to draw Wireframe 
 	if (isWireFrame) {
@@ -346,19 +418,36 @@ void Model::Draw()
 	//glRotatef(this->rotDegree % 360, 1, 0, 0);
 	glRotatef(this->rotDegree % 360, 0, 1, 0);
 	//glRotatef(this->rotDegree % 360, 0, 0, 1);
-		
+
+	// glColor3f(1.0f, 0.0f, 0.0f);
+	glBegin(GL_QUADS);
+
+	int x = (int)(pos.x);
+	int z = (int)(pos.z);
+	float y = -0.4f;
+
+	glVertex3f(x, y, z);
+	glVertex3f(x, y, z + 1.0f);
+	glVertex3f(x + 1.0f, y, z + 1.0f);
+	glVertex3f(x + 1.0f, y, z);
+	glEnd();
+
+	if (indicesNumber < 100) {
+		glBindTexture(GL_TEXTURE_2D, this->textureId);
+	}
+
 	for (int i = 0; i < indicesNumber; i += 3) {
-		if (indicesNumber< 100) {
+		if (indicesNumber < 100) {
 			cout << "i:" << i << "\t" << "pos:" << indices[i] << "\tx:" << data[indices[i] * 3] << "\ty:" << data[indices[i] * 3 + 1] << "\tz:" << data[indices[i] * 3 + 2] << "\n";
 			cout << "i:" << i << "\t" << "pos:" << indices[i+1] << "\tx:" << data[indices[i+1] * 3] << "\ty:" << data[indices[i+1] * 3 + 1] << "\tz:" << data[indices[i+1] * 3 + 2] << "\n";
 			cout << "i:" << i << "\t" << "pos:" << indices[i+2] << "\tx:" << data[indices[i+2] * 3] << "\ty:" << data[indices[i+2] * 3 + 1] << "\tz:" << data[indices[i+2] * 3 + 2] << "\n";
 		}
 		glBegin(GL_TRIANGLES);
 
-		drawVertex(indices[i]);
-		drawVertex(indices[i + 1]);
-		drawVertex(indices[i + 2]);
-
+		if (indicesNumber < 100) glTexCoord2f(0.0f, 0.0f); drawVertex(indices[i]);
+		if (indicesNumber < 100) glTexCoord2f(1.0f, 0.0f); drawVertex(indices[i + 1]);
+		if (indicesNumber < 100) glTexCoord2f(1.0f, 1.0f); drawVertex(indices[i + 2]);
+		
 		glEnd();
 	}
 

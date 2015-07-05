@@ -3,6 +3,7 @@
 #include <models\House.h>
 #include <iostream>
 #include <math.h>
+#include <tga\tga.h>
 
 /*
 float PlaneDistance(CVector3 a, CVector3 b)
@@ -43,7 +44,7 @@ void drawSelected(CVector3 intersection) {
 
 	int x = (int)(intersection.x);
 	int z = (int)(intersection.z);
-	float y = -0.0f;
+	float y = -0.4f;
 
 	glVertex3f(x, y, z);
 	glVertex3f(x, y, z + 1.0f);
@@ -83,6 +84,8 @@ ModelViewScreen::~ModelViewScreen()
 {
 }
 
+
+
 void ModelViewScreen::init(void){
 
 	std::cout << "init...";
@@ -117,6 +120,8 @@ void ModelViewScreen::init(void){
 }
 
 void drawGround2() {
+	
+
 	GLfloat fExtent = 50.f;
 	GLfloat fStep = 1.0f;
 	GLfloat y = -0.4f;
@@ -128,6 +133,7 @@ void drawGround2() {
 			glColor3f(1.0f, 0.0f, 0.0f);
 		else
 			glColor3f(0.0f, 1.0f, 0.0f);
+
 		glVertex3f(iLine, y, fExtent);
 		glVertex3f(iLine, y, -fExtent);
 		glVertex3f(fExtent, y, iLine);

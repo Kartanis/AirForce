@@ -11,6 +11,7 @@ private:
 	unsigned short rotDegree;
 
 	void drawVertex(unsigned int ind);
+	unsigned int textureId = 0;
 public:
 	static const int POINTS_PER_VERTEX = 3;
 
