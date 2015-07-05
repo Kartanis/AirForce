@@ -34,8 +34,8 @@ GLuint LoadGLTexture(GLvoid)
 		return 0;
 	}
 
-	printf("[open] name=%s, mode=%s\n", "background.tga", "r");
-	tga = TGAOpen("background.tga", "r");
+	printf("[open] name=%s, mode=%s\n", "resources/textures/background.tga", "r");
+	tga = TGAOpen("resources/textures/background.tga", "r");
 	if (!tga || tga->last != TGA_OK) {
 		TGA_ERROR(tga, TGA_OPEN_FAIL);
 		return 0;
