@@ -67,8 +67,8 @@ ModelViewScreen::ModelViewScreen(int argc, char **argv) : gui::Screen(argc, argv
 	this->cube = new Model(modelReader);
 	this->cube->init();
 
-	// this->model = new House();
-	//this->model->init();
+	this->model = new House();
+	this->model->init();
 
 
 // 	this->terrain = new Terrain();
@@ -151,8 +151,9 @@ void ModelViewScreen::renderScene() {
 	//glutSolidSphere(1, 15, 15);
 	glColor3f(1.0f, 1.0f, 1.0f);
 	
-	//this->model->Draw();
 	this->cube->Draw();
+	this->model->Draw();
+	
 	
 	//this->terrain->Draw();
 	glPopMatrix();

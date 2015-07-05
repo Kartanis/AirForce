@@ -59,6 +59,10 @@ Model::Model(ObjModelReader reader) {
 	cout << "Model from reader called..3" << "\n";
 	for (int i = 0; i < indicesNumber; i++) {
 		indices[i] = (unsigned int)reader.getFaces()[i].x - 1;
+
+		cout << " " << indices[i];
+		if ((i + 1) % 3 == 0)
+			cout << "\n";
 	}
 
 	cout << "Model from reader called..4" << "\n";
@@ -73,6 +77,7 @@ Model::Model()
 }
 
 void Model::init() {
+
 	cout << "Model init called..";
 	/*---------------------- Инициализация VBO - (делается единожды, при запуске программы) ---------------------*/
 	/* Создание новго VBO и использование переменной "triangleVBO" для сохранения VBO id */
@@ -111,7 +116,7 @@ void Model::init() {
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->indicesNumber * sizeof(unsigned int), this->indices, GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	/* Указываем что наши данные координат в индексе атрибутов, равный 0 (shaderAttribute), и содержат POINTS_PER_VERTEX числа с плавающей точкой на вершину */
-	glVertexAttribPointer(this->shaderAttribute, POINTS_PER_VERTEX, GL_FLOAT, GL_FALSE, 0, 0);
+	glVertexAttribPointer(this->triangleVBO, POINTS_PER_VERTEX, GL_FLOAT, GL_FALSE, 0, 0);
 
 	/* Включаем индекс атрибутов, равный 0 (shaderAttribute), как используемый */
 	glEnableVertexAttribArray(this->shaderAttribute);
@@ -157,6 +162,7 @@ void Model::init() {
 
 	/* Установка нашей программы шейдера активной */
 	glUseProgram(shaderProgram);
+
 
 	this->inited = true;
 }
@@ -302,11 +308,33 @@ void Model::Release()
 	free(this->vertexBuffer);
 }
 
+void Model::drawVertex(unsigned int ind) {
+	int pos = ind * Model::POINTS_PER_VERTEX;
+	glVertex3f(data[pos], data[pos + 1], data[pos + 2]);
+}
+
 void Model::Draw()
 {
+	
+	cout << "-------------------------------------Start to Draw() ------------------------------------------------\n";
+	for (int i = 0; i < indicesNumber; i += 3) {
+		if (indicesNumber< 100) {
+			cout << "i:" << i << "\t" << "pos:" << indices[i] << "\tx:" << data[indices[i] * 3] << "\ty:" << data[indices[i] * 3 + 1] << "\tz:" << data[indices[i] * 3 + 2] << "\n";
+			cout << "i:" << i << "\t" << "pos:" << indices[i+1] << "\tx:" << data[indices[i+1] * 3] << "\ty:" << data[indices[i+1] * 3 + 1] << "\tz:" << data[indices[i+1] * 3 + 2] << "\n";
+			cout << "i:" << i << "\t" << "pos:" << indices[i+2] << "\tx:" << data[indices[i+2] * 3] << "\ty:" << data[indices[i+2] * 3 + 1] << "\tz:" << data[indices[i+2] * 3 + 2] << "\n";
+		}
+		glBegin(GL_TRIANGLES);
+
+		drawVertex(indices[i]);
+		drawVertex(indices[i + 1]);
+		drawVertex(indices[i + 2]);
+
+		glEnd();
+	}
+	cout << "-------------------------------------End to Draw() ------------------------------------------------\n";
+	return;
 	if (!inited) {
 		cout << "not inited\n";
-		return;
 	}
 
 	cout << "triangleVBO::" << triangleVBO << "\n";
@@ -318,11 +346,12 @@ void Model::Draw()
 	}
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
-
+	
 	cout << "--------------------------------1-------------------------\n";
 	glEnableClientState(GL_VERTEX_ARRAY);
 	cout << "--------------------------------2-------------------------\n";
 	glBindBuffer(GL_ARRAY_BUFFER, triangleVBO);
+	// glVertexPointer(3, GL_FLOAT, 30, this->data);
 	cout << "--------------------------------3-------------------------\n";
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexVBO);
 	cout << "--------------------------------4-------------------------\n";

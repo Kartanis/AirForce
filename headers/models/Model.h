@@ -6,7 +6,8 @@
 class Model
 {
 private: 
-	
+
+	void drawVertex(unsigned int ind);
 public:
 	static const int POINTS_PER_VERTEX = 3;
 
