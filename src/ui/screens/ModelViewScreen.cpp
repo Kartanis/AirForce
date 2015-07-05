@@ -62,7 +62,7 @@ ModelViewScreen::ModelViewScreen(int argc, char **argv) : gui::Screen(argc, argv
 {
 
 	ObjModelReader modelReader;
-	modelReader.load("cube.obj");
+	modelReader.load("resources/models/cube.obj");
 
 	this->cube = new Model(modelReader);
 	this->cube->init();

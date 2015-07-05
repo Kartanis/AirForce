@@ -57,9 +57,6 @@ int main(int argc, char **argv) {
 	//std::cout << root << "\n";
 
 
-	ObjModelReader modelReader;
-	modelReader.load("cube.obj");
-	
 	Window &window = Window::getInstance();
 	window.setScreen(new ModelViewScreen(argc, argv));
 	window.getScreen()->init();
