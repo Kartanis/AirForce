@@ -14,6 +14,8 @@ private:
 	unsigned int textureId = 0;
 public:
 	static const int POINTS_PER_VERTEX = 3;
+	static const int INDICES_PER_TRIANGLE = 3;
+	static const int TRINAGLES_PER_QUAD = 2;
 
 	Model();
 

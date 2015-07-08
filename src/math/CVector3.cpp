@@ -7,12 +7,16 @@
 
 #include <math/CVector3.h>
 
+CVector3::CVector3(float x, float y, float z) {
+	this->x = x;
+	this->y = y;
+	this->z = z;
+
+}
+
 CVector3::CVector3() {
 	// TODO Auto-generated constructor stub
-	x = 0.0f;
-	y = 0.0f;
-	z = 0.0f;
-
+	CVector3::CVector3(0.0f, 0.0f, 0.0f);
 }
 
 CVector3::~CVector3() {

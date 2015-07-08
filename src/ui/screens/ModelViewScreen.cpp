@@ -71,8 +71,8 @@ ModelViewScreen::ModelViewScreen(int argc, char **argv) : gui::Screen(argc, argv
 	this->model->init();
 
 
-// 	this->terrain = new Terrain();
-// 	this->terrain->init();
+ 	this->terrain = new Terrain();
+ 	this->terrain->init();
 	
 	this->camera.init(
 		0, 5, 10, 
@@ -84,6 +84,56 @@ ModelViewScreen::~ModelViewScreen()
 {
 }
 
+void DrawGround() {
+	TGA *tga;
+	TGAData *data;
+
+	data = (TGAData*)malloc(sizeof(TGAData));
+	if (!data) {
+		TGA_ERROR((TGA*)NULL, TGA_OOM);
+		return;
+	}
+
+	printf("[open] name=%s, mode=%s\n", "resources/textures/background.tga", "r");
+	tga = TGAOpen("resources/maps/ground.tga", "r");
+	if (!tga || tga->last != TGA_OK) {
+		TGA_ERROR(tga, TGA_OPEN_FAIL);
+		return;
+	}
+
+	printf("[read] image\n");
+	data->flags = TGA_IMAGE_INFO | TGA_IMAGE_DATA;;
+	if (TGAReadImage(tga, data) != TGA_OK) {
+		TGA_ERROR(tga, TGA_READ_FAIL);
+		return;
+	}
+
+	if (data->flags & TGA_IMAGE_INFO) {
+		printf("[info] width=%i\n", tga->hdr.width);
+		printf("[info] height=%i\n", tga->hdr.height);
+
+		printf("[info] color map type=%i\n", tga->hdr.map_t);
+
+		printf("[info] image type=%i\n", tga->hdr.img_t);
+
+		printf("[info] depth=%i\n", tga->hdr.depth);
+		printf("[info] x=%i\n", tga->hdr.x);
+		printf("[info] y=%i\n", tga->hdr.y);
+		printf("[info] orientation=%s-%s\n",
+			(tga->hdr.vert == TGA_BOTTOM) ?
+			"bottom" : "top",
+			(tga->hdr.horz == TGA_LEFT) ?
+			"left" : "right");
+	}
+
+	for (int i = 0; i < tga->hdr.width; i++) {
+		for (int j = 0; j < tga->hdr.height; j++) {
+			std::cout << data->img_data[i * tga->hdr.width + j] << " ";
+		}
+		std::cout << "\n";
+	}
+
+}
 
 
 void ModelViewScreen::init(void){
@@ -117,6 +167,7 @@ void ModelViewScreen::init(void){
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
+	//DrawGround();
 }
 
 void drawGround2() {
@@ -140,6 +191,7 @@ void drawGround2() {
 		glVertex3f(-fExtent, y, iLine);
 	}
 	glEnd();
+
 }
 void ModelViewScreen::renderScene() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -148,11 +200,12 @@ void ModelViewScreen::renderScene() {
 	glPushMatrix();
 	glColor3f(1.0f, 1.0f, 1.0f);
 	
-	this->model->Draw();
+	//this->model->Draw();
 		
 	glPopMatrix();
-	this->cube->Draw();
-	 drawGround2();
+	// this->cube->Draw();
+	 //drawGround2();
+	 terrain->Draw();
 	glBegin(GL_LINE_STRIP);
 	glVertex3f(unprojectedVectorFar.x, unprojectedVectorFar.y, unprojectedVectorFar.z);
 	glVertex3f(unprojectedVectorNear.x, unprojectedVectorNear.y, unprojectedVectorNear.z);

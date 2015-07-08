@@ -13,6 +13,7 @@
 class CVector3 {
 public:
 	CVector3();
+	CVector3(float, float, float);
 	virtual ~CVector3();
 
 	float x, y, z;

@@ -1,55 +1,144 @@
 #include <models\Terrain.h>
 #include <iostream>
 #include <math/Math.h>
+#include <tga/tga.h>
 
 
 Terrain::Terrain()
 {
 	std::cout << "Terrain called.." << "\n";
+	TGA *tga;
+	TGAData *data;
 
-	GLfloat fExtent = 50.f;
-	GLfloat fStep = 1.0f;
-	GLfloat y = -0.4f;
-	GLfloat iLine;
-
-	isWireFrame = true;
-	this->verticesNumber = ((fExtent * 2 / fStep) + 1) * 4 * Model::POINTS_PER_VERTEX;
-	this->indicesNumber = ((fExtent * 2 / fStep) + 1) * 4 * Model::POINTS_PER_VERTEX;
-
-	this->data = new float[(int)((fExtent * 2 / fStep )+ 1) * 4 * Model::POINTS_PER_VERTEX - 1];
-	this->indices = new unsigned int[(int)((fExtent * 2 / fStep) + 1) * 4 * Model::POINTS_PER_VERTEX - 1];
-
-	int i = 0;
-	int j = 0;
-	for (iLine = -fExtent; iLine <= fExtent; iLine += fStep) {
-		int startIndex = i;
-
-		data[i++] = iLine;
-		data[i++] = y; 
-		data[i++] = fExtent;
-
-		data[i++] = iLine;
-		data[i++] = y;
-		data[i++] = -fExtent;
-
-		data[i++] = fExtent;
-		data[i++] = y;
-		data[i++] = iLine;
-
-		data[i++] = -fExtent;
-		data[i++] = y;
-		data[i++] = iLine;
-		
-		for (int k = 0; k < i - startIndex; k++) {
-			this->indices[j++] = startIndex + k;
-		}
+	data = (TGAData*)malloc(sizeof(TGAData));
+	if (!data) {
+		TGA_ERROR((TGA*)NULL, TGA_OOM);
+		return;
 	}
 
-	std::cout << "data size " << i <<"\n";
-	std::cout << "indicies size " << j << "\n";
-	std::cout << "expected size " << (int)((fExtent * 2 / fStep) + 1) * 4 * Model::POINTS_PER_VERTEX << "\n";
+	printf("[open] name=%s, mode=%s\n", "resources/textures/ground.tga", "r");
+	tga = TGAOpen("resources/maps/ground.tga", "r");
+	if (!tga || tga->last != TGA_OK) {
+		TGA_ERROR(tga, TGA_OPEN_FAIL);
+		return;
+	}
+
+	printf("[read] image\n");
+	data->flags = TGA_IMAGE_INFO | TGA_IMAGE_DATA;;
+	if (TGAReadImage(tga, data) != TGA_OK) {
+		TGA_ERROR(tga, TGA_READ_FAIL);
+		return;
+	}
+
+	if (data->flags & TGA_IMAGE_INFO) {
+		printf("[info] width=%i\n", tga->hdr.width);
+		printf("[info] height=%i\n", tga->hdr.height);
+
+		printf("[info] color map type=%i\n", tga->hdr.map_t);
+
+		printf("[info] image type=%i\n", tga->hdr.img_t);
+
+		printf("[info] depth=%i\n", tga->hdr.depth);
+		printf("[info] x=%i\n", tga->hdr.x);
+		printf("[info] y=%i\n", tga->hdr.y);
+		printf("[info] orientation=%s-%s\n",
+			(tga->hdr.vert == TGA_BOTTOM) ?
+			"bottom" : "top",
+			(tga->hdr.horz == TGA_LEFT) ?
+			"left" : "right");
+	}
+
 	
 
+	int fWidth = tga->hdr.width;
+	int fHeight = tga->hdr.height;
+	GLfloat fStep = 1.0f;
+	// GLfloat y = -0.4f;
+	GLfloat iLine;
+
+
+	// fWidth = 8;
+	// fHeight = 8;
+
+	const int indicesPerQuad = Model::INDICES_PER_TRIANGLE * Model::TRINAGLES_PER_QUAD;
+	isWireFrame = true;
+	this->verticesNumber = fWidth * fHeight;
+	this->indicesNumber = (fWidth - 1) * (fHeight - 1) * indicesPerQuad;
+
+	this->data = new float[verticesNumber * Model::POINTS_PER_VERTEX];
+	this->indices = new unsigned int[indicesNumber];
+
+
+	tbyte testData[64] = {
+		0, 0, 1, 2,
+		0, 1, 1, 2,
+		1, 2, 2, 2,
+		0, 1, 1, 2,
+		0, 1, 1, 2,
+		1, 2, 2, 2,
+		0, 1, 1, 2,
+		0, 0, 1, 2,
+		0, 0, 1, 2,
+		0, 1, 1, 2,
+		1, 2, 2, 2,
+		0, 1, 1, 2,
+		0, 1, 1, 2,
+		1, 2, 2, 2,
+		0, 1, 1, 2,
+		0, 0, 1, 2
+	};
+
+	tbyte testData2[4] = {
+		0, 0, 
+		0, 1
+	};
+	
+	tbyte* map = data->img_data;
+
+	std::cout << "Terrain from reader called..2.1" << "\n";
+	std::cout << "vertNum: " << verticesNumber << "\n";
+	std::cout << "faceNum:" << indicesNumber / 6 << "\n";
+	std::cout << "verticesNumber:" << verticesNumber << "\n";
+	std::cout << "indicesNumber:" << indicesNumber << "\n";
+
+	for (int i = 0; i <= fWidth - 1; i++) {
+		for (int j = 0; j <= fHeight - 1; j++) {
+			int pointer = (i * fWidth * Model::POINTS_PER_VERTEX) + j * Model::POINTS_PER_VERTEX;
+
+			// CVector3 vertice = CVector3((float)i - fWidth / 2, map[i * fWidth + j], (float)j - fHeight / 2);
+			// std::cout << "Current vertice is: " << vertice << "\n";
+			//std::cout << "pointer : " << pointer << "\n";
+
+			this->data[pointer] = (float)i - fWidth / 2; // x
+			this->data[pointer + 1] = map[i * fWidth + j] / 16; // y
+			this->data[pointer + 2] = (float)j - fHeight / 2; //z
+		}
+
+	}
+
+	for (int i = 0; i <= fWidth - 2; i++) {
+		for (int j = 0; j <= fHeight - 2; j++) {
+			int lineLength = fWidth;
+			int quadsPerLine = lineLength - 1;
+			int base = i * lineLength + j;
+			int pointer = (i * quadsPerLine * indicesPerQuad) + j * indicesPerQuad;
+
+			// std::cout << "lineLength : " << lineLength << "\n";
+			// std::cout << "quadsPerLine : " << quadsPerLine << "\n";
+			// std::cout << "base : " << base << "\n";
+			// std::cout << "pointer : " << pointer << "\n";
+			
+			this->indices[pointer] = base;
+			this->indices[pointer + 1] = base + 1;
+			this->indices[pointer + 2] = base + lineLength;
+
+			this->indices[pointer + 3] = base + 1;
+			this->indices[pointer + 4] = lineLength + base + 1;
+			this->indices[pointer + 5] = lineLength + base;
+		}
+	}
+	
+	TGAClose(tga);
 }
 
 Terrain::~Terrain()

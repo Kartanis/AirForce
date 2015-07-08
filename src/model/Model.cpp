@@ -437,7 +437,7 @@ void Model::Draw()
 	}
 
 	for (int i = 0; i < indicesNumber; i += 3) {
-		if (indicesNumber < 100) {
+		if (indicesNumber < 1000) {
 			cout << "i:" << i << "\t" << "pos:" << indices[i] << "\tx:" << data[indices[i] * 3] << "\ty:" << data[indices[i] * 3 + 1] << "\tz:" << data[indices[i] * 3 + 2] << "\n";
 			cout << "i:" << i << "\t" << "pos:" << indices[i+1] << "\tx:" << data[indices[i+1] * 3] << "\ty:" << data[indices[i+1] * 3 + 1] << "\tz:" << data[indices[i+1] * 3 + 2] << "\n";
 			cout << "i:" << i << "\t" << "pos:" << indices[i+2] << "\tx:" << data[indices[i+2] * 3] << "\ty:" << data[indices[i+2] * 3 + 1] << "\tz:" << data[indices[i+2] * 3 + 2] << "\n";
