@@ -144,7 +144,7 @@ Model::Model(ObjModelReader reader) {
 	}
 
 	cout << "Model from reader called..4" << "\n";
-	this->textureId = LoadGLTexture();
+	// this->textureId = LoadGLTexture();
 	
 }
 
@@ -398,18 +398,21 @@ void Model::Release()
 
 void Model::drawVertex(unsigned int ind) {
 	int pos = ind * Model::POINTS_PER_VERTEX;
-
-	
-
 	glVertex3f(data[pos], data[pos + 1], data[pos + 2]);
 }
 
 void Model::Draw()
 {
+	glEnable(GL_TEXTURE_2D);
+//	You can load different textures and select one at a time just using the glBindTexture function just like in LoadTextureRAW above.
+
+
+	glBindTexture(GL_TEXTURE_2D, this->backgroundTextureId);
+
 	// cout << "-------------------------------------Start to Draw() ------------------------------------------------\n";
 	// Enable to draw Wireframe 
 	if (isWireFrame) {
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	}
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
@@ -432,9 +435,6 @@ void Model::Draw()
 	glVertex3f(x + 1.0f, y, z);
 	glEnd();
 
-	if (indicesNumber < 100) {
-		glBindTexture(GL_TEXTURE_2D, this->textureId);
-	}
 
 	for (int i = 0; i < indicesNumber; i += 3) {
 		if (indicesNumber < 1000) {
@@ -444,9 +444,9 @@ void Model::Draw()
 		}
 		glBegin(GL_TRIANGLES);
 
-		if (indicesNumber < 100) glTexCoord2f(0.0f, 0.0f); drawVertex(indices[i]);
-		if (indicesNumber < 100) glTexCoord2f(1.0f, 0.0f); drawVertex(indices[i + 1]);
-		if (indicesNumber < 100) glTexCoord2f(1.0f, 1.0f); drawVertex(indices[i + 2]);
+		glTexCoord2f(0.0f, 0.0f); drawVertex(indices[i]);
+		glTexCoord2f(1.0f, 0.0f); drawVertex(indices[i + 1]);
+		glTexCoord2f(0.0f, 1.0f); drawVertex(indices[i + 2]);
 		
 		glEnd();
 	}
@@ -522,3 +522,7 @@ void Model::rotate(unsigned short rotDegree) {
 		this->rotDegree %= 360;
 }
 
+
+void Model::loadTexture() {
+	this->backgroundTextureId = 0;
+}

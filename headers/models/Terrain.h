@@ -9,5 +9,6 @@ public:
 	~Terrain();
 	void intersect(CVector3, CVector3, CVector3*);
 	void Draw();
+	void loadTexture();
 };
 

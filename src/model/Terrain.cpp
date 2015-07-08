@@ -16,7 +16,7 @@ Terrain::Terrain()
 		return;
 	}
 
-	printf("[open] name=%s, mode=%s\n", "resources/textures/ground.tga", "r");
+	printf("[open] name=%s, mode=%s\n", "resources/textures/ground_2.tga", "r");
 	tga = TGAOpen("resources/maps/ground_2.tga", "r");
 	if (!tga || tga->last != TGA_OK) {
 		TGA_ERROR(tga, TGA_OPEN_FAIL);
@@ -139,14 +139,67 @@ Terrain::Terrain()
 	}
 	
 	TGAClose(tga);
+
+	loadTexture();
 }
 
 Terrain::~Terrain()
 {
 }
 
-void simpleterrain() {
+void Terrain::loadTexture() {
+	TGA *tga;
+	TGAData *data;
 
+	data = (TGAData*)malloc(sizeof(TGAData));
+	if (!data) {
+		TGA_ERROR((TGA*)NULL, TGA_OOM);
+		return;
+	}
+
+	printf("[open] name=%s, mode=%s\n", "resources/textures/ground_grass.tga", "r");
+	tga = TGAOpen("resources/textures/ground_grass.tga", "r");
+	if (!tga || tga->last != TGA_OK) {
+		TGA_ERROR(tga, TGA_OPEN_FAIL);
+		return;
+	}
+
+	printf("[read] image\n");
+	data->flags = TGA_IMAGE_INFO | TGA_IMAGE_DATA;;
+	if (TGAReadImage(tga, data) != TGA_OK) {
+		TGA_ERROR(tga, TGA_READ_FAIL);
+		return;
+	}
+
+	if (data->flags & TGA_IMAGE_INFO) {
+		printf("[info] width=%i\n", tga->hdr.width);
+		printf("[info] height=%i\n", tga->hdr.height);
+
+		printf("[info] color map type=%i\n", tga->hdr.map_t);
+
+		printf("[info] image type=%i\n", tga->hdr.img_t);
+
+		printf("[info] depth=%i\n", tga->hdr.depth);
+		printf("[info] x=%i\n", tga->hdr.x);
+		printf("[info] y=%i\n", tga->hdr.y);
+		printf("[info] orientation=%s-%s\n",
+			(tga->hdr.vert == TGA_BOTTOM) ?
+			"bottom" : "top",
+			(tga->hdr.horz == TGA_LEFT) ?
+			"left" : "right");
+	}
+
+	TGAClose(tga);
+
+	glGenTextures(1, &this->backgroundTextureId); //генерируем идентификатор. Первый вызов типично будет 1
+	glBindTexture(GL_TEXTURE_2D, this->backgroundTextureId);
+	// select modulate to mix texture with color for shading
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+	// build our texture mipmaps
+	gluBuild2DMipmaps(GL_TEXTURE_2D, 3, tga->hdr.width, tga->hdr.height,
+		GL_RGB, GL_UNSIGNED_BYTE, data->img_data);
+
+	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 

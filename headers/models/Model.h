@@ -60,5 +60,8 @@ protected:
 
 	/* Вершины треугольника (направление обхода: против часовой стрелки) */
 	bool isWireFrame = false;
+
+	unsigned int backgroundTextureId = 0;
+	virtual void loadTexture();
 };
 
