@@ -406,7 +406,7 @@ void Model::drawVertex(unsigned int ind) {
 
 void Model::Draw()
 {
-	cout << "-------------------------------------Start to Draw() ------------------------------------------------\n";
+	// cout << "-------------------------------------Start to Draw() ------------------------------------------------\n";
 	// Enable to draw Wireframe 
 	if (isWireFrame) {
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -453,7 +453,7 @@ void Model::Draw()
 
 
 	glPopMatrix();
-	cout << "-------------------------------------End to Draw() ------------------------------------------------\n";
+	//cout << "-------------------------------------End to Draw() ------------------------------------------------\n";
 	
 	return;
 	if (!inited) {

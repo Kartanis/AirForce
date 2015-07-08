@@ -200,7 +200,7 @@ void ModelViewScreen::renderScene() {
 	glPushMatrix();
 	glColor3f(1.0f, 1.0f, 1.0f);
 	
-	//this->model->Draw();
+	this->model->Draw();
 		
 	glPopMatrix();
 	// this->cube->Draw();

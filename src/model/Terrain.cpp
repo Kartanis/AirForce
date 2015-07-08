@@ -109,9 +109,9 @@ Terrain::Terrain()
 			// std::cout << "Current vertice is: " << vertice << "\n";
 			//std::cout << "pointer : " << pointer << "\n";
 
-			this->data[pointer] = (float)i - fWidth / 2; // x
-			this->data[pointer + 1] = map[i * fWidth + j] / 16; // y
-			this->data[pointer + 2] = (float)j - fHeight / 2; //z
+			this->data[pointer] = ((float)i - fWidth / 2) * fStep; // x
+			this->data[pointer + 1] = (map[i * fWidth + j] / 16)*fStep; // y
+			this->data[pointer + 2] = ((float)j - fHeight / 2) * fStep; //z
 		}
 
 	}
