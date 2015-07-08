@@ -75,7 +75,7 @@ ModelViewScreen::ModelViewScreen(int argc, char **argv) : gui::Screen(argc, argv
  	this->terrain->init();
 	
 	this->camera.init(
-		0, 5, 10, 
+		0, 25, 10, 
 		0, 0, 0, 
 		0, 1, 0);
 }

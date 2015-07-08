@@ -17,7 +17,7 @@ Terrain::Terrain()
 	}
 
 	printf("[open] name=%s, mode=%s\n", "resources/textures/ground.tga", "r");
-	tga = TGAOpen("resources/maps/ground.tga", "r");
+	tga = TGAOpen("resources/maps/ground_2.tga", "r");
 	if (!tga || tga->last != TGA_OK) {
 		TGA_ERROR(tga, TGA_OPEN_FAIL);
 		return;

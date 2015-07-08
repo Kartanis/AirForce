@@ -46,15 +46,15 @@ public:
 	};
 
 	void moveUp() { 
-		if (matrix[1] < 5 )
-			return;
+		// if (matrix[1] < 5 )
+			//return;
 
 		matrix[1] -= 1; 
 		matrix[4] += 1;
 	};
 	void moveDown() { 
-		if (matrix[1] > 10)
-			return;
+		// if (matrix[1] > 10)
+			// return;
 
 		matrix[1] += 1; 
 		matrix[4] -= 1;
