@@ -32,16 +32,16 @@ void ObjModelReader::load(std::string filename) {
 
 
 	 for (int i = 0; i < this->vertices.size(); i++) {
-		 std::cout << "v" << vertices[i];
+		 // std::cout << "v" << vertices[i];
 		 if ((i + 1) % 3 == 0) {
-			 std::cout << std::endl;
+			 // std::cout << std::endl;
 		 }
 	 }
 
 	 for (int i = 0; i < this->faces.size(); i++) {
-		 std::cout << "f" << faces[i];
+		 // std::cout << "f" << faces[i];
 		 if ((i + 1) % 3 == 0) {
-			 std::cout << std::endl;
+			 // std::cout << std::endl;
 		 }
 	 }
 
@@ -54,18 +54,18 @@ void ObjModelReader::parseLine(std::string line) {
 		CVector3 vec;
 		short result = parseVector(line, vec);
 		this->normals.push_back(vec);
-		std::cout << "vv" << vec << "\n";
+		// std::cout << "vv" << vec << "\n";
 	}
 	else if (line[0] == 'v') {
 		CVector3 vec;
 		short result = parseVector(line, vec);
 		this->vertices.push_back(vec);
 		this->verticesNumber++;
-		std::cout << "vv"<<vec<<"\n";
+		// std::cout << "vv"<<vec<<"\n";
 
 	}
 	else if (line[0] == 'f') {
-		std::cout << "ff";
+		// std::cout << "ff";
 		CVector3 vec;
 		short result = parseFaces(line, vec);
 	}
@@ -73,7 +73,7 @@ void ObjModelReader::parseLine(std::string line) {
 		this->id = parseId(line);
 	}
 
-	std::cout<<line<<"\n";
+	// std::cout<<line<<"\n";
 }
 
 
@@ -184,7 +184,7 @@ std::string ObjModelReader::parseId(std::string line) {
 		line.erase(0, pos + delimiter.length());
 		break;
 	}
-	std::cout << "id::" + line + "::id\n";
+	// std::cout << "id::" + line + "::id\n";
 	return line.c_str();
 }
 

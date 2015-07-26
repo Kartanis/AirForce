@@ -16,7 +16,7 @@ CVector3::CVector3(float x, float y, float z) {
 
 CVector3::CVector3() {
 	// TODO Auto-generated constructor stub
-	CVector3::CVector3(0.0f, 0.0f, 0.0f);
+	CVector3(0.0f, 0.0f, 0.0f);
 }
 
 CVector3::~CVector3() {

@@ -126,9 +126,9 @@ Model::Model(ObjModelReader reader) {
 	cout << "Model from reader called..2" << "\n";
 
 	for (int i = 0; i < verticesNumber; i++) {
-		cout << i << ". " << reader.getVertices()[i]; 
-		if((i+1)%3 == 0)
-			cout<< "\n";
+		// cout << i << ". " << reader.getVertices()[i]; 
+		// if((i+1)%3 == 0)
+			//cout<< "\n";
 		data[i * Model::POINTS_PER_VERTEX] = reader.getVertices()[i].x;
 		data[i * Model::POINTS_PER_VERTEX + 1] = reader.getVertices()[i].y;
 		data[i * Model::POINTS_PER_VERTEX + 2] = reader.getVertices()[i].z;
@@ -138,9 +138,9 @@ Model::Model(ObjModelReader reader) {
 	for (int i = 0; i < indicesNumber; i++) {
 		indices[i] = (unsigned int)reader.getFaces()[i].x - 1;
 
-		cout << " " << indices[i];
-		if ((i + 1) % 3 == 0)
-			cout << "\n";
+		// cout << " " << indices[i];
+		// if ((i + 1) % 3 == 0)
+		// cout << "\n";
 	}
 
 	cout << "Model from reader called..4" << "\n";

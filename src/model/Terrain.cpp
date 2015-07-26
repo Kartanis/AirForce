@@ -57,8 +57,8 @@ Terrain::Terrain()
 	GLfloat iLine;
 
 
-	// fWidth = 8;
-	// fHeight = 8;
+	fWidth = 8;
+	fHeight = 8;
 
 	const int indicesPerQuad = Model::INDICES_PER_TRIANGLE * Model::TRINAGLES_PER_QUAD;
 	isWireFrame = true;
@@ -93,7 +93,8 @@ Terrain::Terrain()
 		0, 1
 	};
 	
-	tbyte* map = data->img_data;
+	tbyte* map = testData;
+	//tbyte* map = data->img_data;
 
 	std::cout << "Terrain from reader called..2.1" << "\n";
 	std::cout << "vertNum: " << verticesNumber << "\n";
@@ -110,7 +111,7 @@ Terrain::Terrain()
 			//std::cout << "pointer : " << pointer << "\n";
 
 			this->data[pointer] = ((float)i - fWidth / 2) * fStep; // x
-			this->data[pointer + 1] = (map[i * fWidth + j] / 16)*fStep; // y
+			this->data[pointer + 1] = (map[i * fWidth + j])*fStep; // y
 			this->data[pointer + 2] = ((float)j - fHeight / 2) * fStep; //z
 		}
 
@@ -202,6 +203,15 @@ void Terrain::loadTexture() {
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
+CVector3 Terrain::getIndexesByFirstIndex(int index) {
+	CVector3 vec = CVector3((float)indices[index], (float)indices[index] + 1, (float)indices[index] + 2);
+	return vec;
+}
+
+CVector3 Terrain::getVertexByIndex(int index) {
+	CVector3 vec = CVector3((float)data[index], (float)data[index + 1], (float)data[index + 2]);
+	return vec;
+}
 
 void Terrain::intersect(CVector3 near, CVector3 far, CVector3 *res) {
 	float t, u, v;
@@ -224,9 +234,6 @@ void Terrain::intersect(CVector3 near, CVector3 far, CVector3 *res) {
 	if (result == 0) {
 		return;
 	}
-	// if (!(Math::intersect_triangle(orig, dir, rv1, rv2, rv3, &t, &u, &v) == 0 || Math::intersect_triangle3(orig, dir, lv1, lv2, lv3, &t, &u, &v) == 0))  {
-		// return;
-	//} 
 
 	res->x = orig[0] + dir[0] * t;
 	res->y = orig[1] + dir[1] * t;
@@ -239,11 +246,45 @@ void Terrain::intersect(CVector3 near, CVector3 far, CVector3 *res) {
 	std::cout << *(res) << "\n";
 	std::cout << "Intersection......End\n";
 
+	for (int i = 0; i < indicesNumber; i+=3) {
+		std::cout << "i:" << i << "\t" << indices[i] << "\t" << indices[i] + 1 << "\t" << indices[i] + 2 << "\n";
+		std::cout << "i:" << i + 1 << "\t" << indices[i+1] << "\t" << indices[i+1] + 1 << "\t" << indices[i+1] + 2 << "\n";
+		std::cout << "i:" << i + 2<< "\t" << indices[i+2] << "\t" << indices[i+2] + 1 << "\t" << indices[i+2] + 2 << "\n";
+		std::cout << "Vec:" << getIndexesByFirstIndex(i) << "\n";
+		std::cout << "Vec:" << getIndexesByFirstIndex(i + 1) << "\n";
+		std::cout << "Vec:" << getIndexesByFirstIndex(i + 2) << "\n";
+
+		std::cout << "VecA:" << getVertexByIndex(indices[i]) << "\n";
+		std::cout << "VecB:" << getVertexByIndex(indices[i + 1]) << "\n";
+		std::cout << "VecC:" << getVertexByIndex(indices[i + 2]) << "\n";
+
+		float v1[3] = { data[indices[i]], data[indices[i] + 1], data[indices[i]+ 2] };
+		float v2[3] = { data[indices[i + 1]], data[indices[i + 1] + 1], data[indices[i + 1] + 2] };
+		float v3[3] = { data[indices[i + 2]], data[indices[i + 2] + 1], data[indices[i + 2] + 2] };
+		int result = 0; Math::intersect_triangle3(orig, dir, v1, v2, v3, &t, &u, &v);
+		
+		if (result == 0) {
+			intersection->x = indices[i];
+			intersection->y = indices[i + 1];
+			intersection->z = indices[i+ 2];
+		}
+	}
 
 };
+
+
 
 void Terrain::Draw() {
 	// glBegin();
 	Model::Draw();
+	/*
+	glColor3f(1.0f, 1.0f, 1.0f);
+	glBegin(GL_TRIANGLES);
 
+		glVertex3f(data[indices[(int)intersection->x]], data[indices[(int)intersection->x] + 1], data[(int)intersection->x] + 2);
+		glVertex3f(data[indices[(int)intersection->y]], data[indices[(int)intersection->y] + 1], data[(int)intersection->y] + 2);
+		glVertex3f(data[indices[(int)intersection->z]], data[indices[(int)intersection->z] + 1], data[(int)intersection->z] + 2);
+
+	glEnd();
+	*/
 }

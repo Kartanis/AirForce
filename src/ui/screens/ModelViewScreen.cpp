@@ -62,13 +62,13 @@ ModelViewScreen::ModelViewScreen(int argc, char **argv) : gui::Screen(argc, argv
 {
 
 	ObjModelReader modelReader;
-	modelReader.load("resources/models/cube.obj");
+	modelReader.load("resources/models/t2_rex_anim.obj");
 
-	this->cube = new Model(modelReader);
-	this->cube->init();
-
-	this->model = new House();
+	this->model = new Model(modelReader);
 	this->model->init();
+
+	// this->model = new House();
+	// this->model->init();
 
 
  	this->terrain = new Terrain();
