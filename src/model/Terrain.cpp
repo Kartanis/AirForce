@@ -1,4 +1,4 @@
-#include <models\Terrain.h>
+#include <models/Terrain.h>
 #include <iostream>
 #include <math/Math.h>
 #include <tga/tga.h>
@@ -191,7 +191,7 @@ void Terrain::loadTexture() {
 
 	TGAClose(tga);
 
-	glGenTextures(1, &this->backgroundTextureId); //генерируем идентификатор. Первый вызов типично будет 1
+	glGenTextures(1, &this->backgroundTextureId); //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ 1
 	glBindTexture(GL_TEXTURE_2D, this->backgroundTextureId);
 	// select modulate to mix texture with color for shading
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);

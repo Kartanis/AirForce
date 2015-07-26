@@ -1,17 +1,7 @@
-#include <models\Cube.h>
+#include <models/Cube.h>
 
 #include <iostream>
-#include <fstream>
-#include <stdio.h>
-#include <string.h>
 
-#include "../../Dependencies/glew/glew.h"
-#include <iostream>
-#include <sstream>
-#include <fstream>
-#include <string>
-#include <vector>
-#include <cmath>
 
 #define TOTAL_FLOATS_IN_TRIANGLE 9
 using namespace std;

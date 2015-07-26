@@ -1,8 +1,8 @@
 #pragma once
 
 #include <vector>
-#include "../../../Dependencies/glew/glew.h"
-#include "../../../Dependencies/freeglut/freeglut.h"
+
+#include <definitions.h>
 #include "../events/MouseEvent.h"
 
 #include "../camera/Camera.h"
@@ -30,7 +30,7 @@ namespace gui{
 		// static bool mouseAction(MouseEvent*, MouseEvent::Type, MouseEvent::Input);
 	private:
 		
-		static Scene scene;
+		//static Scene scene;
 
 	protected:
 		float fieldOfViewAngle = 45;
@@ -42,4 +42,9 @@ namespace gui{
 
 	};
 
+	void renderer(void);
+	void reshape(int width, int height);
+	void idleFunc(void);
+	void mouseClick(int button, int state, int x, int y);
+	void keyboard(unsigned char key, int x, int y);
 }

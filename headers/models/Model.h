@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../../Dependencies/glew/glew.h"
-#include <FileSystem\ObjModelReader.h>
+#include <definitions.h>
+#include <FileSystem/ObjModelReader.h>
 
 class Model
 {
@@ -22,10 +22,10 @@ public:
 	Model(ObjModelReader reader);
 	~Model();
 
-	float* Model::calculateNormal(float* coord1, float* coord2, float* coord3);
-	int Model::Load(char *filename);		// Loads the model
-	virtual void Model::Draw();				// Draws the model on the screen
-	void Model::Release();					// Release the model
+	float* calculateNormal(float* coord1, float* coord2, float* coord3);
+	int Load(char *filename);		// Loads the model
+	virtual void Draw();				// Draws the model on the screen
+	void Release();					// Release the model
 	void init();
 	void translate(CVector3);
 	void rotate(unsigned short, CVector3);
@@ -48,17 +48,17 @@ protected:
 	char* filetobuf(char *file);
 	bool inited = false;
 
-	/* Это имя программы шейдера */
+	/* пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
 	GLuint shaderProgram;
-	/* Эти указатели будут получать адреса в памяти исходных кодов шейдера */
+	/* пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
 	GLchar *vertexSource, *fragmentSource;
-	/* Эти переменные используются для шейдеров */
+	/* пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
 	GLuint vertexShader, fragmentShader;
 	const unsigned int shaderAttribute = 0;
 
 	const float NUM_OF_VERTICES_IN_DATA = 3;
 
-	/* Вершины треугольника (направление обхода: против часовой стрелки) */
+	/* пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ) */
 	bool isWireFrame = false;
 
 	unsigned int backgroundTextureId = 0;

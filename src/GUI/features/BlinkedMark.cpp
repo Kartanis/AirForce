@@ -1,5 +1,5 @@
 #include "BlinkedMark.h"
-#include "../../../Dependencies/freeglut/freeglut.h"
+#include <definitions.h>
 #include <math.h>
 #include <iostream>
 

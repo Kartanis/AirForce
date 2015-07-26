@@ -1,7 +1,6 @@
 #pragma once
 
-#include "../../Dependencies/glew/glew.h"
-#include "../../Dependencies/freeglut/freeglut.h"
+#include <definitions.h>
 #include <iostream>
 
 #include <stdio.h>

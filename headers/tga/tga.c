@@ -21,7 +21,7 @@
  
 #include <stdio.h>
 #include <stdlib.h>
-#include "tga.h"
+#include <tga/tga.h>
 
 
 TGA*

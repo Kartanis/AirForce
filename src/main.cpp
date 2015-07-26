@@ -1,15 +1,15 @@
+#define GLEW_STATIC
 #include <iostream>
-#include <stdio.h>
-#include <stdlib.h>
 #include <fstream>
 #include <vector>
 
 #include "Core/Shader_Loader.h"
-#include "ui\screens\ModelViewScreen.h"
-#include "ui\window\Window.h"
-#include <FileSystem\ObjModelReader.h>
-#include <FileSystem\FileReader.h>
-#include <json\json.h>
+#include "ui/screens/ModelViewScreen.h"
+#include "ui/window/Window.h"
+#include <FileSystem/ObjModelReader.h>
+#include <FileSystem/FileReader.h>
+#include <json/json.h>
+
 
 using namespace Core;
 
@@ -28,7 +28,7 @@ x refactoring
 
 int main(int argc, char **argv) {
 
-	Json::Value root;   // will contains the root value after parsing.
+/*	Json::Value root;   // will contains the root value after parsing.
 	Json::Reader reader;
 	FileReader fr("resources/maps/ancient_kiev.map");
 
@@ -51,12 +51,12 @@ int main(int argc, char **argv) {
 	std::cout << encoding << "\n";
 	// Get the value of the member of root named 'encoding', return a 'null' value if
 	// there is no such member.
-	
+
 
 	// And you can write to a stream, using the StyledWriter automatically.
 	//std::cout << root << "\n";
 
-
+*/
 	Window &window = Window::getInstance();
 	window.setScreen(new ModelViewScreen(argc, argv));
 	window.getScreen()->init();

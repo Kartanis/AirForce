@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../../../Dependencies/glew/glew.h"
-#include "../../../Dependencies/freeglut/freeglut.h"
+
+#include <definitions.h>
 
 class Frame
 {

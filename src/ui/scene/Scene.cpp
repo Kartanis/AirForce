@@ -1,8 +1,4 @@
 #include "Scene.h"
-#include "../../GUI/features/Mark.h"
-#include "../../GUI/features/BlinkedMark.h"
-#include <cmath> 
-#include "Scene.h"
 #include "../screens/Screen.h"
 
 #define PI 3.14159265358979323846
@@ -31,8 +27,8 @@ void Scene::draw() {
 	glRasterPos2i(120, 100);
 
 	char* text = "Some internal test text!";
-	for (int i = 0; i < strlen(text); i++)
-		glutBitmapCharacter(GLUT_BITMAP_9_BY_15, (int)text[i]);
+	// for (int i = 0; i < strlen(text); i++)
+		//glutBitmapCharacter(GLUT_BITMAP_9_BY_15, (int)text[i]);
 	/*
 	glMatrixMode(GL_PROJECTION);
 	double *matrix = new double[16];

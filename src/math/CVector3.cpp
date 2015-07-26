@@ -1,8 +1,8 @@
 /*
  * CVector.cpp
  *
- *  Created on: 15 июня 2015 г.
- *      Author: Сергей
+ *  Created on: 15 пїЅпїЅпїЅпїЅ 2015 пїЅ.
+ *      Author: пїЅпїЅпїЅпїЅпїЅпїЅ
  */
 
 #include <math/CVector3.h>
@@ -14,9 +14,7 @@ CVector3::CVector3(float x, float y, float z) {
 
 }
 
-CVector3::CVector3() {
-	// TODO Auto-generated constructor stub
-	CVector3::CVector3(0.0f, 0.0f, 0.0f);
+CVector3::CVector3() : CVector3(0.0f, 0.0f, 0.0f){
 }
 
 CVector3::~CVector3() {

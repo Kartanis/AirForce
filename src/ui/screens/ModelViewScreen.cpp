@@ -1,9 +1,9 @@
 #include "ModelViewScreen.h"
-#include <models\Cube.h>
-#include <models\House.h>
+
+#include <models/House.h>
 #include <iostream>
-#include <math.h>
-#include <tga\tga.h>
+
+#include <tga/tga.h>
 
 /*
 float PlaneDistance(CVector3 a, CVector3 b)
@@ -61,18 +61,18 @@ void checkSelected() {
 ModelViewScreen::ModelViewScreen(int argc, char **argv) : gui::Screen(argc, argv)
 {
 
-	ObjModelReader modelReader;
-	modelReader.load("resources/models/cube.obj");
+	//ObjModelReader modelReader;
+	//modelReader.load("resources/models/cube.obj");
 
-	this->cube = new Model(modelReader);
-	this->cube->init();
+	//this->cube = new Model(modelReader);
+	//this->cube->init();
 
 	this->model = new House();
-	this->model->init();
+	// this->model->init();
 
 
- 	this->terrain = new Terrain();
- 	this->terrain->init();
+ 	// this->terrain = new Terrain();
+ 	// this->terrain->init();
 	
 	this->camera.init(
 		0, 25, 10, 
@@ -205,7 +205,7 @@ void ModelViewScreen::renderScene() {
 	glPopMatrix();
 	// this->cube->Draw();
 	 //drawGround2();
-	 terrain->Draw();
+	 // terrain->Draw();
 	glBegin(GL_LINE_STRIP);
 	glVertex3f(unprojectedVectorFar.x, unprojectedVectorFar.y, unprojectedVectorFar.z);
 	glVertex3f(unprojectedVectorNear.x, unprojectedVectorNear.y, unprojectedVectorNear.z);
@@ -259,24 +259,24 @@ void ModelViewScreen::mouseClick(int button, int state, int x, int y) {
 }
 
 void ModelViewScreen::unProjectMouse(int x, int y) {
-	// mouse_x, mouse_y  - оконные координаты курсора мыши.
-	// p1, p2            - возвращаемые параметры - концы селектирующего отрезка,
-	//                     лежащие соответственно на ближней и дальней плоскостях
-	//                     отсечения.
-	GLint    viewport[4];    // параметры viewport-a.
-	GLdouble projection[16]; // матрица проекции.
-	GLdouble modelview[16];  // видовая матрица.
-	GLdouble vx, vy, vz;       // координаты курсора мыши в системе координат viewport-a.
-	GLdouble wx, wy, wz;       // возвращаемые мировые координаты.
+	// mouse_x, mouse_y  - пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ.
+	// p1, p2            - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ,
+	//                     пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+	//                     пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
+	GLint    viewport[4];    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ viewport-a.
+	GLdouble projection[16]; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
+	GLdouble modelview[16];  // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
+	GLdouble vx, vy, vz;       // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ viewport-a.
+	GLdouble wx, wy, wz;       // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
 
-	glGetIntegerv(GL_VIEWPORT, viewport);           // узнаём параметры viewport-a.
-	glGetDoublev(GL_PROJECTION_MATRIX, projection); // узнаём матрицу проекции.
-	glGetDoublev(GL_MODELVIEW_MATRIX, modelview);   // узнаём видовую матрицу.
-	// переводим оконные координаты курсора в систему координат viewport-a.
+	glGetIntegerv(GL_VIEWPORT, viewport);           // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ viewport-a.
+	glGetDoublev(GL_PROJECTION_MATRIX, projection); // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
+	glGetDoublev(GL_MODELVIEW_MATRIX, modelview);   // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
+	// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ viewport-a.
 	vx = x;
-	vy = this->height - y - 1; // где height - текущая высота окна.
+	vy = this->height - y - 1; // пїЅпїЅпїЅ height - пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ.
 
-	// вычисляем ближний конец селектирующего отрезка.
+	// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
 	vz = -1;
 	gluUnProject(vx, vy, vz, modelview, projection, viewport, &wx, &wy, &wz);
 
@@ -284,7 +284,7 @@ void ModelViewScreen::unProjectMouse(int x, int y) {
 	unprojectedVectorNear.x = wx;
 	unprojectedVectorNear.y = wy;
 	unprojectedVectorNear.z = wz;
-	// вычисляем дальний конец селектирующего отрезка.
+	// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
 	vz = 1;
 	gluUnProject(vx, vy, vz, modelview, projection, viewport, &wx, &wy, &wz);
 

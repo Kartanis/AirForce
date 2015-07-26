@@ -1,11 +1,11 @@
 /*
  * ModelReader.cpp
  *
- *  Created on: 15 июня 2015 г.
- *      Author: Сергей
+ *  Created on: 15 пїЅпїЅпїЅпїЅ 2015 пїЅ.
+ *      Author: пїЅпїЅпїЅпїЅпїЅпїЅ
  */
 
-#include <FileSystem\ObjModelReader.h>
+#include <ObjModelReader.h>
 #include <iostream>
 #include <fstream>
 

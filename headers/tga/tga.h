@@ -22,7 +22,7 @@
 #ifndef __TGA_H
 #define __TGA_H 1
 
-#include <tga\tgaconfig.h>  /* include our config header before anything else */
+#include <tga/tgaconfig.h>  /* include our config header before anything else */
 #include <stdio.h>
 
 /* Tell C++ that we have C types and declarations. */
