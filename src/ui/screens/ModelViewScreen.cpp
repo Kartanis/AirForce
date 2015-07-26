@@ -1,6 +1,6 @@
 #include "ModelViewScreen.h"
 #include <unistd.h>
-#include <time.h>
+
 #include <sys/time.h>
 #include <string.h>
 #include <models/House.h>
@@ -265,7 +265,28 @@ void ModelViewScreen::calcFrames(long beginTime, long finishTime) {
 	}
 }
 
+#ifdef WINDOWS_LOCAL
+int gettimeofday(struct timeval * tp, struct timezone * tzp)
+{
+    FILETIME    file_time;
+    SYSTEMTIME  system_time;
+    ULARGE_INTEGER ularge;
+
+    GetSystemTime(&system_time);
+    SystemTimeToFileTime(&system_time, &file_time);
+    ularge.LowPart = file_time.dwLowDateTime;
+    ularge.HighPart = file_time.dwHighDateTime;
+
+    tp->tv_sec = (long) ((ularge.QuadPart - epoch) / 10000000L);
+    tp->tv_usec = (long) (system_time.wMilliseconds * 1000);
+
+    return 0;
+}
+#endif
+
 long ModelViewScreen::getSystemTimeInMillis() const {
+
+
 	timeval tv;
 	gettimeofday (&tv, NULL);
 	long millis = (int)(tv.tv_usec/ 1000) + tv.tv_sec * 1000;
