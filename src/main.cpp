@@ -28,7 +28,7 @@ x refactoring
 
 int main(int argc, char **argv) {
 
-/*	Json::Value root;   // will contains the root value after parsing.
+	Json::Value root;   // will contains the root value after parsing.
 	Json::Reader reader;
 	FileReader fr("resources/maps/ancient_kiev.map");
 
@@ -56,7 +56,7 @@ int main(int argc, char **argv) {
 	// And you can write to a stream, using the StyledWriter automatically.
 	//std::cout << root << "\n";
 
-*/
+
 	Window &window = Window::getInstance();
 	window.setScreen(new ModelViewScreen(argc, argv));
 	window.getScreen()->init();

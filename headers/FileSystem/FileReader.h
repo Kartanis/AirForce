@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include <fstream>
-#include <exception>
+#include <exceptions/IOException.h>
 
 class FileReader
 {
@@ -16,18 +16,4 @@ public:
 	int size();
 	bool writeLine(std::string line);
 	bool close();
-};
-
-class IOException : public std::exception {
-private:
-	const char* message;
-public:
-	IOException(const char* message) {
-		this->message = message;
-	}
-
-	virtual const char* what() const throw() {
-		return message;
-	}
-
 };

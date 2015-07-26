@@ -161,6 +161,7 @@ Model::Model()
 
 void Model::init() {
 
+	return;
 	cout << "Model init called..";
 	/*---------------------- ������������� VBO - (�������� ��������, ��� ������� ���������) ---------------------*/
 	/* �������� ����� VBO � ������������� ���������� "triangleVBO" ��� ���������� VBO id */
@@ -407,7 +408,7 @@ void Model::Draw()
 	// cout << "-------------------------------------Start to Draw() ------------------------------------------------\n";
 	// Enable to draw Wireframe 
 	if (isWireFrame) {
-		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	}
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
@@ -439,10 +440,13 @@ void Model::Draw()
 		}
 		glBegin(GL_TRIANGLES);
 
-		glTexCoord2f(0.0f, 0.0f); drawVertex(indices[i]);
-		glTexCoord2f(1.0f, 0.0f); drawVertex(indices[i + 1]);
-		glTexCoord2f(0.0f, 1.0f); drawVertex(indices[i + 2]);
-		
+		glTexCoord2f(0.0f, 0.0f);
+		drawVertex(indices[i]);
+		glTexCoord2f(1.0f, 0.0f);
+		drawVertex(indices[i + 1]);
+		glTexCoord2f(0.0f, 1.0f);
+		drawVertex(indices[i + 2]);
+
 		glEnd();
 	}
 

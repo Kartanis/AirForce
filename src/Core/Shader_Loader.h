@@ -1,6 +1,6 @@
 #pragma once
 
-#include <definitions.h>
+#include <platform_definitions.h>
 #include <iostream>
 
 #include <stdio.h>

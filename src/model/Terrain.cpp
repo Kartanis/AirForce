@@ -1,7 +1,10 @@
 #include <models/Terrain.h>
 #include <iostream>
+#include <string>
 #include <math/Math.h>
 #include <tga/tga.h>
+#include <exceptions/IOException.h>
+#include <exceptions/OutOfMemoryException.h>
 
 
 Terrain::Terrain()
@@ -9,25 +12,33 @@ Terrain::Terrain()
 	std::cout << "Terrain called.." << "\n";
 	TGA *tga;
 	TGAData *data;
+	char * filename = "resources/maps/ground_2.tga";
 
 	data = (TGAData*)malloc(sizeof(TGAData));
 	if (!data) {
 		TGA_ERROR((TGA*)NULL, TGA_OOM);
-		return;
+		std::string message = "Couldn't allocate memory with for TGA file ";
+		message += filename;
+		throw OutOfMemoryException(message.c_str());
 	}
 
-	printf("[open] name=%s, mode=%s\n", "resources/textures/ground_2.tga", "r");
-	tga = TGAOpen("resources/maps/ground_2.tga", "r");
+	printf("[open] name=%s, mode=%s\n", filename, "r");
+	tga = TGAOpen(filename, "r");
 	if (!tga || tga->last != TGA_OK) {
 		TGA_ERROR(tga, TGA_OPEN_FAIL);
-		return;
+		std::string message = "Filed to open TGA file";
+		message += filename;
+		throw IOException(message.c_str());
+		
 	}
 
 	printf("[read] image\n");
 	data->flags = TGA_IMAGE_INFO | TGA_IMAGE_DATA;;
 	if (TGAReadImage(tga, data) != TGA_OK) {
 		TGA_ERROR(tga, TGA_READ_FAIL);
-		return;
+		std::string message = "Failed to read TGA file ";
+		message += filename;
+		throw IOException(message.c_str());
 	}
 
 	if (data->flags & TGA_IMAGE_INFO) {
@@ -57,8 +68,8 @@ Terrain::Terrain()
 	GLfloat iLine;
 
 
-	fWidth = 8;
-	fHeight = 8;
+	// fWidth = 8;
+	// fHeight = 8;
 
 	const int indicesPerQuad = Model::INDICES_PER_TRIANGLE * Model::TRINAGLES_PER_QUAD;
 	isWireFrame = true;
@@ -93,8 +104,8 @@ Terrain::Terrain()
 		0, 1
 	};
 	
-	tbyte* map = testData;
-	//tbyte* map = data->img_data;
+	// tbyte* map = testData;
+	tbyte* map = data->img_data;
 
 	std::cout << "Terrain from reader called..2.1" << "\n";
 	std::cout << "vertNum: " << verticesNumber << "\n";
@@ -111,7 +122,7 @@ Terrain::Terrain()
 			//std::cout << "pointer : " << pointer << "\n";
 
 			this->data[pointer] = ((float)i - fWidth / 2) * fStep; // x
-			this->data[pointer + 1] = (map[i * fWidth + j])*fStep; // y
+			this->data[pointer + 1] = (map[i * fWidth + j] / 32) * fStep; // y
 			this->data[pointer + 2] = ((float)j - fHeight / 2) * fStep; //z
 		}
 
