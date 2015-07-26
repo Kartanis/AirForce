@@ -1,5 +1,5 @@
 #include "BlinkedMark.h"
-#include <definitions.h>
+#include "platform_definitions.h"
 #include <math.h>
 #include <iostream>
 

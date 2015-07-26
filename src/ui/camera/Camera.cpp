@@ -1,5 +1,5 @@
 #include "Camera.h"
-#include <definitions.h>
+#include "platform_definitions.h"
 
 
 double Camera::matrix[9] = { 0.0, 105.0, -15, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0 };

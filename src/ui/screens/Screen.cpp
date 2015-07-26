@@ -4,7 +4,7 @@
 #include "../events/MouseEvent.h"
 #include "../window/Window.h"
 
-#include <definitions.h>
+#include "platform_definitions.h"
 
 using namespace gui;
 

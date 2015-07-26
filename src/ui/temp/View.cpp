@@ -1,7 +1,7 @@
 #include "View.h"
 #include <iostream>
 
-#include <definitions.h>
+#include "platform_definitions.h"
 
 View::View(int x, int y, int w, int h)
 {

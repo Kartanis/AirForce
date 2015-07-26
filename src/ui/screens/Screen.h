@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include <definitions.h>
+#include "platform_definitions.h"
 #include "../events/MouseEvent.h"
 
 #include "../camera/Camera.h"

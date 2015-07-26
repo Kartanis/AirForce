@@ -1,6 +1,6 @@
 #include <models/Model.h>
 
-#include <definitions.h>
+#include "platform_definitions.h"
 
 #include <iostream>
 #include <fstream>

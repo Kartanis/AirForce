@@ -3,14 +3,12 @@
 //
 #pragma once
 
-#define WINDOWS_LOCAL
+#define LINUX_NATIVE
 
 #ifdef WINDOWS_LOCAL
 	#include <glew/include/glew.h>
 	#include <freeglut/include/freeglut.h>
-#endif
-
-#ifdef LINUX_NATIVE
+#elif defined(LINUX_NATIVE)
 	#include <GL/glew.h>
 	#include <GL/freeglut.h>
 #endif
