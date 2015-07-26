@@ -8,6 +8,7 @@
 #include <FileSystem/ObjModelReader.h>
 #include <iostream>
 #include <fstream>
+#include <exceptions/IOException.h>
 
 ObjModelReader::ObjModelReader() {
 }
@@ -21,8 +22,9 @@ void ObjModelReader::load(std::string filename) {
 	 modelFile.open (filename, std::ios::in);
 	 std::string line;
 
-	 if(!modelFile.is_open())
-		 exit(1);
+	 if(!modelFile.is_open()){
+		 throw IOException(("Could not open file: " + filename).c_str());
+	 }
 
 	 while (getline(modelFile, line)) {
 		 ObjModelReader::parseLine(line);
@@ -127,8 +129,12 @@ short ObjModelReader::parseFaces(std::string line, CVector3& res) {
 //				std::cout << "ts::" << tokens << "::tn::" << token << std::endl;
 				switch (++pe) {
 				case PREFIX: break;
-				case X: res.x = atof(tokens.c_str()); std::cout << "x<-" << tokens << "(" << res.x << ")\n"; break;
-				case Y: res.y = atof(tokens.c_str()); std::cout << "z<-" << tokens << "(" << res.y << ")\n";  break;
+				case X: res.x = atof(tokens.c_str());
+						// std::cout << "x<-" << tokens << "(" << res.x << ")\n";
+						break;
+				case Y: res.y = atof(tokens.c_str());
+						// std::cout << "z<-" << tokens << "(" << res.y << ")\n";
+						break;
 				}
 //				std::cout << "t:" << tokens << std::endl;
 				token.erase(0, internalPos + internalDelimiter.length());
@@ -156,8 +162,12 @@ short ObjModelReader::parseFaces(std::string line, CVector3& res) {
 		//std::cout << "ts::" << tokens << "::tn::" << token << std::endl;
 		switch (++pe) {
 		case PREFIX: break;
-		case X: res.x = atof(tokens.c_str()); std::cout << "x<-" << tokens << "(" << res.x << ")\n"; break;
-		case Y: res.y = atof(tokens.c_str()); std::cout << "z<-" << tokens << "(" << res.y << ")\n";  break;
+		case X: res.x = atof(tokens.c_str());
+				// std::cout << "x<-" << tokens << "(" << res.x << ")\n";
+				break;
+		case Y: res.y = atof(tokens.c_str());
+				// std::cout << "z<-" << tokens << "(" << res.y << ")\n";
+				break;
 		}
 		//std::cout << "t:" << tokens << std::endl;
 		token.erase(0, internalPos + internalDelimiter.length());

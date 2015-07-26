@@ -5,7 +5,7 @@ FileReader::FileReader(std::string filename)
 {
 	this->filename = filename;
 	
-	this->file.open(filename, std::ios::in | std::ifstream::ate | std::ifstream::binary);
+	this->file.open(filename , std::ios::in | std::ifstream::ate | std::ifstream::binary);
 	
 
 	if (!this->file.is_open()) {

@@ -15,6 +15,11 @@ private:
 
 	CVector3 unprojectedVectorFar, unprojectedVectorNear;
 	CVector3 lastIntersect;
+	unsigned int previousFrames = 0;
+	unsigned int frames = 0;
+	long millisPassed = 0;
+	float previousRenderTime = 0.0f;
+	float timeDelta = 0.0f;
 public:
 	ModelViewScreen(int argc, char **argv);
 	virtual ~ModelViewScreen();
@@ -24,5 +29,11 @@ public:
 	virtual void keyboardAction(unsigned char key, int x, int y);
 	virtual void mouseClick(int button, int state, int x, int y);
 	virtual void unProjectMouse(int, int);
+
+	void DrawText(std::string ) const;
+
+	long getSystemTimeInMillis() const;
+
+	void calcFrames(long beginTime, long finishTime);
 };
 

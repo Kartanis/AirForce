@@ -1,5 +1,8 @@
 #include "ModelViewScreen.h"
-
+#include <unistd.h>
+#include <time.h>
+#include <sys/time.h>
+#include <string.h>
 #include <models/House.h>
 #include <iostream>
 
@@ -60,22 +63,17 @@ void checkSelected() {
 
 ModelViewScreen::ModelViewScreen(int argc, char **argv) : gui::Screen(argc, argv)
 {
-	//ObjModelReader modelReader;
-	//modelReader.load("resources/models/cube.obj");
+	ObjModelReader modelReader;
+	modelReader.load("resources/models/cube.obj");
 
-	//this->cube = new Model(modelReader);
-	//this->cube->init();
+	this->cube = new Model(modelReader);
+	this->cube->init();
 
-	// this->model = new House();
-	// this->model->init();
+	this->model = new House();
+	this->model->init();
 
-
-	// this->model = new House();
-	// this->model->init();
-
-
- 	// this->terrain = new Terrain();
- 	// this->terrain->init();
+ 	this->terrain = new Terrain();
+ 	this->terrain->init();
 	
 	this->camera.init(
 		0, 25, 10, 
@@ -196,26 +194,109 @@ void drawGround2() {
 	glEnd();
 
 }
+
+void drawBitmapText(char *string,float x,float y,float z)
+{
+	char *c;
+	glRasterPos3f(x, y,z);
+
+	for (c=string; *c != 0; c++)
+	{
+		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_10, *c);
+	}
+}
+
 void ModelViewScreen::renderScene() {
+	long beginTime = getSystemTimeInMillis();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	DrawText("FPS: " + std::to_string(previousFrames));
+
 	glLoadIdentity();
 	camera.applyView();
 	glPushMatrix();
 	glColor3f(1.0f, 1.0f, 1.0f);
-	
-	//this->model->Draw();
-		
+
+	this->model->Draw();
+
 	glPopMatrix();
 	// this->cube->Draw();
-	 //drawGround2();
-	 // terrain->Draw();
+	//drawGround2();
+	 terrain->Draw();
 	glBegin(GL_LINE_STRIP);
 	glVertex3f(unprojectedVectorFar.x, unprojectedVectorFar.y, unprojectedVectorFar.z);
 	glVertex3f(unprojectedVectorNear.x, unprojectedVectorNear.y, unprojectedVectorNear.z);
 	glEnd();
-	drawSelected(this->lastIntersect);
+
 	glutSwapBuffers();
 
+	long finishTime = getSystemTimeInMillis() ;
+
+	calcFrames(beginTime, finishTime);
+
+
+}
+
+void ModelViewScreen::calcFrames(long beginTime, long finishTime) {
+	std::cout<<"---------------------------------------Timer------------------------------------------\n";
+	std::cout<<" beginTime: "<< beginTime <<" milliseconds\n";
+	std::cout<<" finishTime: "<< finishTime <<" milliseconds\n";
+	std::cout<<"Render one frame tooks "<< finishTime - beginTime  <<" milliseconds\n";
+
+	// int timeRemaining = 500 - (finishTime - beginTime);
+	long timeRemaining = 16 - (finishTime - beginTime);
+	std::cout<<"Time reamining "<< timeRemaining  <<" milliseconds\n";
+
+	if( timeRemaining > 0) {
+		int err = usleep(timeRemaining * 1000);
+		if(err) {
+			std::cout<<"USLEEP fucked off "<<err<< std::endl;
+		}
+	}
+
+	frames++;
+
+	std::cout<<"FPS "<< previousFrames <<" x\n";
+	std::cout<<"millisPassed "<< millisPassed <<" x\n";
+	if(finishTime  - millisPassed > 1000) {
+		millisPassed = finishTime;
+		previousFrames = frames;
+		frames = 0;
+
+	}
+}
+
+long ModelViewScreen::getSystemTimeInMillis() const {
+	timeval tv;
+	gettimeofday (&tv, NULL);
+	long millis = (int)(tv.tv_usec/ 1000) + tv.tv_sec * 1000;
+	return millis;
+
+}
+
+void ModelViewScreen::DrawText(std::string text) const {//TEXT
+	glMatrixMode( GL_PROJECTION ) ;
+	glPushMatrix() ; // save
+	glLoadIdentity();// and clear
+	glMatrixMode( GL_MODELVIEW ) ;
+	glPushMatrix() ;
+	glLoadIdentity() ;
+
+	glDisable( GL_DEPTH_TEST ) ; // also disable the depth test so renders on top
+	glDisable( GL_TEXTURE_2D );
+	//glDisable(GL_LIGHTING);
+
+	glRasterPos2f( -0.9f,0.9f ) ; // center of screen. (-1,0) is center left.
+	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+
+	for (int i = 0; i < text.size(); i++)
+		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, (int)text[i]);
+
+	glEnable( GL_DEPTH_TEST ) ; // Turn depth testing back on
+
+	glMatrixMode( GL_PROJECTION ) ;
+	glPopMatrix() ; // revert back to the matrix I had before.
+	glMatrixMode( GL_MODELVIEW ) ;
+	glPopMatrix() ;
 }
 
 void ModelViewScreen::reshapeScene(int width, int height) {
