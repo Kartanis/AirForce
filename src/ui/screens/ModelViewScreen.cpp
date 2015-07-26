@@ -67,7 +67,7 @@ ModelViewScreen::ModelViewScreen(int argc, char **argv) : gui::Screen(argc, argv
 	//this->cube = new Model(modelReader);
 	//this->cube->init();
 
-	this->model = new House();
+	// this->model = new House();
 	// this->model->init();
 
 
@@ -200,7 +200,7 @@ void ModelViewScreen::renderScene() {
 	glPushMatrix();
 	glColor3f(1.0f, 1.0f, 1.0f);
 	
-	this->model->Draw();
+	//this->model->Draw();
 		
 	glPopMatrix();
 	// this->cube->Draw();

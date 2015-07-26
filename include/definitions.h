@@ -3,5 +3,15 @@
 //
 #pragma once
 
-#include <GL/glew.h>
-#include <GL/freeglut.h>
+#define WINDOWS_LOCAL
+
+#ifdef WINDOWS_LOCAL
+	#include <glew/include/glew.h>
+	#include <freeglut/include/freeglut.h>
+#endif
+
+#ifdef LINUX_NATIVE
+	#include <GL/glew.h>
+	#include <GL/freeglut.h>
+#endif
+

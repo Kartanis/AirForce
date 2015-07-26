@@ -98,7 +98,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\Сергей\Source\Repos\AirForce\headers;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\Сергей\Source\Repos\AirForce\headers;C:\Users\Сергей\Source\Repos\AirForce\include;C:\Users\Сергей\Source\Repos\AirForce\libs;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -129,7 +129,7 @@
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>C:\Users\Сергей\Source\Repos\AirForce\Dependencies\glew;C:\Users\Сергей\Source\Repos\AirForce\Dependencies\freeglut;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\Сергей\Source\Repos\AirForce\libs\freeglut\lib;C:\Users\Сергей\Source\Repos\AirForce\libs\glew\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);opengl32.lib;freeglut.lib;glew32.lib;</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>

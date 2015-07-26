@@ -203,10 +203,10 @@ void Terrain::loadTexture() {
 }
 
 
-void Terrain::intersect(CVector3 near, CVector3 far, CVector3 *res) {
+void Terrain::intersect(CVector3 near2, CVector3 far2, CVector3 *res) {
 	float t, u, v;
-	float orig[3] = { near.x, near.y, near.z };
-	float dir[3] = { far.x, far.y, far.z };
+	float orig[3] = { near2.x, near2.y, near2.z };
+	float dir[3] = { far2.x, far2.y, far2.z };
 	
 	float rv1[3] = { -50.0, 0, -50.0 };
 	float rv2[3] = { 50.0, 0, -50.0 };
