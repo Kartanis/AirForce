@@ -66,3 +66,4 @@ target_link_libraries (AirForce GLEW)
 target_link_libraries (AirForce glut)
 target_link_libraries (AirForce GLU)
 
+file(COPY resources DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/)
