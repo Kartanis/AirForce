@@ -60,7 +60,7 @@ set(SOURCE_FILES
 #file(GLOB HEADER_FILES "headers/*.h")
 #file(GLOB SOURCE_FILES "src/*.cpp" "src/*.h")
 
-add_executable(AirForce ${SOURCE_FILES} include/platform_definitions.h)
+add_executable(AirForce ${SOURCE_FILES} include/platform_definitions.h include/exceptions/OutOfMemoryException.h)
 target_link_libraries (AirForce GL)
 target_link_libraries (AirForce GLEW)
 target_link_libraries (AirForce glut)
