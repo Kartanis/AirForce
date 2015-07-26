@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
 #include <fstream>
+#include <exception>
+
 class FileReader
 {
 private:
@@ -16,3 +18,16 @@ public:
 	bool close();
 };
 
+class IOException : public std::exception {
+private:
+	const char* message;
+public:
+	IOException(const char* message) {
+		this->message = message;
+	}
+
+	virtual const char* what() const throw() {
+		return message;
+	}
+
+};

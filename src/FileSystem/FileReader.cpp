@@ -8,8 +8,11 @@ FileReader::FileReader(std::string filename)
 	this->file.open(filename, std::ios::in | std::ifstream::ate | std::ifstream::binary);
 	
 
-	if (!this->file.is_open())
-		exit(1);
+	if (!this->file.is_open()) {
+		throw IOException(("Could not open file: " + filename).c_str());
+
+	}
+
 
 	file.close();
 	this->length = this->file.tellg();
