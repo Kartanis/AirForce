@@ -1,7 +1,6 @@
 #include "ModelViewScreen.h"
-#include <unistd.h>
 
-#include <sys/time.h>
+#include <platform_definitions.h>
 #include <string.h>
 #include <models/House.h>
 #include <iostream>
@@ -69,8 +68,8 @@ ModelViewScreen::ModelViewScreen(int argc, char **argv) : gui::Screen(argc, argv
 	this->cube = new Model(modelReader);
 	this->cube->init();
 
-	this->model = new House();
-	this->model->init();
+	// this->model = new House();
+	// this->model->init();
 
  	this->terrain = new Terrain();
  	this->terrain->init();
@@ -207,7 +206,7 @@ void drawBitmapText(char *string,float x,float y,float z)
 }
 
 void ModelViewScreen::renderScene() {
-	long beginTime = getSystemTimeInMillis();
+	long beginTime = currentTimeInMillis();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	DrawText("FPS: " + std::to_string(previousFrames));
 
@@ -216,7 +215,7 @@ void ModelViewScreen::renderScene() {
 	glPushMatrix();
 	glColor3f(1.0f, 1.0f, 1.0f);
 
-	this->model->Draw();
+	// this->model->Draw();
 
 	glPopMatrix();
 	// this->cube->Draw();
@@ -229,7 +228,7 @@ void ModelViewScreen::renderScene() {
 
 	glutSwapBuffers();
 
-	long finishTime = getSystemTimeInMillis() ;
+	long finishTime = currentTimeInMillis();
 
 	calcFrames(beginTime, finishTime);
 
@@ -247,10 +246,10 @@ void ModelViewScreen::calcFrames(long beginTime, long finishTime) {
 	std::cout<<"Time reamining "<< timeRemaining  <<" milliseconds\n";
 
 	if( timeRemaining > 0) {
-		int err = usleep(timeRemaining * 1000);
-		if(err) {
+		int err = usleep(timeRemaining);
+		 if(err) {
 			std::cout<<"USLEEP fucked off "<<err<< std::endl;
-		}
+		 }
 	}
 
 	frames++;
@@ -265,7 +264,7 @@ void ModelViewScreen::calcFrames(long beginTime, long finishTime) {
 	}
 }
 
-#ifdef WINDOWS_LOCAL
+#ifdef WINDOWS_LOCAL2
 int gettimeofday(struct timeval * tp, struct timezone * tzp)
 {
     FILETIME    file_time;
@@ -286,11 +285,10 @@ int gettimeofday(struct timeval * tp, struct timezone * tzp)
 
 long ModelViewScreen::getSystemTimeInMillis() const {
 
-
-	timeval tv;
-	gettimeofday (&tv, NULL);
-	long millis = (int)(tv.tv_usec/ 1000) + tv.tv_sec * 1000;
-	return millis;
+	SYSTEMTIME st;
+	GetSystemTime(&st);
+	
+	return (st.wHour * 60 * 60 + st.wMinute * 60 + st.wSecond) * 1000 + st.wMilliseconds;
 
 }
 

@@ -18,7 +18,22 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="headers\tga\tga.c">
+      <Filter>TGA</Filter>
+    </ClCompile>
+    <ClCompile Include="headers\tga\tgaread.c">
+      <Filter>TGA</Filter>
+    </ClCompile>
+    <ClCompile Include="headers\tga\tgawrite.c">
+      <Filter>TGA</Filter>
+    </ClCompile>
     <ClCompile Include="src\Core\Shader_Loader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FileSystem\FileReader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FileSystem\ObjModelReader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\GLSLUtils.cpp">
@@ -30,7 +45,16 @@
     <ClCompile Include="src\GUI\features\Mark.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\json\jsoncpp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\math\CVector3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\math\Math.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\model\Cube.cpp">
@@ -78,32 +102,17 @@
     <ClCompile Include="src\ui\window\Window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\math\Math.cpp">
+    <ClCompile Include="src\platform\time.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\math\CVector3.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\json\jsoncpp.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\FileSystem\FileReader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\FileSystem\ObjModelReader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="headers\tga\tga.c">
-      <Filter>TGA</Filter>
-    </ClCompile>
-    <ClCompile Include="headers\tga\tgaread.c">
-      <Filter>TGA</Filter>
-    </ClCompile>
-    <ClCompile Include="headers\tga\tgawrite.c">
-      <Filter>TGA</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="headers\tga\tga.h">
+      <Filter>TGA</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\tga\tgaconfig.h">
+      <Filter>TGA</Filter>
+    </ClInclude>
     <ClInclude Include="src\Core\Shader_Loader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -111,9 +120,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\GUI\features\Mark.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\ui\camera\Camera.h">
@@ -152,35 +158,17 @@
     <ClInclude Include="src\ui\window\Window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="headers\math\CVector3.h">
+    <ClInclude Include="include\exceptions\Exception.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="headers\math\Math.h">
+    <ClInclude Include="include\exceptions\IOException.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="headers\FileSystem\FileReader.h">
+    <ClInclude Include="include\exceptions\OutOfMemoryException.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="headers\FileSystem\ObjModelReader.h">
+    <ClInclude Include="include\platform_definitions.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\models\Cube.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\models\House.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\models\Model.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\models\Terrain.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\tga\tga.h">
-      <Filter>TGA</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\tga\tgaconfig.h">
-      <Filter>TGA</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
