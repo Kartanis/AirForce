@@ -1,7 +1,7 @@
 #include "View.h"
 #include <iostream>
-#include "../../../Dependencies/glew/glew.h"
-#include "../../../Dependencies/freeglut/freeglut.h"
+
+#include <definitions.h>
 
 View::View(int x, int y, int w, int h)
 {

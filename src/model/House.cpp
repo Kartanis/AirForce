@@ -1,4 +1,4 @@
-#include <models\House.h>
+#include <models/House.h>
 
 
 
@@ -16,6 +16,7 @@ House::House()
 	this->verticesNumber = 1920;
 	this->indicesNumber = 3720*3;
 
+	/*
 	data = new float[verticesNumber * Model::POINTS_PER_VERTEX]
 	{
 		// 0.0f,
@@ -5666,5 +5667,5 @@ House::House()
 	for (int i = 0; i < this->indicesNumber; i++) {
 		this->indices[i]--;
 	}
-
+	*/
 }

@@ -7,7 +7,7 @@ class Window
 {
 public:
 
-	static  Window& Window::getInstance();
+	static  Window& getInstance();
 	Screen* getScreen(void); 
 	void setScreen(Screen*);
 	bool isScreenAppended();

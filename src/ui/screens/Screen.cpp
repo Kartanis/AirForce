@@ -3,7 +3,8 @@
 #include "../scene/Scene.h"
 #include "../events/MouseEvent.h"
 #include "../window/Window.h"
-#include "../../../Dependencies/glew/glew.h"
+
+#include <definitions.h>
 
 using namespace gui;
 

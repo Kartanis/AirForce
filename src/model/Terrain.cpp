@@ -1,4 +1,4 @@
-#include <models\Terrain.h>
+#include <models/Terrain.h>
 #include <iostream>
 #include <math/Math.h>
 #include <tga/tga.h>
@@ -192,7 +192,7 @@ void Terrain::loadTexture() {
 
 	TGAClose(tga);
 
-	glGenTextures(1, &this->backgroundTextureId); //генерируем идентификатор. Первый вызов типично будет 1
+	glGenTextures(1, &this->backgroundTextureId); //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ 1
 	glBindTexture(GL_TEXTURE_2D, this->backgroundTextureId);
 	// select modulate to mix texture with color for shading
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
@@ -213,10 +213,10 @@ CVector3 Terrain::getVertexByIndex(int index) {
 	return vec;
 }
 
-void Terrain::intersect(CVector3 near, CVector3 far, CVector3 *res) {
+void Terrain::intersect(CVector3 near2, CVector3 far2, CVector3 *res) {
 	float t, u, v;
-	float orig[3] = { near.x, near.y, near.z };
-	float dir[3] = { far.x, far.y, far.z };
+	float orig[3] = { near2.x, near2.y, near2.z };
+	float dir[3] = { far2.x, far2.y, far2.z };
 	
 	float rv1[3] = { -50.0, 0, -50.0 };
 	float rv2[3] = { 50.0, 0, -50.0 };
