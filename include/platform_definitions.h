@@ -3,7 +3,7 @@
 //
 #pragma once
 
-#define WINDOWS_LOCAL
+#define LINUX_NATIVE
 
 #ifdef WINDOWS_LOCAL
 	#include <glew/include/glew.h>
@@ -17,6 +17,7 @@
 	#include <sys/time.h>	
 #endif
 
-
-long currentTimeInMillis();
-int usleep(long milliseconds);
+namespace time_system {
+	long currentTimeInMillis();
+	int sleepInMillis(long milliseconds);
+}
