@@ -32,8 +32,6 @@ public:
 
 	void DrawText(std::string ) const;
 
-	long getSystemTimeInMillis() const;
-
 	void calcFrames(long beginTime, long finishTime);
 };
 

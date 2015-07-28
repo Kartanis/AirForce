@@ -68,8 +68,8 @@ ModelViewScreen::ModelViewScreen(int argc, char **argv) : gui::Screen(argc, argv
 	this->cube = new Model(modelReader);
 	this->cube->init();
 
-	// this->model = new House();
-	// this->model->init();
+	this->model = new House();
+	this->model->init();
 
  	this->terrain = new Terrain();
  	this->terrain->init();
@@ -206,7 +206,7 @@ void drawBitmapText(char *string,float x,float y,float z)
 }
 
 void ModelViewScreen::renderScene() {
-	long beginTime = currentTimeInMillis();
+	long beginTime = time_system::currentTimeInMillis();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	DrawText("FPS: " + std::to_string(previousFrames));
 
@@ -215,10 +215,10 @@ void ModelViewScreen::renderScene() {
 	glPushMatrix();
 	glColor3f(1.0f, 1.0f, 1.0f);
 
-	// this->model->Draw();
+	this->model->Draw();
 
 	glPopMatrix();
-	// this->cube->Draw();
+	this->cube->Draw();
 	//drawGround2();
 	 terrain->Draw();
 	glBegin(GL_LINE_STRIP);
@@ -228,7 +228,7 @@ void ModelViewScreen::renderScene() {
 
 	glutSwapBuffers();
 
-	long finishTime = currentTimeInMillis();
+	long finishTime = time_system::currentTimeInMillis();
 
 	calcFrames(beginTime, finishTime);
 
@@ -246,7 +246,7 @@ void ModelViewScreen::calcFrames(long beginTime, long finishTime) {
 	std::cout<<"Time reamining "<< timeRemaining  <<" milliseconds\n";
 
 	if( timeRemaining > 0) {
-		int err = usleep(timeRemaining);
+		int err = time_system::sleepInMillis(timeRemaining);
 		 if(err) {
 			std::cout<<"USLEEP fucked off "<<err<< std::endl;
 		 }
@@ -264,34 +264,6 @@ void ModelViewScreen::calcFrames(long beginTime, long finishTime) {
 	}
 }
 
-#ifdef WINDOWS_LOCAL2
-int gettimeofday(struct timeval * tp, struct timezone * tzp)
-{
-    FILETIME    file_time;
-    SYSTEMTIME  system_time;
-    ULARGE_INTEGER ularge;
-
-    GetSystemTime(&system_time);
-    SystemTimeToFileTime(&system_time, &file_time);
-    ularge.LowPart = file_time.dwLowDateTime;
-    ularge.HighPart = file_time.dwHighDateTime;
-
-    tp->tv_sec = (long) ((ularge.QuadPart - epoch) / 10000000L);
-    tp->tv_usec = (long) (system_time.wMilliseconds * 1000);
-
-    return 0;
-}
-#endif
-
-long ModelViewScreen::getSystemTimeInMillis() const {
-
-	SYSTEMTIME st;
-	GetSystemTime(&st);
-	
-	return (st.wHour * 60 * 60 + st.wMinute * 60 + st.wSecond) * 1000 + st.wMilliseconds;
-
-}
-
 void ModelViewScreen::DrawText(std::string text) const {//TEXT
 	glMatrixMode( GL_PROJECTION ) ;
 	glPushMatrix() ; // save
@@ -302,15 +274,30 @@ void ModelViewScreen::DrawText(std::string text) const {//TEXT
 
 	glDisable( GL_DEPTH_TEST ) ; // also disable the depth test so renders on top
 	glDisable( GL_TEXTURE_2D );
-	//glDisable(GL_LIGHTING);
-
+    glEnable(GL_DEPTH_TEST);
 	glRasterPos2f( -0.9f,0.9f ) ; // center of screen. (-1,0) is center left.
 	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
 	for (int i = 0; i < text.size(); i++)
 		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, (int)text[i]);
 
+    gluOrtho2D(-100, 100, -100, 100);
+
+    glDisable(GL_CULL_FACE);
+    glDisable(GL_TEXTURE_2D);
+    glDisable(GL_LIGHTING);
+
+    // glRasterPos2f( 0.0f,0.0f ) ; // center of screen. (-1,0) is center left.
+    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+    glBegin(GL_TRIANGLES);
+        glVertex2d(-1.0f, -1.0f);
+        glVertex2d(1.0f, 1.0f);
+        glVertex2d(-1.0f, 1.0f);
+
+    glEnd();
+
 	glEnable( GL_DEPTH_TEST ) ; // Turn depth testing back on
+
 
 	glMatrixMode( GL_PROJECTION ) ;
 	glPopMatrix() ; // revert back to the matrix I had before.
@@ -399,5 +386,5 @@ void ModelViewScreen::unProjectMouse(int x, int y) {
 	terrain->intersect(unprojectedVectorNear, unprojectedVectorFar, &lastIntersect);
 
 	this->model->translate(lastIntersect);
-	checkSelected();
+ 	checkSelected();
 }
