@@ -9,6 +9,7 @@
 #include <iostream>
 #include <fstream>
 #include <exceptions/IOException.h>
+#include <string.h>
 
 ObjModelReader::ObjModelReader() {
 }
@@ -23,7 +24,8 @@ void ObjModelReader::load(std::string filename) {
 	 std::string line;
 
 	 if(!modelFile.is_open()){
-		 throw IOException(("Could not open file: " + filename).c_str());
+		 std::string errMessage = "Could not open file: " + filename + "\nError: " + strerror(errno);
+		 throw IOException(errMessage.c_str());
 	 }
 
 	 while (getline(modelFile, line)) {
