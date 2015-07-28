@@ -225,6 +225,7 @@ CVector3 Terrain::getVertexByIndex(int index) {
 }
 
 void Terrain::intersect(CVector3 near2, CVector3 far2, CVector3 *res) {
+	std::cout << "Terrain intersect " << "\n";
 	float t, u, v;
 	float orig[3] = { near2.x, near2.y, near2.z };
 	float dir[3] = { far2.x, far2.y, far2.z };
@@ -272,13 +273,28 @@ void Terrain::intersect(CVector3 near2, CVector3 far2, CVector3 *res) {
 		float v1[3] = { data[indices[i]], data[indices[i] + 1], data[indices[i]+ 2] };
 		float v2[3] = { data[indices[i + 1]], data[indices[i + 1] + 1], data[indices[i + 1] + 2] };
 		float v3[3] = { data[indices[i + 2]], data[indices[i + 2] + 1], data[indices[i + 2] + 2] };
-		int result = 0; Math::intersect_triangle3(orig, dir, v1, v2, v3, &t, &u, &v);
+
+		std::cout << "Intersection["<<i<<"].............\n";
+		int result = Math::intersect_triangle3(orig, dir, v1, v2, v3, &t, &u, &v);
+		std::cout << "Intersection["<<i<<"].............\n";
+		std::cout << "result................"<<result<<"\n";
 		
-		if (result == 0) {
-			intersection->x = indices[i];
-			intersection->y = indices[i + 1];
-			intersection->z = indices[i+ 2];
+		if (result != 0) {
+            std::cout<<indices[i]<<"|"<<indices[i + 1]<<"|"<<indices[i + 2]<<"\n";
+			intersection.x = (float)indices[i];
+			intersection.y = (float)indices[i + 1];
+			intersection.z = (float)indices[i + 2];
+
+            intersection.x = data[indices[i]];
+            intersection.y = data[indices[i] + 1];
+            intersection.z = data[indices[i]+ 2];
+
+
+            return;
+
+
 		}
+		std::cout << "finishka\n";
 	}
 
 };

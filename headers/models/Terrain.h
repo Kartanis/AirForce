@@ -13,6 +13,6 @@ public:
 	void intersect(CVector3, CVector3, CVector3*);
 	void Draw();
 	void loadTexture();
-	CVector3 *intersection;
+	CVector3 intersection;
 };
 
