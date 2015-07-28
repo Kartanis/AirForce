@@ -271,21 +271,21 @@ void ModelViewScreen::DrawText(std::string text) const {//TEXT
 	glMatrixMode( GL_MODELVIEW ) ;
 	glPushMatrix() ;
 	glLoadIdentity() ;
-
-	glDisable( GL_DEPTH_TEST ) ; // also disable the depth test so renders on top
+/*
+    glDisable(GL_CULL_FACE);
+    glDisable(GL_TEXTURE_2D);
+    glDisable(GL_LIGHTING);
+*/
 	glDisable( GL_TEXTURE_2D );
     glEnable(GL_DEPTH_TEST);
-	glRasterPos2f( -0.9f,0.9f ) ; // center of screen. (-1,0) is center left.
+
+	gluOrtho2D(-100, 100, -100, 100);
+	glRasterPos2i( -90,90 ) ; // center of screen. (-1,0) is center left.
 	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
 	for (int i = 0; i < text.size(); i++)
 		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, (int)text[i]);
 
-    gluOrtho2D(-100, 100, -100, 100);
-
-    glDisable(GL_CULL_FACE);
-    glDisable(GL_TEXTURE_2D);
-    glDisable(GL_LIGHTING);
 
     // glRasterPos2f( 0.0f,0.0f ) ; // center of screen. (-1,0) is center left.
     glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
