@@ -9,10 +9,12 @@
 #include <FileSystem/ObjModelReader.h>
 #include <FileSystem/FileReader.h>
 #include <json/json.h>
+#include <easylog/easylogging++.h>
 
 
 using namespace Core;
 
+INITIALIZE_EASYLOGGINGPP
 GLuint program;
 
 /*
@@ -27,6 +29,8 @@ x refactoring
 */
 
 int main(int argc, char **argv) {
+	LOG(DEBUG) << "My first info log using default logger";
+
 
 	Json::Value root;   // will contains the root value after parsing.
 	Json::Reader reader;
