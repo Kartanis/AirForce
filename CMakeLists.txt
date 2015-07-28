@@ -54,13 +54,18 @@ set(SOURCE_FILES
     src/ui/window/Window.cpp
     src/ui/window/Window.h
     src/GLSLUtils.cpp
+
+    src/platform/time.cpp
+
     src/main.cpp
+
+
     )
 
 #file(GLOB HEADER_FILES "headers/*.h")
 #file(GLOB SOURCE_FILES "src/*.cpp" "src/*.h")
 
-add_executable(AirForce ${SOURCE_FILES} include/platform_definitions.h include/exceptions/OutOfMemoryException.h)
+add_executable(AirForce ${SOURCE_FILES} )
 target_link_libraries (AirForce GL)
 target_link_libraries (AirForce GLEW)
 target_link_libraries (AirForce glut)
