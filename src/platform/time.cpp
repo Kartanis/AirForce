@@ -7,17 +7,17 @@
 	#include <sys/time.h>	
 #endif
 
-int usleep(long milliseconds) {
+int time_system::sleepInMillis(long milliseconds) {
 #ifdef WINDOWS_LOCAL 
 	Sleep(milliseconds);
 	return 0;
 #elif defined (LINUX_NATIVE)
-	return usleep(microseconds * 1000);
+	return usleep(milliseconds);
 	
 #endif
 }
 
-long currentTimeInMillis() {
+long time_system::currentTimeInMillis() {
 #ifdef WINDOWS_LOCAL 
 	 SYSTEMTIME st;
 	 GetSystemTime(&st);
