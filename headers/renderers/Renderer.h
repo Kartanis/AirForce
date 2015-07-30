@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
-#include <camera\Camera.h>
+#include <camera/Camera.h>
+#include <texturing/TextureManager.h>
 
 class Renderer
 {
@@ -32,5 +33,7 @@ protected:
 	// the block above of initials should be encapsulated in future
 
 	bool needToReDraw = false;
+
+	unsigned int interfaceTexture = TextureManager::loadFromTGA("resources/interface/diablo.tga");
 };
 

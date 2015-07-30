@@ -19,7 +19,7 @@ Renderer::~Renderer()
 
 
 void Renderer::init() {
-	std::cout << "Renderer initialization started...";
+	std::cout << "Renderer initialization started..."<<this->interfaceTexture;
 	
 	glViewport(0, 0, width, height); 
 
@@ -70,7 +70,7 @@ void Renderer::draw() {
 
 	// init 3D
 
-	this->draw3DScene();
+	// this->draw3DScene();
 	
 
 	// Change buffers
@@ -91,22 +91,26 @@ void Renderer::draw2DOverlay() {
 	saveAndClearMatrix(GL_MODELVIEW);
 	
 	//Disable some 3D states and enable 2D
-	glDisable(GL_TEXTURE_2D);
+	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_DEPTH_TEST);
 
-	gluOrtho2D(0, width, height, 0);
+	gluOrtho2D(0, width, 0, height);
 	glRasterPos2i(0, 0); // center of screen. (-1,0) is center left.
 
-	glColor3f(0.0f, 0.0f, 1.0f);
+	// glColor3f(0.0f, 0.0f, 1.0f);
 	// Draw here
 
 	//test triangle
-	glBegin(GL_TRIANGLES);
-	glVertex2i(0, 0);
-	glVertex2i(50, 200);
-	glVertex2i(0, 400);
+
+	glBindTexture(GL_TEXTURE_2D, this->interfaceTexture);
+	glBegin(GL_QUADS);
+	glTexCoord2f(0.0f, 0.0f); glVertex2i(0, 0);
+	glTexCoord2f(1.0f, 0.0f); glVertex2i(800, 0);
+	glTexCoord2f(1.0f, 1.0f); glVertex2i(800, 600);
+	glTexCoord2f(0.0f, 1.0f); glVertex2i(0, 600);
 	glEnd();
 
+	glBindTexture(GL_TEXTURE_2D, 0);
 	// revert to initial state
 	revertMatrix(GL_MODELVIEW); 
 	revertMatrix(GL_PROJECTION);

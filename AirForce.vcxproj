@@ -30,6 +30,7 @@
     <ClCompile Include="src\model\Terrain.cpp" />
     <ClCompile Include="src\platform\time.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
+    <ClCompile Include="src\TextureManager.cpp" />
     <ClCompile Include="src\ui\camera\Camera.cpp" />
     <ClCompile Include="src\ui\events\MouseEvent.cpp" />
     <ClCompile Include="src\ui\listeners\OnMouseActionListener.cpp" />
@@ -45,6 +46,7 @@
   <ItemGroup>
     <ClInclude Include="headers\camera\Camera.h" />
     <ClInclude Include="headers\renderers\Renderer.h" />
+    <ClInclude Include="headers\texturing\TextureManager.h" />
     <ClInclude Include="headers\tga\tga.h" />
     <ClInclude Include="headers\tga\tgaconfig.h" />
     <ClInclude Include="include\exceptions\Exception.h" />
