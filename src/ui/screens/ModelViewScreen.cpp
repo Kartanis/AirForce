@@ -7,38 +7,6 @@
 
 #include <tga/tga.h>
 
-/*
-float PlaneDistance(CVector3 a, CVector3 b)
-{
-	return sqrt((a.x - b.x)*(a.x - b.x) + (a.y - b.y)*(a.y - b.y) + (a.z - b.z)*(a.z - b.z)); 
-}
-
-float Normal(CVector3 vPolygon[])
-{
-	CVector3 vVector1 = vPolygon[2] - vPolygon[0];
-	CVector3 vVector2 = vPolygon[1] - vPolygon[0];
-	CVector3 vNormal = Cross(vVector1, vVector2);
-	vNormal = Normalize(vNormal);
-	return vNormal;
-}
-
-bool IntersectedPlane(CVector3 vPoly[], CVector3 vLine[],
-	CVector3 &vNormal, float &originDistance)
-{
-	float distance1 = 0, distance2 = 0;                  vNormal = Normal(vPoly);
-	originDistance = PlaneDistance(vNormal, vPoly[0]);
-
-	distance1 = ((vNormal.x * vLine[0].x) + (vNormal.y * vLine[0].y) +
-		(vNormal.z * vLine[0].z)) + originDistance;
-	distance2 = ((vNormal.x * vLine[1].x) + (vNormal.y * vLine[1].y) +
-		(vNormal.z * vLine[1].z)) + originDistance;
-
-	if (distance1 * distance2 >= 0) return false;
-	return true;
-}
-
-*/
-
 void drawSelected(CVector3 intersection) {
 
 	glColor3f(1.0f, 1.0f, 0.0f);
@@ -68,8 +36,8 @@ ModelViewScreen::ModelViewScreen(int argc, char **argv) : gui::Screen(argc, argv
 	this->cube = new Model(modelReader);
 	this->cube->init();
 
-	this->model = new House();
-	this->model->init();
+	// this->model = new House();
+	// this->model->init();
 
  	this->terrain = new Terrain();
  	this->terrain->init();
@@ -208,14 +176,14 @@ void drawBitmapText(char *string,float x,float y,float z)
 void ModelViewScreen::renderScene() {
 	long beginTime = time_system::currentTimeInMillis();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	DrawText("FPS: " + std::to_string(previousFrames));
+	this->DrawText("FPS: " + std::to_string(previousFrames));
 
 	glLoadIdentity();
 	camera.applyView();
 	glPushMatrix();
 	glColor3f(1.0f, 1.0f, 1.0f);
 
-	this->model->Draw();
+	// this->model->Draw();
 
 	glPopMatrix();
 	this->cube->Draw();

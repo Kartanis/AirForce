@@ -3,7 +3,7 @@
 //
 #pragma once
 
-#define LINUX_NATIVE
+#define WINDOWS_LOCAL
 
 #ifdef WINDOWS_LOCAL
 	#include <glew/include/glew.h>

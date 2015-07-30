@@ -10,6 +10,7 @@
 #include <FileSystem/FileReader.h>
 #include <json/json.h>
 #include <easylog/easylogging++.h>
+#include <renderers/Renderer.h>
 
 
 using namespace Core;
@@ -60,12 +61,47 @@ int main(int argc, char **argv) {
 	// And you can write to a stream, using the StyledWriter automatically.
 	//std::cout << root << "\n";
 
+	glutInit(&argc, argv);
+	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
+	glutInitWindowPosition(0, 0);
+	glutInitWindowSize(800, 600);
 
-	Window &window = Window::getInstance();
-	window.setScreen(new ModelViewScreen(argc, argv));
-	window.getScreen()->init();
+	// Screen::addView(new View(0, 0, this->width, 70));
+	// Screen::addView(new View(0, 71, 120, this->height));
+	// Screen::addView(new Scene(0, 0, this->width, this->height));
 
-	glutMainLoop();
+	glutCreateWindow("Drawing my first triangle");
+	GLenum glewInitStatus = glewInit();
+	if (glewInitStatus != GLEW_OK) {
+		std::cout << "Glew init status..." << glewInitStatus << "\n";
+		exit(glewInitStatus);
+	}
+
+	// register callbacks
+	
+	glutReshapeFunc(gui::reshape);
+	glutMouseFunc(gui::mouseClick);
+	glutIdleFunc(idleFunc);
+	glutKeyboardFunc(keyboard);
+
+	// glutMainLoop();
+	// glDeleteProgram(program);
+
+	Renderer r;
+	r.init();
+	
+
+	int x;
+	do {
+		r.invalidate();
+		r.draw();
+		std::cin >> x;
+	} while(x != 0);
+	// Window &window = Window::getInstance();
+	// window.setScreen(new ModelViewScreen(argc, argv));
+	// window.getScreen()->init();
+
+	// glutMainLoop();
 	
 	return 0;
 

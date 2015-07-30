@@ -11,6 +11,7 @@ House::~House()
 
 House::House()
 {
+	/*
 	this->TotalConnectedTriangles = 0;
 	this->TotalConnectedPoints = 0;
 	this->verticesNumber = 1920;
@@ -5666,5 +5667,6 @@ House::House()
 	for (int i = 0; i < this->indicesNumber; i++) {
 		this->indices[i]--;
 	}
+	*/
 	
 }

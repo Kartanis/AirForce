@@ -1,4 +1,4 @@
-#include "Camera.h"
+#include <camera\Camera.h>
 #include "platform_definitions.h"
 
 
