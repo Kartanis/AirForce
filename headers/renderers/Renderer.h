@@ -34,6 +34,6 @@ protected:
 
 	bool needToReDraw = false;
 
-	unsigned int interfaceTexture = TextureManager::loadFromTGA("resources/interface/diablo.tga");
+	unsigned int interfaceTexture = TextureManager::loadFromBMP("resources/interface/stronghold.bmp");
 };
 

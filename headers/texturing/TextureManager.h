@@ -7,5 +7,6 @@ public:
 	TextureManager();
 	~TextureManager();
 	static unsigned int loadFromTGA(char *);
+	static unsigned int loadFromBMP(char *);
 };
 

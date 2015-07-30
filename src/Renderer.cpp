@@ -56,6 +56,11 @@ void Renderer::init() {
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
+	
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	
+	
 }
 
 void Renderer::draw() {
@@ -64,14 +69,10 @@ void Renderer::draw() {
 	}
 
 	clearBuffer(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	// glColor4f(0.0f, 0.0f, 0.0f, 1.0f);
 	
-	// init 2D Overlay
+	this->draw3DScene();
 	this->draw2DOverlay();
-
-	// init 3D
-
-	// this->draw3DScene();
-	
 
 	// Change buffers
 	glutSwapBuffers();
@@ -89,9 +90,8 @@ void Renderer::draw2DOverlay() {
 	// save initial state before edit
 	saveAndClearMatrix(GL_PROJECTION);
 	saveAndClearMatrix(GL_MODELVIEW);
-	
 	//Disable some 3D states and enable 2D
-	glEnable(GL_TEXTURE_2D);
+	
 	glEnable(GL_DEPTH_TEST);
 
 	gluOrtho2D(0, width, 0, height);
@@ -101,23 +101,26 @@ void Renderer::draw2DOverlay() {
 	// Draw here
 
 	//test triangle
-
+	glEnable(GL_TEXTURE_2D);
+	
 	glBindTexture(GL_TEXTURE_2D, this->interfaceTexture);
+
 	glBegin(GL_QUADS);
 	glTexCoord2f(0.0f, 0.0f); glVertex2i(0, 0);
 	glTexCoord2f(1.0f, 0.0f); glVertex2i(800, 0);
 	glTexCoord2f(1.0f, 1.0f); glVertex2i(800, 600);
 	glTexCoord2f(0.0f, 1.0f); glVertex2i(0, 600);
 	glEnd();
-
+	
 	glBindTexture(GL_TEXTURE_2D, 0);
+	glDisable(GL_TEXTURE_2D);
 	// revert to initial state
 	revertMatrix(GL_MODELVIEW); 
 	revertMatrix(GL_PROJECTION);
 }
 
 void Renderer::draw3DScene() {
-
+	glDisable(GL_TEXTURE_2D);
 	// save initial state before edit
 	saveAndClearMatrix(GL_PROJECTION);
 	GLfloat aspect = (GLfloat)width / height;
