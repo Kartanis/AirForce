@@ -91,11 +91,11 @@ int main(int argc, char **argv) {
 	r.init();
 	
 
-	int x = 1;
+	int x;
 	do {
 		r.invalidate();
 		r.draw();
-		
+		std::cin >> x;
 	} while(x != 0);
 	// Window &window = Window::getInstance();
 	// window.setScreen(new ModelViewScreen(argc, argv));
