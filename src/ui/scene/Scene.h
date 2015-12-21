@@ -1,6 +1,5 @@
 #pragma once
 #include "../temp/Frame.h"
-#include "../../GUI/features/BlinkedMark.h"
 #include <vector>
 #include "../temp/View.h"
 #include "../temp/Drawable.h"
@@ -19,8 +18,7 @@ namespace gui{
 		void onScreenSizeChanged(int w, int h);
 	private:
 		Frame* frame;
-		BlinkedMark mark;
-		
+
 	};
 
 }

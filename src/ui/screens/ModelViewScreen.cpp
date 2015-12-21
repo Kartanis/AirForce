@@ -289,11 +289,11 @@ void ModelViewScreen::keyboardAction(unsigned char key, int x, int y) {
 	case 's': case 'S': camera.moveBack(); break;
 	case 'w': case 'W': camera.moveForward(); break;
 	case 'd': case 'D': camera.moveRight(); break;
-	case 'q': case 'Q': 
+	case 'q': case 'Q':
 		this->model->rotate(-90);
 		break;
-	case 'e': case 'E': 
-		
+	case 'e': case 'E':
+
 		this->model->rotate(+90);
 		break;
 	default:
@@ -353,6 +353,6 @@ void ModelViewScreen::unProjectMouse(int x, int y) {
 	
 	terrain->intersect(unprojectedVectorNear, unprojectedVectorFar, &lastIntersect);
 
-	this->model->translate(lastIntersect);
- 	checkSelected();
+	//this->model->translate(lastIntersect); -- this cause exception in rendering
+ 	//checkSelected();
 }

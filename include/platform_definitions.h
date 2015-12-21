@@ -3,7 +3,7 @@
 //
 #pragma once
 
-#define WINDOWS_LOCAL
+#define MAC_OS_X
 
 #ifdef WINDOWS_LOCAL
 	#include <glew/include/glew.h>
@@ -15,6 +15,11 @@
 
 	#include <unistd.h>
 	#include <sys/time.h>	
+#elif defined MAC_OS_X
+	#include <glewMACOSX/include/glew.h>
+	#include <GLUT/glut.h>
+	#include <unistd.h>
+	#include <sys/time.h>
 #endif
 
 namespace time_system {

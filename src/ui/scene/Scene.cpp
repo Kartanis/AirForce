@@ -21,8 +21,6 @@ void Scene::draw() {
 	View::draw();
 	frame->draw();
 
-	mark.display();
-
 
 	glRasterPos2i(120, 100);
 
@@ -51,7 +49,6 @@ void Scene::reshape(int w, int h) {
 }
 	
 void Scene::point(int x, int y){
-	mark.setPositionDirection(x, y, 0);
 }
 
 void Scene::onScreenSizeChanged(int w, int h) {

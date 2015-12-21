@@ -1,14 +1,16 @@
 cmake_minimum_required(VERSION 3.0.2)
 project(AirForce)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 ")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -stdlib=libc++ -framework OpenGL -framework GLUT -Llib -L/System/Library/Frameworks/OpenGL.framework -L/System/Library/Frameworks/GLUT.framework ")
 
 include_directories("headers/FileSystem/")
 include_directories("headers/")
-include_directories("headers/math")
 include_directories("headers/models")
 include_directories("headers/tga")
+include_directories("headers/camera")
 include_directories("include")
+
+include_directories("libs")
 
 set(SOURCE_FILES
     headers/tga/tgawrite.c
@@ -18,10 +20,6 @@ set(SOURCE_FILES
 
     src/FileSystem/FileReader.cpp
     src/FileSystem/ObjModelReader.cpp
-    src/GUI/features/BlinkedMark.cpp
-    src/GUI/features/BlinkedMark.h
-    src/GUI/features/Mark.cpp
-    src/GUI/features/Mark.h
     src/json/jsoncpp.cpp
     src/math/CVector3.cpp
     src/math/Math.cpp
@@ -31,7 +29,6 @@ set(SOURCE_FILES
     src/model/Terrain.cpp
 
     src/ui/camera/Camera.cpp
-    src/ui/camera/Camera.h
     src/ui/events/MouseEvent.cpp
     src/ui/events/MouseEvent.h
     src/ui/listeners/OnMouseActionListener.cpp
@@ -53,6 +50,8 @@ set(SOURCE_FILES
     src/ui/temp/View.h
     src/ui/window/Window.cpp
     src/ui/window/Window.h
+    src/Renderer.cpp
+    src/TextureManager.cpp
     src/GLSLUtils.cpp
 
     src/platform/time.cpp
@@ -66,9 +65,11 @@ set(SOURCE_FILES
 #file(GLOB SOURCE_FILES "src/*.cpp" "src/*.h")
 
 add_executable(AirForce ${SOURCE_FILES} )
-target_link_libraries (AirForce GL)
+#target_link_libraries (AirForce GL)
 target_link_libraries (AirForce GLEW)
-target_link_libraries (AirForce glut)
-target_link_libraries (AirForce GLU)
+#target_link_libraries (AirForce GLU)
+#target_link_libraries (AirForce GLUT)
+
 
 file(COPY resources DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/)
+file(COPY lib DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/)

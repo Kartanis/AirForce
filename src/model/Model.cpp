@@ -269,7 +269,7 @@ float* Model::calculateNormal(float *coord1, float *coord2, float *coord3)
 	vr[2] = va[0] * vb[1] - vb[0] * va[1];
 
 	/* normalization factor */
-	val = sqrt(vr[0] * vr[0] + vr[1] * vr[1] + vr[2] * vr[2]);
+	val = sqrt((double)vr[0] * vr[0] + vr[1] * vr[1] + vr[2] * vr[2]);
 
 	float norm[3];
 	norm[0] = vr[0] / val;

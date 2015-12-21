@@ -5,7 +5,7 @@
 #include "platform_definitions.h"
 #include "../events/MouseEvent.h"
 
-#include <camera\Camera.h>
+#include <camera/Camera.h>
 
 namespace gui{
 
